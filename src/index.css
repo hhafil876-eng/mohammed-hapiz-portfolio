@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #030508;
+}
+
+body {
+  background-color: #030508;
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 768px) {
+  html, body, a, button, [role="button"] {
+    cursor: none !important;
+  }
+}
+
+/* Luxury Minimal Scrollbar with Lime Accent */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #030508;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #a3e635 0%, rgba(255, 255, 255, 0.3) 50%, rgba(56, 189, 248, 0.4) 100%);
+  border-radius: 9999px;
+}
+
+/* Selection */
+::selection {
+  background: rgba(163, 230, 53, 0.3);
+  color: #ffffff;
+}
+
+/* ─── Luxury Editorial Typography & Lime Green Highlights ─── */
+
+.lime-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 40%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxury-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 35%, #d9f99d 70%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxury-accent-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 45%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxury-emerald-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 45%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ui-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 40%, #d9f99d 75%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Lime Glow Utilities */
+.lime-glow-sm {
+  box-shadow: 0 0 12px rgba(163, 230, 53, 0.4);
+}
+
+.lime-glow-md {
+  box-shadow: 0 0 24px rgba(163, 230, 53, 0.3);
+}
+
+.lime-glow-lg {
+  box-shadow: 0 0 45px rgba(163, 230, 53, 0.25);
+}
+
+/* Luxury Glass Cards */
+.ui-card {
+  background: rgba(9, 13, 22, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 16px 40px -12px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ui-card:hover {
+  border-color: rgba(163, 230, 53, 0.25);
+  background: rgba(13, 18, 30, 0.85);
+  box-shadow: 
+    0 24px 60px -15px rgba(0, 0, 0, 0.9),
+    0 0 35px rgba(163, 230, 53, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Luxury Primary Button */
+.ui-btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  color: #030508;
+  font-weight: 600;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 20px rgba(163, 230, 53, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ui-btn-primary:hover {
+  background: #f8fafc;
+  box-shadow: 0 6px 30px rgba(163, 230, 53, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Luxury Secondary Button */
+.ui-btn-secondary {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  color: #f8fafc;
+  font-weight: 500;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ui-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(163, 230, 53, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Section Spacing */
+.section-padding {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+  }
+}
+
+/* ─── Cinematic Video FX Overlay ─── */
+.cinematic-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.2) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.02),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.02)
+  );
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+}
+
+.cinematic-vignette {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0) 65%,
+    rgba(3, 5, 8, 0.75) 100%
+  );
+  pointer-events: none;
+}
+
+/* Film Title Card Parallax Watermarks */
+.act-watermark {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.03);
+  letter-spacing: -0.04em;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ─── Electric Blue & Violet Accents (Video Sync) ─── */
+.electric-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 45%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cyber-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 35%, #a855f7 70%, #a3e635 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.electric-glow-sm {
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+}
+
+.violet-glow-sm {
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.35);
+}
+
+.hologram-card {
+  background: rgba(8, 12, 22, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  border-radius: 20px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 16px 40px -12px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.hologram-card:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 
+    0 24px 60px -15px rgba(0, 0, 0, 0.9),
+    0 0 30px rgba(56, 189, 248, 0.2),
+    0 0 60px rgba(168, 85, 247, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
