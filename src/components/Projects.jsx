@@ -27,7 +27,9 @@ export const PROJECTS = [
     ],
     tech: ['HTML5', 'CSS3', 'JavaScript', 'Generative AI', 'Prompt Engineering', 'UI/UX'],
     github: 'https://github.com/hhafil876-eng/portfolio',
+    sourceLabel: 'Portfolio Repository',
     demo: 'https://mohammed-hapiz-portfolio.vercel.app/#projects',
+    demoLabel: 'Portfolio Showcase',
   },
   {
     num: '02',
@@ -49,6 +51,7 @@ export const PROJECTS = [
     ],
     tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'Cloud Hosting'],
     github: 'https://github.com/hhafil876-eng/portfolio',
+    sourceLabel: 'Portfolio Repository',
     demo: 'https://mohammed-hapiz-portfolio.vercel.app/',
   },
   {
@@ -71,7 +74,7 @@ export const PROJECTS = [
     ],
     tech: ['JavaScript (ES6+)', 'Phaser Game Engine', 'Vite', 'HTML5 Canvas', 'CSS3'],
     github: 'https://github.com/hhafil876-eng/bladequest',
-    demo: 'https://github.com/hhafil876-eng/bladequest',
+
   },
   {
     num: '04',
@@ -115,7 +118,8 @@ export const PROJECTS = [
     ],
     tech: ['Python', 'OpenAI API', 'Prompt Engineering', 'Automation Scripts'],
     github: 'https://github.com/hhafil876-eng/portfolio',
-    demo: 'https://github.com/hhafil876-eng/portfolio',
+    sourceLabel: 'Portfolio Repository',
+
   },
   {
     num: '06',
@@ -137,7 +141,9 @@ export const PROJECTS = [
     ],
     tech: ['Video Editing', 'Cinematography', 'Color Grading', 'CapCut', 'Alight Motion'],
     github: 'https://github.com/hhafil876-eng/portfolio',
+    sourceLabel: 'Portfolio Repository',
     demo: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
+    demoLabel: 'LinkedIn Profile',
   },
 ]
 
@@ -258,7 +264,7 @@ export default function Projects() {
                     role="button"
                     aria-label={`Open detailed case study for ${proj.title}`}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
+                      if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
                         e.preventDefault()
                         handleOpenModal(proj, e.currentTarget)
                       }
@@ -350,10 +356,10 @@ export default function Projects() {
                               href={proj.github}
                               target="_blank"
                               rel="noopener noreferrer"
-                              aria-label={`GitHub Repository for ${proj.title}`}
+                              aria-label={`${proj.sourceLabel || 'GitHub Repository'} for ${proj.title}`}
                               onClick={() => cyberAudio.playClick()}
                               className="w-7 h-7 rounded-lg bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] flex items-center justify-center text-silver-400 hover:text-white transition-all"
-                              title="GitHub Repository"
+                              title={proj.sourceLabel || 'GitHub Repository'}
                             >
                               <Github size={13} />
                             </a>
@@ -364,10 +370,10 @@ export default function Projects() {
                               href={proj.demo}
                               target="_blank"
                               rel="noopener noreferrer"
-                              aria-label={`Live Demo or Preview for ${proj.title}`}
+                              aria-label={`${proj.demoLabel || 'Live Demo or Preview'} for ${proj.title}`}
                               onClick={() => cyberAudio.playClick()}
                               className="w-7 h-7 rounded-lg bg-[#FFD600]/15 border border-[#FFD600]/30 hover:border-[#FFD600] hover:bg-[#FFD600]/25 flex items-center justify-center text-[#FFD600] transition-all"
-                              title="Live Demo or Preview"
+                              title={proj.demoLabel || 'Live Demo or Preview'}
                             >
                               <ExternalLink size={13} />
                             </a>

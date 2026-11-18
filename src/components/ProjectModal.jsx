@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { X, ExternalLink, Github, CheckCircle2, Shield, Wrench, Layers, Sparkles } from 'lucide-react'
 import ProjectVisualPreview from './ProjectVisualPreview'
@@ -80,7 +81,7 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
 
   if (!project) return null
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
       role="dialog"
@@ -255,7 +256,7 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
               className="ui-btn-secondary px-5 py-2.5 flex items-center gap-2 text-xs tracking-wide rounded-full cursor-pointer hover:border-[#FFD600]/50"
             >
               <Github size={14} />
-              <span>Source Code</span>
+              <span>{project.sourceLabel || 'Source Code'}</span>
             </a>
           )}
 
@@ -267,12 +268,13 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
               onClick={() => cyberAudio.playClick()}
               className="ui-btn-primary px-6 py-2.5 flex items-center gap-2 text-xs tracking-wide rounded-full cursor-pointer hover:bg-yellow-hover"
             >
-              <span>{project.isPrototype ? 'Inspect Prototype' : 'Launch Live Demo'}</span>
+              <span>{project.demoLabel || (project.isPrototype ? 'Inspect Prototype' : 'Launch Live Demo')}</span>
               <ExternalLink size={14} />
             </a>
           )}
         </div>
       </motion.div>
-    </div>
+    </div>,
+    document.body
   )
 }
