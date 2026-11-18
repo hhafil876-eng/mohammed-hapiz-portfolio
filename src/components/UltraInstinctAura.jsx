@@ -44,7 +44,7 @@ export default function UltraInstinctAura() {
         maxRadius: Math.min(width, height) * (isMobile ? 0.35 : 0.45),
         opacity: 0.85,
         color: 'rgba(240, 246, 255, ',
-        edgeColor: 'rgba(163, 230, 53, ' // Lime accent
+        edgeColor: 'rgba(255, 214, 0, ', // Electric Yellow accent
       })
       const burstCount = isMobile ? 8 : 18
       for (let i = 0; i < burstCount; i++) {
@@ -56,7 +56,7 @@ export default function UltraInstinctAura() {
     window.addEventListener('mousemove', onMouseMove, { passive: true })
     window.addEventListener('click', onClick)
 
-    // ─── Divine Embers / Aura Sparks ───
+    // ─── Metallic & Yellow Embers ───
     class Ember {
       constructor(startX, startY, isBurst = false) {
         this.reset(startX, startY, isBurst)
@@ -83,11 +83,11 @@ export default function UltraInstinctAura() {
 
         const r = Math.random()
         if (r < 0.6) {
-          this.color = [255, 255, 255] // Silver-white
+          this.color = [229, 231, 235] // Platinum/Silver
         } else if (r < 0.85) {
-          this.color = [163, 230, 53] // Electric Lime
+          this.color = [255, 214, 0] // Electric Yellow
         } else {
-          this.color = [56, 189, 248] // Cyan
+          this.color = [192, 192, 192] // Metallic Silver
         }
       }
 
@@ -155,8 +155,8 @@ export default function UltraInstinctAura() {
     const embers = Array.from({ length: emberCount }, () => new Ember())
 
     const waves = [
-      new AuraWave(['rgba(163, 230, 53, 0.04)', 'rgba(2, 6, 23, 0.3)'], 0.006, isMobile ? 90 : 130),
-      new AuraWave(['rgba(241, 245, 249, 0.03)', 'rgba(56, 189, 248, 0.02)'], 0.01, isMobile ? 80 : 110),
+      new AuraWave(['rgba(255, 214, 0, 0.03)', 'rgba(23, 25, 29, 0.3)'], 0.006, isMobile ? 90 : 130),
+      new AuraWave(['rgba(229, 231, 235, 0.025)', 'rgba(52, 56, 64, 0.02)'], 0.01, isMobile ? 80 : 110),
     ]
 
     const loop = () => {
@@ -186,7 +186,7 @@ export default function UltraInstinctAura() {
         ctx.lineWidth = 2.5
         if (!isMobile) {
           ctx.shadowBlur = 18
-          ctx.shadowColor = 'rgba(163, 230, 53, ' + sw.opacity + ')'
+          ctx.shadowColor = 'rgba(255, 214, 0, ' + sw.opacity + ')'
         }
         ctx.stroke()
         ctx.restore()
@@ -214,7 +214,6 @@ export default function UltraInstinctAura() {
     document.addEventListener('visibilitychange', onVisibilityChange)
 
     if (prefersReducedMotion) {
-      // Draw static gentle ambient background without ongoing RAF loop
       waves.forEach(w => w.draw())
     } else {
       loop()

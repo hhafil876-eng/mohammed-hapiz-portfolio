@@ -3,8 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg-graphite: #17191D;
+  --bg-charcoal: #2B2E34;
+  --surface-card: #343840;
+  --surface-hover: #3C424C;
+  --silver-highlight: #C0C0C0;
+  --text-platinum: #E5E7EB;
+  --text-muted: #A9AFB8;
+  --accent-yellow: #FFD600;
+  --accent-yellow-hover: #FFE45C;
+
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 }
 
 * {
@@ -15,12 +26,13 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #030508;
+  background-color: #17191D;
+  color-scheme: dark;
 }
 
 body {
-  background-color: #030508;
-  color: #f8fafc;
+  background-color: #17191D;
+  color: #E5E7EB;
   font-family: var(--font-sans);
   overflow-x: hidden;
   position: relative;
@@ -28,225 +40,200 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (min-width: 768px) {
-  html, body, a, button, [role="button"] {
+/* Custom cursor styling for desktop pointer devices */
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  html.custom-cursor-active, 
+  html.custom-cursor-active body, 
+  html.custom-cursor-active a, 
+  html.custom-cursor-active button, 
+  html.custom-cursor-active [role="button"] {
     cursor: none !important;
   }
 }
 
-/* Luxury Minimal Scrollbar with Lime Accent */
+/* Refined Metallic Scrollbar with Electric Yellow Indicator */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #030508;
+  background: #17191D;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #a3e635 0%, rgba(255, 255, 255, 0.3) 50%, rgba(56, 189, 248, 0.4) 100%);
+  background: linear-gradient(180deg, #FFD600 0%, #C0C0C0 40%, #343840 100%);
   border-radius: 9999px;
 }
-
-/* Selection */
-::selection {
-  background: rgba(163, 230, 53, 0.3);
-  color: #ffffff;
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD600;
 }
 
-/* ─── Luxury Editorial Typography & Lime Green Highlights ─── */
+/* Accessible High-Contrast Selection */
+::selection {
+  background: rgba(255, 214, 0, 0.3);
+  color: #FFFFFF;
+}
 
-.lime-text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 40%, #a3e635 100%);
+/* Focus styles for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #FFD600;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Premium Metallic & Electric Yellow Typography ─── */
+.metallic-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 40%, #C0C0C0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .luxury-text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 35%, #d9f99d 70%, #a3e635 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 35%, #C0C0C0 75%, #FFD600 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
+.yellow-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFE45C 45%, #FFD600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.silver-text-gradient {
+  background: linear-gradient(135deg, #F3F4F6 0%, #D1D5DB 50%, #9CA3AF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Legacy gradient aliases updated to metallic & yellow theme */
+.lime-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFE45C 45%, #FFD600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .luxury-accent-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 45%, #a3e635 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 50%, #C0C0C0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .luxury-emerald-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #d9f99d 45%, #a3e635 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FFE45C 50%, #FFD600 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 .ui-text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 40%, #d9f99d 75%, #a3e635 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 40%, #C0C0C0 80%, #FFD600 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.electric-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 50%, #C0C0C0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.cyber-text-gradient {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E5E7EB 40%, #C0C0C0 75%, #FFD600 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Lime Glow Utilities */
-.lime-glow-sm {
-  box-shadow: 0 0 12px rgba(163, 230, 53, 0.4);
-}
-
-.lime-glow-md {
-  box-shadow: 0 0 24px rgba(163, 230, 53, 0.3);
-}
-
-.lime-glow-lg {
-  box-shadow: 0 0 45px rgba(163, 230, 53, 0.25);
-}
-
-/* Luxury Glass Cards */
+/* ─── Premium Glassmorphism & Metallic Cards ─── */
 .ui-card {
-  background: rgba(9, 13, 22, 0.7);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(52, 56, 64, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(192, 192, 192, 0.16);
   border-radius: 24px;
   position: relative;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 
-    0 16px 40px -12px rgba(0, 0, 0, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 16px 40px -12px rgba(15, 16, 19, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .ui-card:hover {
-  border-color: rgba(163, 230, 53, 0.25);
-  background: rgba(13, 18, 30, 0.85);
+  border-color: rgba(255, 214, 0, 0.4);
+  background: rgba(60, 66, 76, 0.85);
   box-shadow: 
-    0 24px 60px -15px rgba(0, 0, 0, 0.9),
-    0 0 35px rgba(163, 230, 53, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 24px 60px -15px rgba(15, 16, 19, 0.95),
+    0 0 30px rgba(255, 214, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
 
-/* Luxury Primary Button */
+/* Premium Action Buttons */
 .ui-btn-primary {
   position: relative;
   overflow: hidden;
-  background: #ffffff;
-  color: #030508;
+  background: #FFD600;
+  color: #17191D;
   font-weight: 600;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 20px rgba(163, 230, 53, 0.2);
+  border: 1px solid #FFD600;
+  box-shadow: 0 4px 18px rgba(255, 214, 0, 0.28);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ui-btn-primary:hover {
-  background: #f8fafc;
-  box-shadow: 0 6px 30px rgba(163, 230, 53, 0.35);
+  background: #FFE45C;
+  border-color: #FFE45C;
+  box-shadow: 0 6px 26px rgba(255, 214, 0, 0.42);
   transform: translateY(-1px);
 }
 
-/* Luxury Secondary Button */
 .ui-btn-secondary {
   position: relative;
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
+  background: rgba(43, 46, 52, 0.65);
+  color: #E5E7EB;
   font-weight: 500;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(192, 192, 192, 0.22);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ui-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(163, 230, 53, 0.4);
-  color: #ffffff;
+  background: rgba(60, 66, 76, 0.85);
+  border-color: rgba(255, 214, 0, 0.5);
+  color: #FFFFFF;
+  box-shadow: 0 4px 16px rgba(15, 16, 19, 0.5);
   transform: translateY(-1px);
+}
+
+/* Metallic Badge Utility */
+.metallic-badge {
+  background: rgba(43, 46, 52, 0.8);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  color: #E5E7EB;
+}
+
+.yellow-badge {
+  background: rgba(255, 214, 0, 0.12);
+  border: 1px solid rgba(255, 214, 0, 0.35);
+  color: #FFD600;
 }
 
 /* Section Spacing */
 .section-padding {
-  padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-top: 6.5rem;
+  padding-bottom: 6.5rem;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding-top: 9rem;
-    padding-bottom: 9rem;
+    padding-top: 8.5rem;
+    padding-bottom: 8.5rem;
   }
 }
 
-/* ─── Cinematic Video FX Overlay ─── */
-.cinematic-scanlines {
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.2) 50%
-  ), linear-gradient(
-    90deg,
-    rgba(255, 0, 0, 0.02),
-    rgba(0, 255, 0, 0.01),
-    rgba(0, 0, 255, 0.02)
-  );
-  background-size: 100% 4px, 6px 100%;
-  pointer-events: none;
+/* Reduced Motion Respect */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-
-.cinematic-vignette {
-  background: radial-gradient(
-    ellipse at center,
-    rgba(0, 0, 0, 0) 65%,
-    rgba(3, 5, 8, 0.75) 100%
-  );
-  pointer-events: none;
-}
-
-/* Film Title Card Parallax Watermarks */
-.act-watermark {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 900;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.03);
-  letter-spacing: -0.04em;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* ─── Electric Blue & Violet Accents (Video Sync) ─── */
-.electric-text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 45%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cyber-text-gradient {
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 35%, #a855f7 70%, #a3e635 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.electric-glow-sm {
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
-}
-
-.violet-glow-sm {
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.35);
-}
-
-.hologram-card {
-  background: rgba(8, 12, 22, 0.65);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(56, 189, 248, 0.18);
-  border-radius: 20px;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 
-    0 16px 40px -12px rgba(0, 0, 0, 0.8),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.hologram-card:hover {
-  border-color: rgba(56, 189, 248, 0.5);
-  box-shadow: 
-    0 24px 60px -15px rgba(0, 0, 0, 0.9),
-    0 0 30px rgba(56, 189, 248, 0.2),
-    0 0 60px rgba(168, 85, 247, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  transform: translateY(-2px);
-}
-

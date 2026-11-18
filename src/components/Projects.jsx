@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Layers, Gamepad2, ShieldAlert, Cpu, Camera, ArrowUpRight, Github, ExternalLink, Code2 } from 'lucide-react'
 import TiltCard from './TiltCard'
@@ -26,8 +26,8 @@ export const PROJECTS = [
       'Client-side Persistence State Engine',
     ],
     tech: ['HTML5', 'CSS3', 'JavaScript', 'Generative AI', 'Prompt Engineering', 'UI/UX'],
-    github: 'https://github.com/hhafil876-eng/AI-Interior-Design-Recommendation',
-    demo: 'https://hhafil876-eng.github.io/AI-Interior-Design-Recommendation/',
+    github: 'https://github.com/hhafil876-eng/portfolio',
+    demo: 'https://mohammed-hapiz-portfolio.vercel.app/#projects',
   },
   {
     num: '02',
@@ -48,8 +48,8 @@ export const PROJECTS = [
       'Cloud Deployment with Automated CI/CD',
     ],
     tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'Cloud Hosting'],
-    github: 'https://github.com/hhafil876-eng/portfolio-management-system',
-    demo: 'https://mohammadhapiz.me',
+    github: 'https://github.com/hhafil876-eng/portfolio',
+    demo: 'https://mohammed-hapiz-portfolio.vercel.app/',
   },
   {
     num: '03',
@@ -70,15 +70,15 @@ export const PROJECTS = [
       'Local Storage Save State Architecture',
     ],
     tech: ['JavaScript (ES6+)', 'Phaser Game Engine', 'Vite', 'HTML5 Canvas', 'CSS3'],
-    github: 'https://github.com/hhafil876-eng/bladequest-game-system',
-    demo: 'https://hhafil876-eng.github.io/bladequest-game-system/',
+    github: 'https://github.com/hhafil876-eng/bladequest',
+    demo: 'https://github.com/hhafil876-eng/bladequest',
   },
   {
     num: '04',
     title: 'ScamShield — Cyber Threat Defense',
     badge: 'Cyber Defense',
-    status: 'Research Suite',
-    isPrototype: true,
+    status: 'Live Deployment',
+    isPrototype: false,
     type: 'cyber',
     category: 'Cybersecurity · Threat Intelligence & Digital Safety',
     icon: ShieldAlert,
@@ -91,9 +91,9 @@ export const PROJECTS = [
       'Preventive Digital Defense Protocols',
       'Educational Threat Intelligence UX',
     ],
-    tech: ['React', 'Cybersecurity', 'Web Development', 'Threat Modeling'],
-    github: 'https://github.com/hhafil876-eng/scamshield-cyber-defense',
-    demo: 'https://github.com/hhafil876-eng/scamshield-cyber-defense#interactive-preview',
+    tech: ['React', 'Cybersecurity', 'Web Development', 'Threat Modeling', 'Vercel'],
+    github: 'https://github.com/hhafil876-eng/ScamShield',
+    demo: 'https://scam-shield-gules.vercel.app/',
   },
   {
     num: '05',
@@ -114,8 +114,8 @@ export const PROJECTS = [
       'Automated Task Scripting Pipelines',
     ],
     tech: ['Python', 'OpenAI API', 'Prompt Engineering', 'Automation Scripts'],
-    github: 'https://github.com/hhafil876-eng/raphael-ai-assistant',
-    demo: 'https://github.com/hhafil876-eng/raphael-ai-assistant#demonstration',
+    github: 'https://github.com/hhafil876-eng/portfolio',
+    demo: 'https://github.com/hhafil876-eng/portfolio',
   },
   {
     num: '06',
@@ -136,7 +136,7 @@ export const PROJECTS = [
       'Brand Identity Systems & Poster Collateral',
     ],
     tech: ['Video Editing', 'Cinematography', 'Color Grading', 'CapCut', 'Alight Motion'],
-    github: 'https://github.com/hhafil876-eng/creative-media-showcase',
+    github: 'https://github.com/hhafil876-eng/portfolio',
     demo: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
   },
 ]
@@ -153,6 +153,13 @@ const CATEGORIES = [
 export default function Projects() {
   const [filter, setFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
+  const triggerRef = useRef(null)
+
+  const handleOpenModal = (project, element) => {
+    cyberAudio.playClick()
+    triggerRef.current = element
+    setSelectedProject(project)
+  }
 
   const filteredProjects =
     filter === 'all'
@@ -173,20 +180,20 @@ export default function Projects() {
         >
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-px bg-lime-400 shadow-[0_0_8px_#a3e635]" />
-              <span className="text-[11px] font-medium tracking-[0.2em] text-lime-400 uppercase">
+              <span className="w-6 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.4)]" />
+              <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
                 Featured Engineering Portfolio
               </span>
             </div>
             <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
-              Selected <span className="lime-text-gradient">Artifacts</span>
+              Selected <span className="yellow-text-gradient">Artifacts</span>
             </h2>
           </div>
 
-          <div className="text-xs text-gray-400 font-mono flex items-center gap-2 bg-white/[0.02] border border-white/[0.08] px-4 py-2 rounded-full">
-            <span className="w-1.5 h-1.5 rounded-full bg-lime-400 shadow-[0_0_8px_#a3e635]" />
-            <span>INDEX:</span>
-            <span className="text-white font-semibold">{PROJECTS.length} VERIFIED SYSTEMS</span>
+          <div className="text-xs text-silver-400 font-mono flex items-center gap-2 bg-[#2B2E34]/80 border border-[#C0C0C0]/15 px-4 py-2 rounded-full shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600] shadow-[0_0_8px_#FFD600]" />
+            <span className="text-silver-400">INDEX:</span>
+            <span className="text-silver-100 font-semibold">{PROJECTS.length} VERIFIED SYSTEMS</span>
           </div>
         </motion.div>
 
@@ -204,23 +211,30 @@ export default function Projects() {
                   setFilter(cat.id)
                 }}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className={`px-4 py-2 rounded-full text-xs tracking-wide transition-all cursor-pointer ${
+                className={`relative px-4 py-2 rounded-full text-xs tracking-wide transition-all cursor-pointer select-none ${
                   isActive
-                    ? 'bg-lime-400 text-black font-semibold shadow-[0_2px_15px_rgba(163,230,53,0.35)]'
-                    : 'bg-white/[0.02] border border-white/[0.08] text-gray-400 hover:text-white hover:border-lime-400/30'
+                    ? 'text-[#17191D] font-semibold'
+                    : 'bg-[#2B2E34]/60 border border-[#C0C0C0]/15 text-silver-400 hover:text-white hover:border-[#FFD600]/40'
                 }`}
               >
-                {cat.label}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeProjectFilter"
+                    transition={{ type: 'spring', damping: 28, stiffness: 350 }}
+                    className="absolute inset-0 bg-[#FFD600] rounded-full shadow-[0_2px_15px_rgba(255,214,0,0.35)]"
+                  />
+                )}
+                <span className="relative z-10">{cat.label}</span>
               </button>
             )
           })}
         </div>
 
         {/* Verification & Transparency Banner */}
-        <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] mb-8 text-[11px] text-gray-400">
-          <ShieldAlert size={14} className="text-lime-400 flex-shrink-0" />
+        <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#2B2E34]/70 border border-[#C0C0C0]/15 mb-8 text-[11px] text-silver-400 shadow-sm">
+          <ShieldAlert size={14} className="text-[#FFD600] flex-shrink-0" />
           <span>
-            <strong className="text-white font-medium">Verifiable Artifacts:</strong> Cards feature simulated UI architectural previews with demo telemetry. For live execution, launch the deployments via <span className="text-lime-300 font-mono">Live Demo</span> or inspect the public <span className="text-lime-300 font-mono">GitHub</span> repositories.
+            <strong className="text-silver-100 font-medium">Verifiable Artifacts:</strong> Cards feature simulated UI architectural telemetry. Launch live execution via <span className="text-[#FFD600] font-mono">Live Demo</span> or inspect verified public <span className="text-[#FFD600] font-mono">GitHub</span> repositories.
           </span>
         </div>
 
@@ -240,26 +254,32 @@ export default function Projects() {
                   <TiltCard
                     maxTilt={5}
                     scale={1.015}
-                    className="p-7 sm:p-8 h-full flex flex-col justify-between group cursor-pointer hover:border-lime-400/30"
-                    onClick={() => {
-                      cyberAudio.playClick()
-                      setSelectedProject(proj)
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`Open detailed case study for ${proj.title}`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handleOpenModal(proj, e.currentTarget)
+                      }
                     }}
+                    onClick={(e) => handleOpenModal(proj, e.currentTarget)}
+                    className="p-7 sm:p-8 h-full flex flex-col justify-between group cursor-pointer hover:border-[#FFD600]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD600]"
                   >
                     <div>
                       {/* Top Header */}
                       <div className="flex items-center justify-between mb-5">
-                        <span className="text-xs font-mono text-gray-500 group-hover:text-lime-400 transition-colors">
-                          {proj.num}
+                        <span className="text-xs font-mono text-silver-500 group-hover:text-[#FFD600] transition-colors">
+                          // {proj.num}
                         </span>
 
                         <div className="flex items-center gap-2">
                           {proj.isPrototype && (
-                            <span className="text-[10px] tracking-wider uppercase font-medium px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300">
+                            <span className="text-[10px] tracking-wider uppercase font-medium px-2.5 py-0.5 rounded-full bg-[#343840] border border-[#C0C0C0]/20 text-silver-300">
                               Prototype
                             </span>
                           )}
-                          <span className="text-[10px] tracking-wider uppercase font-medium px-3 py-1 rounded-full bg-lime-400/10 border border-lime-400/30 text-lime-300">
+                          <span className="text-[10px] tracking-wider uppercase font-medium px-3 py-1 rounded-full bg-[#FFD600]/12 border border-[#FFD600]/30 text-[#FFD600]">
                             {proj.badge}
                           </span>
                         </div>
@@ -272,27 +292,27 @@ export default function Projects() {
 
                       {/* Title & Category */}
                       <div className="mb-3">
-                        <h3 className="font-display font-bold text-xl text-white group-hover:text-lime-300 transition-colors leading-tight mb-1">
+                        <h3 className="font-display font-bold text-xl text-white group-hover:text-[#FFE45C] transition-colors leading-tight mb-1">
                           {proj.title}
                         </h3>
-                        <p className="text-[11px] text-gray-400 truncate font-sans">
+                        <p className="text-[11px] text-silver-400 truncate font-sans">
                           {proj.category}
                         </p>
                       </div>
 
                       {/* Description / Problem */}
-                      <p className="text-xs text-gray-300 leading-relaxed mb-5 line-clamp-3 font-normal">
+                      <p className="text-xs text-silver-300 leading-relaxed mb-5 line-clamp-3 font-normal">
                         {proj.solution}
                       </p>
 
                       {/* Features */}
-                      <div className="space-y-1.5 mb-6 pt-4 border-t border-white/[0.06]">
+                      <div className="space-y-1.5 mb-6 pt-4 border-t border-[#C0C0C0]/10">
                         {proj.features.slice(0, 3).map((feat, fIdx) => (
                           <div
                             key={fIdx}
-                            className="flex items-center gap-2 text-[11px] text-gray-400"
+                            className="flex items-center gap-2 text-[11px] text-silver-400"
                           >
-                            <span className="w-1 h-1 rounded-full bg-lime-400 flex-shrink-0" />
+                            <span className="w-1 h-1 rounded-full bg-[#FFD600] flex-shrink-0" />
                             <span className="truncate">{feat}</span>
                           </div>
                         ))}
@@ -305,49 +325,53 @@ export default function Projects() {
                         {proj.tech.slice(0, 3).map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] px-2.5 py-0.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-gray-300"
+                            className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/15 text-silver-300"
                           >
                             {t}
                           </span>
                         ))}
                         {proj.tech.length > 3 && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.02] text-gray-500">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#17191D]/60 text-silver-500">
                             +{proj.tech.length - 3}
                           </span>
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between pt-4 border-t border-white/[0.08]">
-                        <span className="text-xs font-medium text-white flex items-center gap-1 group-hover:text-lime-400 group-hover:translate-x-0.5 transition-all">
+                      <div className="flex items-center justify-between pt-4 border-t border-[#C0C0C0]/15">
+                        <span className="text-xs font-medium text-silver-200 flex items-center gap-1 group-hover:text-[#FFD600] group-hover:translate-x-0.5 transition-all">
                           <span>View Case Study</span>
-                          <ArrowUpRight size={14} className="text-lime-400" />
+                          <ArrowUpRight size={14} className="text-[#FFD600]" />
                         </span>
 
                         {/* Direct Fast Action Links */}
                         <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                          <a
-                            href={proj.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`GitHub Repository for ${proj.title}`}
-                            onClick={() => cyberAudio.playClick()}
-                            className="w-7 h-7 rounded-lg bg-white/[0.03] border border-white/10 hover:border-lime-400/50 hover:bg-lime-400/10 flex items-center justify-center text-gray-400 hover:text-lime-300 transition-all"
-                            title="GitHub Repository"
-                          >
-                            <Github size={13} />
-                          </a>
+                          {proj.github && (
+                            <a
+                              href={proj.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`GitHub Repository for ${proj.title}`}
+                              onClick={() => cyberAudio.playClick()}
+                              className="w-7 h-7 rounded-lg bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] flex items-center justify-center text-silver-400 hover:text-white transition-all"
+                              title="GitHub Repository"
+                            >
+                              <Github size={13} />
+                            </a>
+                          )}
 
-                          <a
-                            href={proj.demo}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`Live Demo or Preview for ${proj.title}`}
-                            onClick={() => cyberAudio.playClick()}
-                            className="w-7 h-7 rounded-lg bg-lime-400/10 border border-lime-400/30 hover:border-lime-400 hover:bg-lime-400/20 flex items-center justify-center text-lime-400 transition-all"
-                            title="Live Demo or Preview"
-                          >
-                            <ExternalLink size={13} />
-                          </a>
+                          {proj.demo && (
+                            <a
+                              href={proj.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`Live Demo or Preview for ${proj.title}`}
+                              onClick={() => cyberAudio.playClick()}
+                              className="w-7 h-7 rounded-lg bg-[#FFD600]/15 border border-[#FFD600]/30 hover:border-[#FFD600] hover:bg-[#FFD600]/25 flex items-center justify-center text-[#FFD600] transition-all"
+                              title="Live Demo or Preview"
+                            >
+                              <ExternalLink size={13} />
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -358,11 +382,17 @@ export default function Projects() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Detailed Modal Dossier */}
-        <ProjectModal
-          project={selectedProject}
-          onClose={() => setSelectedProject(null)}
-        />
+        {/* ─── DETAILED MODAL CASE STUDY DOSSIER WITH PROPER EXIT ANIMATION ─── */}
+        <AnimatePresence>
+          {selectedProject && (
+            <ProjectModal
+              key="case-study-modal"
+              project={selectedProject}
+              triggerRef={triggerRef}
+              onClose={() => setSelectedProject(null)}
+            />
+          )}
+        </AnimatePresence>
 
       </div>
     </div>

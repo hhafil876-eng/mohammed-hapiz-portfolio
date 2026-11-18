@@ -9,6 +9,9 @@ export default function TiltCard({
   maxTilt = 6,
   scale = 1.015,
   onClick,
+  onKeyDown,
+  role,
+  tabIndex,
   ...props
 }) {
   const cardRef = useRef(null)
@@ -55,6 +58,9 @@ export default function TiltCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
+      onKeyDown={onKeyDown}
+      role={role}
+      tabIndex={tabIndex}
       style={{
         transformStyle: 'preserve-3d',
       }}
@@ -72,12 +78,12 @@ export default function TiltCard({
       className={`relative ui-card ${className} select-none overflow-hidden`}
       {...props}
     >
-      {/* Luxury Dynamic Specular Glare */}
+      {/* Specular Glare (Metallic Silver & Soft Yellow) */}
       {glare && (
         <div
           className="pointer-events-none absolute inset-0 transition-opacity duration-300 z-30"
           style={{
-            background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, 0.22) 0%, rgba(56, 189, 248, 0.08) 25%, transparent 60%)`,
+            background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 214, 0, 0.06) 30%, transparent 60%)`,
             opacity: glarePos.opacity,
           }}
         />

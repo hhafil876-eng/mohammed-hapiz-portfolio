@@ -6,15 +6,24 @@ export default function CustomCursor() {
   const cursorY = useMotionValue(-100)
   const [hovered, setHovered] = useState(false)
   const [clicked, setClicked] = useState(false)
+  const [enabled, setEnabled] = useState(false)
   const trailCanvasRef = useRef(null)
 
-  // Luxury smooth damped spring
+  // Smooth damped spring for the outer ring
   const springConfig = { damping: 28, stiffness: 350, mass: 0.25 }
   const ringX = useSpring(cursorX, springConfig)
   const ringY = useSpring(cursorY, springConfig)
 
   useEffect(() => {
-    if (typeof window === 'undefined' || window.innerWidth < 768) return
+    if (typeof window === 'undefined') return
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (window.innerWidth < 768 || isTouch || isReduced) {
+      return
+    }
+
+    setEnabled(true)
+    document.documentElement.classList.add('custom-cursor-active')
 
     const trailCanvas = trailCanvasRef.current
     if (!trailCanvas) return
@@ -39,17 +48,17 @@ export default function CustomCursor() {
       const dy = e.clientY - lastY
       const dist = Math.sqrt(dx * dx + dy * dy)
 
-      // Minimal luxury stardust (subtle, delicate)
-      if (dist > 6) {
+      // Minimal metallic & soft yellow stardust
+      if (dist > 8) {
         particles.push({
           x: e.clientX,
           y: e.clientY,
-          vx: -dx * 0.1 + (Math.random() - 0.5) * 0.8,
-          vy: -dy * 0.1 + (Math.random() - 0.5) * 0.8,
-          size: Math.random() * 1.6 + 0.8,
-          life: 0.8,
-          decay: 0.035,
-          color: Math.random() > 0.5 ? '255, 255, 255' : '186, 230, 253',
+          vx: -dx * 0.08 + (Math.random() - 0.5) * 0.6,
+          vy: -dy * 0.08 + (Math.random() - 0.5) * 0.6,
+          size: Math.random() * 1.5 + 0.8,
+          life: 0.75,
+          decay: 0.038,
+          color: Math.random() > 0.4 ? '229, 231, 235' : '255, 214, 0', // Silver or Electric Yellow
         })
       }
 
@@ -57,9 +66,7 @@ export default function CustomCursor() {
       lastY = e.clientY
     }
 
-    const onMouseDown = () => {
-      setClicked(true)
-    }
+    const onMouseDown = () => setClicked(true)
     const onMouseUp = () => setClicked(false)
 
     const onMouseOver = (e) => {
@@ -90,7 +97,7 @@ export default function CustomCursor() {
           continue
         }
 
-        ctx.fillStyle = `rgba(${p.color}, ${p.life * 0.5})`
+        ctx.fillStyle = `rgba(${p.color}, ${p.life * 0.45})`
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
         ctx.fill()
@@ -108,6 +115,7 @@ export default function CustomCursor() {
     document.addEventListener('mouseout', onMouseOut)
 
     return () => {
+      document.documentElement.classList.remove('custom-cursor-active')
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', onResize)
       window.removeEventListener('mousemove', onMouseMove)
@@ -118,12 +126,14 @@ export default function CustomCursor() {
     }
   }, [cursorX, cursorY])
 
+  if (!enabled) return null
+
   return (
-    <div className="hidden md:block pointer-events-none fixed inset-0 z-50 overflow-hidden">
-      {/* Delicate Trail Canvas */}
+    <div className="hidden md:block pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
+      {/* Particle Trail Canvas */}
       <canvas ref={trailCanvasRef} className="absolute inset-0 pointer-events-none" />
 
-      {/* Luxury Trailing Halo Ring */}
+      {/* Trailing Metallic / Yellow Halo Ring */}
       <motion.div
         style={{
           x: ringX,
@@ -134,8 +144,9 @@ export default function CustomCursor() {
         animate={{
           width: hovered ? 46 : clicked ? 20 : 28,
           height: hovered ? 46 : clicked ? 20 : 28,
-          borderColor: hovered ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.25)',
-          backgroundColor: hovered ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+          borderColor: hovered ? 'rgba(255, 214, 0, 0.75)' : 'rgba(192, 192, 192, 0.35)',
+          backgroundColor: hovered ? 'rgba(255, 214, 0, 0.08)' : 'transparent',
+          boxShadow: hovered ? '0 0 16px rgba(255, 214, 0, 0.2)' : 'none',
         }}
         transition={{ type: 'spring', damping: 25, stiffness: 350, mass: 0.2 }}
         className="rounded-full border pointer-events-none transition-colors"
@@ -151,9 +162,9 @@ export default function CustomCursor() {
         }}
         animate={{
           scale: hovered ? 0.6 : clicked ? 1.4 : 1,
-          opacity: hovered ? 0.8 : 1,
+          opacity: hovered ? 0.9 : 1,
         }}
-        className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)] pointer-events-none"
+        className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#FFD600] pointer-events-none"
       />
     </div>
   )

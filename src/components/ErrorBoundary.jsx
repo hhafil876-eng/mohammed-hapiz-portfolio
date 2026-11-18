@@ -21,7 +21,7 @@ export default class ErrorBoundary extends React.Component {
       }
       return (
         <div className="p-8 text-center text-gray-400">
-          <p className="text-xs font-mono text-lime-400 uppercase tracking-widest mb-2">
+          <p className="text-xs font-mono text-[#FFD600] uppercase tracking-widest mb-2 font-semibold">
             System Degradation Safeguard Active
           </p>
           <p className="text-sm text-gray-300">

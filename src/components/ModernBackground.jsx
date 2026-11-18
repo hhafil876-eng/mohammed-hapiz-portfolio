@@ -23,15 +23,15 @@ export default function ModernBackground() {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden select-none" aria-hidden="true">
-      {/* ─── 1. DEEP OBSIDIAN CANVAS ─── */}
-      <div className="absolute inset-0 bg-[#030508]" />
+      {/* ─── 1. DEEP GRAPHITE CANVAS ─── */}
+      <div className="absolute inset-0 bg-[#17191D]" />
 
       {/* ─── 2. SUBTLE ARCHITECTURAL MICRO-GRID ─── */}
       <div 
-        className="absolute inset-0 opacity-[0.14]"
+        className="absolute inset-0 opacity-[0.09]"
         style={{
           backgroundImage: `
-            radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.45) 1px, transparent 0)
+            radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.4) 1px, transparent 0)
           `,
           backgroundSize: '32px 32px',
           maskImage: 'radial-gradient(ellipse 90% 80% at 50% 30%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 90%)',
@@ -39,32 +39,32 @@ export default function ModernBackground() {
         }}
       />
 
-      {/* ─── 3. STRATEGIC AMBIENT STUDIO GLOWS (Quiet Luxury) ─── */}
-      {/* Top Hero Glow: Subtle Lime Green Accent */}
+      {/* ─── 3. STRATEGIC AMBIENT STUDIO GLOWS ─── */}
+      {/* Top Hero Glow: Subtle Electric Yellow Accent */}
       <div 
         className="absolute -top-32 right-1/4 w-[650px] h-[650px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(163, 230, 53, 0.08) 0%, rgba(132, 204, 22, 0.03) 45%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 214, 0, 0.05) 0%, rgba(255, 214, 0, 0.015) 45%, transparent 70%)',
           filter: 'blur(90px)',
           transform: 'translate3d(0, 0, 0)',
         }}
       />
 
-      {/* Middle Section Glow: Subtle Ice Cyan Accent */}
+      {/* Middle Section Glow: Metallic Silver Accent */}
       <div 
         className="absolute top-1/2 -left-40 w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(56, 189, 248, 0.05) 0%, rgba(14, 165, 233, 0.02) 45%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(192, 192, 192, 0.035) 0%, rgba(192, 192, 192, 0.01) 45%, transparent 70%)',
           filter: 'blur(100px)',
           transform: 'translate3d(0, 0, 0)',
         }}
       />
 
-      {/* Lower Section Glow: Soft Emerald Foundation */}
+      {/* Lower Section Glow: Soft Graphite & Yellow Foundation */}
       <div 
         className="absolute bottom-10 right-10 w-[700px] h-[700px] rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(163, 230, 53, 0.06) 0%, rgba(16, 185, 129, 0.02) 50%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 214, 0, 0.04) 0%, rgba(52, 56, 64, 0.1) 50%, transparent 70%)',
           filter: 'blur(110px)',
           transform: 'translate3d(0, 0, 0)',
         }}
@@ -84,18 +84,18 @@ export default function ModernBackground() {
           <div 
             className="w-full h-full rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(163, 230, 53, 0.045) 0%, rgba(56, 189, 248, 0.02) 40%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(255, 214, 0, 0.03) 0%, rgba(192, 192, 192, 0.015) 40%, transparent 70%)',
               filter: 'blur(40px)',
             }}
           />
         </motion.div>
       )}
 
-      {/* ─── 5. SUBTLE EDGE VIGNETTE (Focuses attention to center content) ─── */}
+      {/* ─── 5. SUBTLE EDGE VIGNETTE ─── */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse at center, transparent 65%, rgba(3, 5, 8, 0.6) 100%)',
+          background: 'radial-gradient(ellipse at center, transparent 65%, rgba(15, 16, 19, 0.6) 100%)',
         }}
       />
     </div>
