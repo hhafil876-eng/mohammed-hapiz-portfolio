@@ -1,6 +1,6 @@
 import SignalPath from './SignalPath'
 import { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { Layers, Gamepad2, ShieldAlert, Cpu, Camera, ArrowUpRight, Github, ExternalLink, Code2 } from 'lucide-react'
 import TiltCard from './TiltCard'
 import ProjectModal from './ProjectModal'
@@ -161,6 +161,8 @@ export default function Projects() {
   const [filter, setFilter] = useState('all')
   const [selectedProject, setSelectedProject] = useState(null)
   const triggerRef = useRef(null)
+  const sectionRef = useRef(null)
+  const enableLayout = useInView(sectionRef, { once: true, margin: '600px' })
 
   const handleOpenModal = (project, element) => {
     cyberAudio.playClick()
@@ -174,7 +176,7 @@ export default function Projects() {
       : PROJECTS.filter((p) => p.type === filter)
 
   return (
-    <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
+    <div ref={sectionRef} className="section-padding relative px-6 sm:px-12 overflow-hidden">
       <div className="max-w-6xl mx-auto relative z-10">
 
         {/* Section Header */}
@@ -226,7 +228,7 @@ export default function Projects() {
               >
                 {isActive && (
                   <motion.div
-                    layoutId="activeProjectFilter"
+                    layoutId={enableLayout ? 'activeProjectFilter' : undefined}
                     transition={{ type: 'spring', damping: 28, stiffness: 350 }}
                     className="absolute inset-0 bg-[#FFD600] rounded-full shadow-[0_2px_15px_rgba(255,214,0,0.35)]"
                   />
@@ -246,12 +248,12 @@ export default function Projects() {
         </div>
 
         {/* 3D Works Grid */}
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+        <motion.div layout={enableLayout} className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           <AnimatePresence>
             {filteredProjects.map((proj, i) => {
               return (
                 <motion.div
-                  layout
+                  layout={enableLayout}
                   key={proj.num}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
