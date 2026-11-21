@@ -1,5 +1,5 @@
 import SignalPath from './SignalPath'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Linkedin, Github, MapPin, CheckCircle2, AlertCircle, Mail, MessageSquare, Copy, Check, ArrowUpRight, Send, Code } from 'lucide-react'
 import TiltCard from './TiltCard'
@@ -52,6 +52,11 @@ export default function Contact() {
   const [copied, setCopied] = useState(false)
   const [copiedDraft, setCopiedDraft] = useState(false)
 
+  const pending = useRef(null)
+  const feedback = useRef(null)
+  useEffect(() => () => pending.current?.abort(), [])
+  useEffect(() => { feedback.current?.focus() }, [sent, submissionError])
+
   const validate = () => {
     const errs = {}
     const trimmedName = form.name.trim()
@@ -84,59 +89,57 @@ export default function Contact() {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    if (pending.current) return
     cyberAudio.playClick()
 
     // Bot honeypot detection
     if (form._honey) {
-      console.warn('Spam submission detected and dropped.')
-      setSent(true)
+      setSubmissionError('Unable to accept this submission. Use the email option below.')
       return
     }
 
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+      e.currentTarget.elements[Object.keys(validationErrors)[0]].focus()
       return
     }
 
+    const controller = new AbortController()
+    pending.current = controller
+    const timeout = setTimeout(() => controller.abort(), 20000)
     setTransmitting(true)
     setSubmissionError(null)
-
+    const key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim()
+    const subject = 'Portfolio Inquiry from ' + form.name.trim()
+    const fields = { name: form.name.trim(), email: form.email.trim(), message: form.message.trim() }
     try {
-      const res = await fetch('https://formsubmit.co/ajax/hhafil876@gmail.com', {
+      const response = await fetch(key ? 'https://api.web3forms.com/submit' : 'https://formsubmit.co/ajax/hhafil876@gmail.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          email: form.email.trim(),
-          message: form.message.trim(),
-          _subject: `Portfolio Inquiry from ${form.name.trim()}`,
-          _template: 'table',
-          _captcha: 'false',
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+        body: new URLSearchParams({
+          ...fields,
+          ...(key ? { access_key: key, subject, replyto: fields.email } : { _subject: subject, _template: 'table', _captcha: 'false' }),
         }),
       })
-
-      const data = await res.json().catch(() => null)
-
-      if (res.ok && (data?.success === 'true' || data?.success === true)) {
+      const data = await response.json().catch(() => null)
+      const reason = typeof data?.message === 'string' ? data.message : ''
+      if (/activat|confirm your email/i.test(reason)) {
+        setSubmissionError('The mailbox requires activation. Please use the email option below.')
+      } else if (response.ok && (data?.success === true || data?.success === 'true')) {
         setSent(true)
         cyberAudio.playTransmit()
-      } else if (data?.message && data.message.toLowerCase().includes('activation')) {
-        setSubmissionError(
-          'Activation link dispatched to recipient inbox. Please check hhafil876@gmail.com once to activate FormSubmit routing.'
-        )
       } else {
-        throw new Error(data?.message || `HTTP ${res.status}: Submission failed`)
+        setSubmissionError(reason || (response.ok ? 'The provider returned an unrecognized confirmation.' :
+          'The email service returned HTTP ' + response.status + '. Please try again later.'))
       }
-    } catch (err) {
-      console.warn('Direct delivery encountered a network barrier:', err)
-      setSubmissionError(
-        'Direct transmission encountered an obstacle. You can transmit immediately via your native email client or copy the pre-filled message below.'
-      )
+    } catch {
+      setSubmissionError(controller.signal.aborted ? 'The service timed out. Delivery is unconfirmed. Your draft is saved here.' :
+        'The browser could not confirm a response from the email service. Check your connection or use the email option below.')
     } finally {
+      clearTimeout(timeout)
+      pending.current = null
       setTransmitting(false)
     }
   }
@@ -291,7 +294,7 @@ export default function Contact() {
               className="p-8 sm:p-10 hover:border-[#FFD600]/30"
             >
               {sent ? (
-                <div className="py-12 text-center space-y-4">
+                <div ref={feedback} tabIndex={-1} role="status" className="py-12 text-center space-y-4">
                   <div className="w-14 h-14 rounded-full bg-[#FFD600]/15 border border-[#FFD600]/40 text-[#FFD600] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(255,214,0,0.3)]">
                     <CheckCircle2 size={28} />
                   </div>
@@ -299,7 +302,7 @@ export default function Contact() {
                     Transmission Dispatched
                   </h3>
                   <p className="text-sm text-silver-300 max-w-md mx-auto leading-relaxed">
-                    Thank you for reaching out. Your transmission has been routed to Mohammed Hapiz's verified mailbox. Expect an executive response promptly.
+                    Thank you for reaching out. The email service accepted your inquiry.
                   </p>
                   <button
                     onClick={() => {
@@ -312,7 +315,7 @@ export default function Contact() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} noValidate className="space-y-6">
+                <form aria-busy={transmitting} onSubmit={onSubmit} noValidate className="space-y-6">
                   {/* Honeypot for spam bot mitigation */}
                   <input
                     type="text"
@@ -332,6 +335,8 @@ export default function Contact() {
                     </label>
                     <input
                       id="contact-name"
+                      disabled={transmitting} aria-invalid={Boolean(errors.name)}
+                      aria-describedby={errors.name ? 'error-name' : undefined}
                       type="text"
                       name="name"
                       value={form.name}
@@ -343,7 +348,7 @@ export default function Contact() {
                       }`}
                     />
                     {errors.name && (
-                      <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                      <p id="error-name" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} />
                         <span>{errors.name}</span>
                       </p>
@@ -357,6 +362,8 @@ export default function Contact() {
                     </label>
                     <input
                       id="contact-email"
+                      disabled={transmitting} aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? 'error-email' : undefined}
                       type="email"
                       name="email"
                       value={form.email}
@@ -368,7 +375,7 @@ export default function Contact() {
                       }`}
                     />
                     {errors.email && (
-                      <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                      <p id="error-email" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} />
                         <span>{errors.email}</span>
                       </p>
@@ -382,6 +389,8 @@ export default function Contact() {
                     </label>
                     <textarea
                       id="contact-message"
+                      disabled={transmitting} aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? 'error-message' : undefined}
                       rows={5}
                       name="message"
                       value={form.message}
@@ -393,7 +402,7 @@ export default function Contact() {
                       }`}
                     />
                     {errors.message && (
-                      <p className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                      <p id="error-message" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
                         <AlertCircle size={12} />
                         <span>{errors.message}</span>
                       </p>
@@ -402,7 +411,7 @@ export default function Contact() {
 
                   {/* Submission Error Banner & Graceful Fallbacks */}
                   {submissionError && (
-                    <div className="p-4 rounded-2xl bg-red-950/20 border border-red-500/30 text-xs text-red-300 space-y-3">
+                    <div ref={feedback} role="alert" tabIndex={-1} className="p-4 rounded-2xl bg-red-950/20 border border-red-500/30 text-xs text-red-300 space-y-3">
                       <div className="flex items-start gap-2">
                         <AlertCircle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
                         <span>{submissionError}</span>
@@ -453,7 +462,7 @@ export default function Contact() {
                         <span>Transmitting Data...</span>
                       ) : (
                         <>
-                          <span>Transmit Message</span>
+                          <span>{submissionError ? 'Retry submission' : 'Transmit Message'}</span>
                           <Send size={14} />
                         </>
                       )}
