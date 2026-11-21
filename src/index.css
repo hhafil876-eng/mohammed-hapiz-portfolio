@@ -25,6 +25,7 @@
 }
 
 html {
+  position: relative;
   scroll-behavior: smooth;
   background-color: #17191D;
   color-scheme: dark;
@@ -49,6 +50,10 @@ body {
   html.custom-cursor-active [role="button"] {
     cursor: none !important;
   }
+}
+
+html:root input:not([type]), html:root input:is([type="text"], [type="email"], [type="search"]), html:root textarea, html:root [contenteditable="true"] {
+  cursor: text !important;
 }
 
 /* Refined Metallic Scrollbar with Electric Yellow Indicator */
