@@ -1,171 +1,86 @@
-import { useEffect, useRef, useState } from 'react'
+﻿import { useEffect, useRef } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
-export default function CustomCursor() {
-  const cursorX = useMotionValue(-100)
-  const cursorY = useMotionValue(-100)
-  const [hovered, setHovered] = useState(false)
-  const [clicked, setClicked] = useState(false)
-  const [enabled, setEnabled] = useState(false)
-  const trailCanvasRef = useRef(null)
+const spring = { damping: 30, stiffness: 560, mass: 0.22 }
+const eligible = '(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
 
-  // Smooth damped spring for the outer ring
-  const springConfig = { damping: 28, stiffness: 350, mass: 0.25 }
-  const ringX = useSpring(cursorX, springConfig)
-  const ringY = useSpring(cursorY, springConfig)
+export default function CustomCursor() {
+  const layer = useRef(null)
+  const x = useMotionValue(-100)
+  const y = useMotionValue(-100)
+  const ringX = useSpring(x, spring)
+  const ringY = useSpring(y, spring)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const isTouch = window.matchMedia('(pointer: coarse)').matches
-    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (window.innerWidth < 768 || isTouch || isReduced) {
-      return
+    const root = document.documentElement
+    const cursor = layer.current
+    const media = matchMedia(eligible)
+    const particles = [...cursor.querySelectorAll('.cursor-trail')]
+    let next = 0
+    let lastTrail = 0
+
+    function hide() {
+      root.classList.remove('custom-cursor-active')
+      cursor.hidden = true
     }
-
-    setEnabled(true)
-    document.documentElement.classList.add('custom-cursor-active')
-
-    const trailCanvas = trailCanvasRef.current
-    if (!trailCanvas) return
-    const ctx = trailCanvas.getContext('2d')
-    trailCanvas.width = window.innerWidth
-    trailCanvas.height = window.innerHeight
-
-    let particles = []
-    let lastX = -100
-    let lastY = -100
-
-    const onResize = () => {
-      trailCanvas.width = window.innerWidth
-      trailCanvas.height = window.innerHeight
-    }
-
-    const onMouseMove = (e) => {
-      cursorX.set(e.clientX)
-      cursorY.set(e.clientY)
-
-      const dx = e.clientX - lastX
-      const dy = e.clientY - lastY
-      const dist = Math.sqrt(dx * dx + dy * dy)
-
-      // Minimal metallic & soft yellow stardust
-      if (dist > 8) {
-        particles.push({
-          x: e.clientX,
-          y: e.clientY,
-          vx: -dx * 0.08 + (Math.random() - 0.5) * 0.6,
-          vy: -dy * 0.08 + (Math.random() - 0.5) * 0.6,
-          size: Math.random() * 1.5 + 0.8,
-          life: 0.75,
-          decay: 0.038,
-          color: Math.random() > 0.4 ? '229, 231, 235' : '255, 214, 0', // Silver or Electric Yellow
-        })
+    function move(event) {
+      const target = event.target
+      if (!media.matches || event.pointerType !== 'mouse' || !(target instanceof Element)) return hide()
+      const control = target.closest('a, button, [role=button], [role=tab]')
+      if (target.closest('input, textarea, select, [contenteditable=true]') ||
+          (!control && target.closest('p, h1, h2, h3, label, li'))) return hide()
+      if (cursor.hidden) {
+        ringX.jump(event.clientX)
+        ringY.jump(event.clientY)
       }
-
-      lastX = e.clientX
-      lastY = e.clientY
-    }
-
-    const onMouseDown = () => setClicked(true)
-    const onMouseUp = () => setClicked(false)
-
-    const onMouseOver = (e) => {
-      const el = e.target
-      if (el.closest('a, button, [role="button"], input, textarea, .ui-card, [data-cursor-hover]')) {
-        setHovered(true)
+      cursor.hidden = false
+      root.classList.add('custom-cursor-active')
+      cursor.dataset.mode = control?.matches('a') ? 'link' :
+        control?.hasAttribute('data-project') ? 'view' : control ? 'button' : 'default'
+      x.set(event.clientX)
+      y.set(event.clientY)
+      if (event.type === 'pointermove' && event.timeStamp - lastTrail > 46) {
+        const dot = particles[next]
+        dot.getAnimations().forEach(animation => animation.cancel())
+        dot.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
+        dot.animate([{ opacity: 0.46 }, { opacity: 0 }], 220)
+        next = (next + 1) % particles.length
+        lastTrail = event.timeStamp
       }
     }
-
-    const onMouseOut = (e) => {
-      const el = e.target
-      if (el.closest('a, button, [role="button"], input, textarea, .ui-card, [data-cursor-hover]')) {
-        setHovered(false)
-      }
+    function pulse(event) {
+      move(event)
+      if (cursor.hidden) return
+      const wave = cursor.querySelector('.cursor-pulse')
+      wave.style.translate = `${event.clientX}px ${event.clientY}px`
+      wave.getAnimations().forEach(animation => animation.cancel())
+      wave.animate([{ transform: 'scale(.35)', opacity: .8 }, { transform: 'scale(1.5)', opacity: 0 }], 300)
     }
-
-    let animId
-    const render = () => {
-      ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height)
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i]
-        p.x += p.vx
-        p.y += p.vy
-        p.life -= p.decay
-
-        if (p.life <= 0) {
-          particles.splice(i, 1)
-          continue
-        }
-
-        ctx.fillStyle = `rgba(${p.color}, ${p.life * 0.45})`
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
-        ctx.fill()
-      }
-      animId = requestAnimationFrame(render)
-    }
-
-    render()
-
-    window.addEventListener('resize', onResize)
-    window.addEventListener('mousemove', onMouseMove, { passive: true })
-    window.addEventListener('mousedown', onMouseDown)
-    window.addEventListener('mouseup', onMouseUp)
-    document.addEventListener('mouseover', onMouseOver)
-    document.addEventListener('mouseout', onMouseOut)
-
+    document.addEventListener('pointermove', move)
+    document.addEventListener('pointerover', move)
+    document.addEventListener('pointerdown', pulse)
+    document.addEventListener('keydown', hide)
+    root.addEventListener('pointerleave', hide)
+    window.addEventListener('blur', hide)
+    media.addEventListener('change', hide)
     return () => {
-      document.documentElement.classList.remove('custom-cursor-active')
-      cancelAnimationFrame(animId)
-      window.removeEventListener('resize', onResize)
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mousedown', onMouseDown)
-      window.removeEventListener('mouseup', onMouseUp)
-      document.removeEventListener('mouseover', onMouseOver)
-      document.removeEventListener('mouseout', onMouseOut)
+      hide()
+      document.removeEventListener('pointermove', move)
+      document.removeEventListener('pointerover', move)
+      document.removeEventListener('pointerdown', pulse)
+      document.removeEventListener('keydown', hide)
+      root.removeEventListener('pointerleave', hide)
+      window.removeEventListener('blur', hide)
+      media.removeEventListener('change', hide)
     }
-  }, [cursorX, cursorY])
-
-  if (!enabled) return null
+  }, [x, y, ringX, ringY])
 
   return (
-    <div className="hidden md:block pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
-      {/* Particle Trail Canvas */}
-      <canvas ref={trailCanvasRef} className="absolute inset-0 pointer-events-none" />
-
-      {/* Trailing Metallic / Yellow Halo Ring */}
-      <motion.div
-        style={{
-          x: ringX,
-          y: ringY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
-          width: hovered ? 46 : clicked ? 20 : 28,
-          height: hovered ? 46 : clicked ? 20 : 28,
-          borderColor: hovered ? 'rgba(255, 214, 0, 0.75)' : 'rgba(192, 192, 192, 0.35)',
-          backgroundColor: hovered ? 'rgba(255, 214, 0, 0.08)' : 'transparent',
-          boxShadow: hovered ? '0 0 16px rgba(255, 214, 0, 0.2)' : 'none',
-        }}
-        transition={{ type: 'spring', damping: 25, stiffness: 350, mass: 0.2 }}
-        className="rounded-full border pointer-events-none transition-colors"
-      />
-
-      {/* Pinpoint Core Indicator */}
-      <motion.div
-        style={{
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        animate={{
-          scale: hovered ? 0.6 : clicked ? 1.4 : 1,
-          opacity: hovered ? 0.9 : 1,
-        }}
-        className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#FFD600] pointer-events-none"
-      />
+    <div ref={layer} hidden aria-hidden="true" className="reactor">
+      {Array.from({length: 5}, (_, i) => <i key={i} className="cursor-trail" />)}
+      <i className="cursor-pulse" />
+      <motion.div style={{ x: ringX, y: ringY }}><i className="reticle" /><span>VIEW</span></motion.div>
+      <motion.div style={{ x, y }}><i className="cursor-core" /></motion.div>
     </div>
   )
 }

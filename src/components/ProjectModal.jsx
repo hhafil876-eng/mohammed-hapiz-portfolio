@@ -114,7 +114,7 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
         className="relative w-full max-w-2xl bg-[#2B2E34]/95 border border-[#C0C0C0]/25 rounded-3xl p-6 sm:p-9 shadow-[0_25px_70px_rgba(15,16,19,0.95)] z-10 overflow-hidden max-h-[90vh] overflow-y-auto focus:outline-none"
       >
         {/* Subtle Top Electric Yellow Accent Border Line */}
-        <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD600] to-transparent opacity-80" />
+        <div className="modal-trace absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD600] to-transparent opacity-80" />
 
         {/* ─── TOP HEADER BAR ─── */}
         <div className="flex items-start justify-between gap-4 border-b border-[#C0C0C0]/15 pb-5 mb-6">

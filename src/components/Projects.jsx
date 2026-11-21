@@ -1,3 +1,4 @@
+import SignalPath from './SignalPath'
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Layers, Gamepad2, ShieldAlert, Cpu, Camera, ArrowUpRight, Github, ExternalLink, Code2 } from 'lucide-react'
@@ -186,7 +187,7 @@ export default function Projects() {
         >
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="w-6 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.4)]" />
+              <SignalPath />
               <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
                 Featured Engineering Portfolio
               </span>
@@ -253,11 +254,13 @@ export default function Projects() {
                   layout
                   key={proj.num}
                   initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.45, delay: i * 0.08 }}
                 >
                   <TiltCard
+                    data-project=""
                     maxTilt={5}
                     scale={1.015}
                     tabIndex={0}

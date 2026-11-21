@@ -7,7 +7,7 @@ export default function ProjectVisualPreview({ project, isExpanded = false }) {
   const heightClass = isExpanded ? 'h-64 sm:h-80' : 'h-48 sm:h-52'
 
   return (
-    <div className={`relative w-full ${heightClass} rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner`}>
+    <div className={`project-preview relative w-full ${heightClass} rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner`}>
       {/* ─── BROWSER / OS HEADER BAR ─── */}
       <div className="h-8 bg-[#2B2E34] border-b border-[#C0C0C0]/10 px-3.5 flex items-center justify-between text-xs text-silver-500 flex-shrink-0">
         <div className="flex items-center gap-1.5">

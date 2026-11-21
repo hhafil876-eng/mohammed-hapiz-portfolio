@@ -237,3 +237,94 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+.name-line { display: block; overflow: hidden; padding-bottom: .045em; }
+.name-line > span { display: inline-block; }
+.portrait-stage {
+  isolation: isolate; position: relative; width: min(100%, 29rem); aspect-ratio: 1 / 1.12;
+  background: radial-gradient(ellipse 44% 40% at 54% 42%, #c0c0c024, transparent),
+    radial-gradient(ellipse 36% 43% at 63% 53%, #ffd60014, transparent);
+}
+.portrait-orbit, .portrait-orbit::after {
+  position: absolute; inset: 12% 2% 10%; border: 1px solid #c0c0c033;
+  border-left-color: #ffd60066; border-radius: 50%; transform: rotate(-17deg);
+}
+.portrait-orbit::after { content: ""; inset: 6% -4%; transform: rotate(39deg); border-color: #c0c0c01c transparent #ffd60044; }
+.portrait-crop { position: absolute; inset: 0; overflow: hidden; mask-image: linear-gradient(#000 75%, transparent 99%); }
+.portrait-crop img {
+  position: absolute; width: 92%; max-width: none; height: auto; left: 4%; top: -18%;
+  mask: url('/assets/hapiz-silhouette.png') center / 100% 100% no-repeat;
+}
+.portrait-label {
+  position: absolute; right: 2%; top: 1%; padding: .46rem .8rem;
+  background: #24272def; border: 1px solid #c0c0c042; border-radius: 2rem;
+  font: 500 .69rem var(--font-mono); color: #e5e7eb;
+}
+.portrait-label::before { content: ""; display: inline-block; width: 4px; height: 4px; margin-right: .45rem; vertical-align: middle; background: #ffd600; border-radius: 50%; }
+.studio-label { right: auto; top: auto; bottom: 16%; left: 0; }
+@media (max-width: 1023px) {
+  .hero-grid { gap: 0; }
+  .hero-copy { display: contents; }
+  .hero-grid > :last-child { grid-row: 3; margin: .25rem auto 1.5rem; width: min(100%, 21rem); }
+  .hero-copy > :first-child { justify-self: start; }
+  .portrait-stage { aspect-ratio: 1.25; }
+  .portrait-crop img { width: 79%; left: 10.5%; top: -21%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .name-line > span { animation: name-rise .75s cubic-bezier(.2,.75,.2,1) both; }
+  .name-line:nth-child(2) > span { animation-delay: .14s; background-size: 200%; animation-name: name-rise, title-shine; animation-duration: .75s, 10s; animation-iteration-count: 1, infinite; }
+  .hero-copy > :nth-child(n+3) { animation: hero-arrive .65s .26s backwards; }
+  .hero-copy > :nth-last-child(2) { animation-delay: .42s; }
+  .hero-copy > :last-child { animation-delay: .54s; }
+  .portrait-label { animation: label-float 7s ease-in-out infinite alternate; }
+  .studio-label { animation-delay: -3s; animation-duration: 9s; }
+  .hero-scene[data-in-view="false"] *, .hero-scene[data-in-view="false"] *::before { animation-play-state: paused; }
+}
+@keyframes label-float { to { translate: 0 -4px; } }
+@keyframes name-rise { from { transform: translateY(105%); } }
+@keyframes hero-arrive { from { opacity: 0; transform: translateY(9px); } }
+@keyframes title-shine { 0%, 74%, 100% { background-position: 0%; } 90% { background-position: 100%; } }
+.reactor { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+.reactor * { position: absolute; pointer-events: none; top: 0; left: 0; }
+.reticle, .cursor-pulse { width: 22px; height: 22px; margin: -11px; border: 1px solid #c0c0c0ad; border-radius: 50%; }
+.reticle { transition: transform .18s, border-color .18s; }
+.cursor-core, .cursor-trail { border-radius: 50%; background: #ffd600; }
+.cursor-core { width: 4px; height: 4px; margin: -2px; box-shadow: 0 0 7px #ffd60099; }
+.cursor-trail { width: 2px; height: 2px; opacity: 0; }
+.cursor-pulse { opacity: 0; border-color: #ffd600; }
+.reactor span { opacity: 0; transform: translate(-50%,-50%); font: 600 8px var(--font-mono); color: #fff3a3; letter-spacing: .08em; }
+.reactor[data-mode="view"] .reticle { transform: scale(1.72); background: #17191de6; border-color: #ffd600ac; }
+.reactor[data-mode="view"] span { opacity: 1; }
+.reactor[data-mode="view"] .cursor-core { opacity: 0; }
+.reactor[data-mode="button"] .reticle { transform: scale(1.4); border-color: #ffd600b8; box-shadow: 0 0 8px #ffd60022; }
+.reactor[data-mode="link"] .reticle { transform: scale(.72); }
+.reactor[data-mode="link"] .cursor-core { background: #fff7ba; }
+.signal-path { position: relative; width: 2.7rem; height: 1px; background: #c0c0c044; }
+.signal-path i { display: block; height: 1px; background: #ffd600; transform-origin: left; }
+.signal-path i::after { content: ""; position: absolute; right: 0; top: -1.5px; width: 4px; height: 4px; background: #ffd600; box-shadow: 0 0 5px #ffd60080; }
+[data-project]::after, .modal-trace { transform-origin: left; }
+[data-project]::after { content: ""; position: absolute; top: 0; left: 6%; right: 6%; height: 1px; background: linear-gradient(90deg,transparent,#ffd600,transparent); transform: scaleX(0); transition: transform .35s; }
+[data-project]:is(:hover,:focus-visible)::after { transform: scaleX(1); }
+#achievements .ui-card::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg,transparent 40%,#c0c0c018,transparent 60%); transform: translateX(-110%); }
+#contact :is(input,textarea):focus-visible { box-shadow: 0 0 0 3px #ffd6001f; }
+#contact .section-padding::before { content: ""; position: absolute; inset: 8% 3%; pointer-events: none; background-image: radial-gradient(circle at 19% 32%,#ffd60066 1px,transparent 2px),radial-gradient(circle at 76% 11%,#c0c0c068 1px,transparent 2px),radial-gradient(circle at 6% 73%,#ffd60066 1px,transparent 2px); }
+@media (prefers-reduced-motion: no-preference) {
+  #achievements .ui-card:hover::after { transition: transform .72s; transform: translateX(110%); }
+  .modal-trace { animation: trace-in .55s ease-out; }
+  .architectural-grid { animation: grid-drift 32s linear infinite alternate; }
+}
+@keyframes grid-drift { to { transform: translate3d(10px,7px,0); } }
+@keyframes trace-in { from { transform: scaleX(0); } }
+@media (max-width: 639px), (prefers-reduced-motion: reduce) {
+  .signal-path { width: 1.5rem; }
+  .signal-path i { transform: none !important; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-project]:hover .project-preview { transform: translateY(-2px); }
+}
+.architectural-grid::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 11% 32%, #ffd600 1px, transparent 2px),
+    radial-gradient(circle at 68% 74%, #ffd600 1px, transparent 2px),
+    radial-gradient(circle at 88% 16%, #c0c0c0 1px, transparent 2px);
+}

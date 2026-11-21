@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { cyberAudio } from '../utils/audio'
 
 export default function TiltCard({
@@ -14,13 +14,14 @@ export default function TiltCard({
   tabIndex,
   ...props
 }) {
+  const reduced = useReducedMotion()
   const cardRef = useRef(null)
   const [rotateX, setRotateX] = useState(0)
   const [rotateY, setRotateY] = useState(0)
   const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 })
 
   const handleMouseMove = (e) => {
-    if (!cardRef.current) return
+    if (reduced || e.pointerType !== 'mouse' || !cardRef.current) return
     const rect = cardRef.current.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
@@ -54,7 +55,7 @@ export default function TiltCard({
   return (
     <motion.div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
+      onPointerMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}

@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion'
+import SignalPath from './SignalPath'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll } from 'framer-motion'
 import { Users, Lightbulb, Heart, Building2, Calendar, CheckCircle2 } from 'lucide-react'
 import TiltCard from './TiltCard'
 import { cyberAudio } from '../utils/audio'
@@ -71,6 +73,9 @@ const EXPERIENCES = [
 ]
 
 export default function Experience() {
+  const timeline = useRef(null)
+  const reduced = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: timeline, offset: ['start 75%', 'end 75%'] })
   return (
     <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
       <div className="max-w-5xl mx-auto relative z-10">
@@ -84,7 +89,7 @@ export default function Experience() {
           className="mb-16"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-6 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
+            <SignalPath />
             <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
               Leadership &amp; Track Record
             </span>
@@ -95,10 +100,11 @@ export default function Experience() {
         </motion.div>
 
         {/* Timeline Conduit */}
-        <div className="relative">
+        <div ref={timeline} className="relative">
           {/* Subtle vertical silver guide */}
           <div className="absolute left-4 sm:left-6 top-4 bottom-4 w-px bg-gradient-to-b from-[#FFD600]/60 via-[#C0C0C0]/20 to-transparent hidden sm:block" />
 
+          <motion.div aria-hidden="true" style={{ scaleY: reduced ? 1 : scrollYProgress }} className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
           <div className="space-y-8 sm:space-y-11">
             {EXPERIENCES.map((exp, i) => {
               const Icon = exp.icon

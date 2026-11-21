@@ -1,3 +1,4 @@
+import SignalPath from './SignalPath'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Linkedin, Github, MapPin, CheckCircle2, AlertCircle, Mail, MessageSquare, Copy, Check, ArrowUpRight, Send, Code } from 'lucide-react'
@@ -174,7 +175,7 @@ export default function Contact() {
           className="mb-16"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-6 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
+            <SignalPath />
             <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
               Direct Inquiries &amp; Channels
             </span>

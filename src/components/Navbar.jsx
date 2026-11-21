@@ -51,7 +51,7 @@ export default function Navbar() {
     setOpen(false)
     const target = document.querySelector(href)
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' })
+      target.scrollIntoView({ behavior: 'auto' })
     }
   }
 
@@ -102,7 +102,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Links */}
-          <ul className="hidden md:flex items-center gap-1">
+          <ul className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map(({ label, href }) => {
               const id = href.slice(1)
               const isActive = active === id
@@ -166,7 +166,7 @@ export default function Navbar() {
                 cyberAudio.playClick()
                 setOpen(!open)
               }}
-              className="md:hidden p-2 text-silver-300 hover:text-white rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20"
+              className="lg:hidden p-2 text-silver-300 hover:text-white rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20"
               aria-label="Toggle menu"
               aria-expanded={open}
             >
@@ -183,7 +183,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="md:hidden mt-3 max-w-6xl mx-auto rounded-3xl bg-[#2B2E34]/98 border border-[#C0C0C0]/25 backdrop-blur-2xl p-6 pointer-events-auto shadow-[0_20px_50px_rgba(15,16,19,0.95)]"
+              className="lg:hidden mt-3 max-w-6xl mx-auto rounded-3xl bg-[#2B2E34]/98 border border-[#C0C0C0]/25 backdrop-blur-2xl p-6 pointer-events-auto shadow-[0_20px_50px_rgba(15,16,19,0.95)]"
             >
               <ul className="space-y-1 mb-4">
                 {NAV_LINKS.map(({ label, href }) => {

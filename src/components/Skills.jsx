@@ -171,15 +171,17 @@ export default function Skills() {
 
                   {/* Skills Cloud */}
                   <div className="flex flex-wrap gap-2 pt-4 border-t border-[#C0C0C0]/10">
-                    {dom.skills.map((s) => (
-                      <span
+                    {dom.skills.map((s, index) => (
+                      <motion.span
+                        initial={{ opacity: 0, y: 4 }} whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }} transition={{ delay: index * .035 }}
                         key={s.name}
                         onMouseEnter={() => cyberAudio.playHover()}
                         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2B2E34]/80 border border-[#C0C0C0]/15 text-xs text-silver-200 hover:border-[#FFD600]/40 hover:text-white transition-all select-none"
                       >
                         <span className="w-1 h-1 rounded-full bg-[#FFD600]" />
                         <span>{s.name}</span>
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </TiltCard>
