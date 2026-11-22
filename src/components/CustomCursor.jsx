@@ -1,86 +1,99 @@
 ﻿import { useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
-
-const spring = { damping: 30, stiffness: 560, mass: 0.22 }
-const eligible = '(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)'
+import { createPortal } from 'react-dom'
 
 export default function CustomCursor() {
   const layer = useRef(null)
-  const x = useMotionValue(-100)
-  const y = useMotionValue(-100)
-  const ringX = useSpring(x, spring)
-  const ringY = useSpring(y, spring)
-
   useEffect(() => {
-    const root = document.documentElement
     const cursor = layer.current
-    const media = matchMedia(eligible)
-    const particles = [...cursor.querySelectorAll('.cursor-trail')]
-    let next = 0
-    let lastTrail = 0
-
+    const root = document.documentElement
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)')
+    const ring = cursor.querySelector('.ring-anchor')
+    const core = cursor.querySelector('.core-anchor')
+    const dots = [...cursor.querySelectorAll('.cursor-trail')]
+    let x, y, rx, ry, goalX, goalY, frame, lastTrail = 0, next = 0, control
+    let mousePresent = false
+    const place = (el, a, b) => { el.style.transform = `translate3d(${a}px,${b}px,0)` }
     function hide() {
-      root.classList.remove('custom-cursor-active')
       cursor.hidden = true
+      root.classList.remove('custom-cursor-active')
+      cancelAnimationFrame(frame)
+      frame = 0
+      control?.style.removeProperty('--pull-x')
+      control?.style.removeProperty('--pull-y')
+      control = null
     }
-    function move(event) {
-      const target = event.target
-      if (!media.matches || event.pointerType !== 'mouse' || !(target instanceof Element)) return hide()
-      const control = target.closest('a, button, [role=button], [role=tab]')
-      if (target.closest('input, textarea, select, [contenteditable=true]') ||
-          (!control && target.closest('p, h1, h2, h3, label, li'))) return hide()
-      if (cursor.hidden) {
-        ringX.jump(event.clientX)
-        ringY.jump(event.clientY)
-      }
+    function paint() {
+      frame = 0
+      const ease = reduced.matches ? 1 : .38
+      rx += (goalX - rx) * ease
+      ry += (goalY - ry) * ease
+      place(ring, rx, ry)
+      place(core, x, y)
       cursor.hidden = false
       root.classList.add('custom-cursor-active')
-      cursor.dataset.mode = control?.matches('a') ? 'link' :
-        control?.hasAttribute('data-project') ? 'view' : control ? 'button' : 'default'
-      x.set(event.clientX)
-      y.set(event.clientY)
-      if (event.type === 'pointermove' && event.timeStamp - lastTrail > 46) {
-        const dot = particles[next]
-        dot.getAnimations().forEach(animation => animation.cancel())
-        dot.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`
-        dot.animate([{ opacity: 0.46 }, { opacity: 0 }], 220)
-        next = (next + 1) % particles.length
-        lastTrail = event.timeStamp
+      if (Math.abs(rx-goalX)+Math.abs(ry-goalY) > .2) frame = requestAnimationFrame(paint)
+    }
+    function update(target) {
+      if (!target || target.closest('input,textarea,select,[contenteditable=true]')) return hide()
+      const item = target.closest('a,button,[role=button],[role=tab]')
+      if (item !== control) {
+        control?.style.removeProperty('--pull-x')
+        control?.style.removeProperty('--pull-y')
+        control = item
+      }
+      const mode = item?.matches('[data-project]') ? 'view' : item?.closest('nav,header') ? 'nav' :
+        item?.matches('a') ? 'link' : item ? 'button' : target.closest('img,.portrait-stage') ? 'image' : 'default'
+      cursor.dataset.mode = mode
+      goalX = x
+      goalY = y
+      if (mode === 'button' && !reduced.matches) {
+        const b = item.getBoundingClientRect()
+        const dx = Math.max(-6, Math.min(6,(b.left+b.width/2-x)*.12))
+        const dy = Math.max(-5, Math.min(5,(b.top+b.height/2-y)*.12))
+        goalX += dx
+        goalY += dy
+        item.style.setProperty('--pull-x', dx/2+'px')
+        item.style.setProperty('--pull-y', dy/2+'px')
+      }
+      if (cursor.hidden) { rx = goalX; ry = goalY }
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+    function move(e) {
+      mousePresent = e.pointerType === 'mouse'
+      if (!mousePresent) return hide()
+      x = e.clientX
+      y = e.clientY
+      update(e.target)
+      if (!cursor.hidden && !reduced.matches && e.type === 'pointermove' && e.timeStamp-lastTrail>30) {
+        const dot = dots[next++ % dots.length]
+        place(dot,x,y)
+        dot.getAnimations().forEach(a=>a.cancel())
+        dot.animate([{opacity:.85},{opacity:0}],280)
+        lastTrail=e.timeStamp
       }
     }
-    function pulse(event) {
-      move(event)
-      if (cursor.hidden) return
-      const wave = cursor.querySelector('.cursor-pulse')
-      wave.style.translate = `${event.clientX}px ${event.clientY}px`
-      wave.getAnimations().forEach(animation => animation.cancel())
-      wave.animate([{ transform: 'scale(.35)', opacity: .8 }, { transform: 'scale(1.5)', opacity: 0 }], 300)
+    function scroll() { if (mousePresent) update(document.elementFromPoint(x,y)) }
+    function reset() { mousePresent=false; hide() }
+    function click(e) {
+      move(e)
+      if (!mousePresent || reduced.matches || e.target.closest('input,textarea,select,[contenteditable=true]')) return
+      const burst = cursor.querySelector('.cursor-burst')
+      place(burst,x,y)
+      Array.from(burst.children).forEach((el,i)=>{
+        el.getAnimations().forEach(a=>a.cancel())
+        const end = i ? `rotate(${i*120}deg) translateX(18px) scale(.4)` : 'scale(2)'
+        el.animate([{opacity:1,transform:'scale(.45)'},{opacity:0,transform:end}],400)
+      })
     }
-    document.addEventListener('pointermove', move)
-    document.addEventListener('pointerover', move)
-    document.addEventListener('pointerdown', pulse)
-    document.addEventListener('keydown', hide)
-    root.addEventListener('pointerleave', hide)
-    window.addEventListener('blur', hide)
-    media.addEventListener('change', hide)
-    return () => {
-      hide()
-      document.removeEventListener('pointermove', move)
-      document.removeEventListener('pointerover', move)
-      document.removeEventListener('pointerdown', pulse)
-      document.removeEventListener('keydown', hide)
-      root.removeEventListener('pointerleave', hide)
-      window.removeEventListener('blur', hide)
-      media.removeEventListener('change', hide)
-    }
-  }, [x, y, ringX, ringY])
-
-  return (
-    <div ref={layer} hidden aria-hidden="true" className="reactor">
-      {Array.from({length: 5}, (_, i) => <i key={i} className="cursor-trail" />)}
-      <i className="cursor-pulse" />
-      <motion.div style={{ x: ringX, y: ringY }}><i className="reticle" /><span>VIEW</span></motion.div>
-      <motion.div style={{ x, y }}><i className="cursor-core" /></motion.div>
-    </div>
-  )
+    const listeners = [[document,'pointermove',move],[document,'pointerover',move],[document,'pointerdown',click],
+      [document,'scroll',scroll],[document,'keydown',reset],[root,'pointerleave',reset],[window,'blur',reset]]
+    listeners.forEach(([el,event,fn])=>el.addEventListener(event,fn,true))
+    return () => { reset(); listeners.forEach(([el,event,fn])=>el.removeEventListener(event,fn,true)) }
+  }, [])
+  return createPortal(<div ref={layer} hidden aria-hidden="true" className="reactor">
+    {Array.from({length:5},(_,i)=><i key={i} className="cursor-trail" />)}
+    <div className="ring-anchor"><i className="reticle" /><span>VIEW</span></div>
+    <div className="core-anchor"><i className="cursor-core" /></div>
+    <div className="cursor-burst"><i className="cursor-pulse" /><i /><i /><i /></div>
+  </div>,document.body)
 }

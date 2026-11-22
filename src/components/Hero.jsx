@@ -258,7 +258,7 @@ export default function Hero() {
               <div aria-hidden="true" className="portrait-orbit" />
               <motion.div className="portrait-crop" style={{ x: portraitX, y: portraitY }}>
                 <img src="/assets/hapiz-portrait.webp" width="681" height="1024"
-                  alt="Mohammed Hapiz wearing a dark suit" fetchPriority="high" />
+                  alt="Mohammed Hapiz wearing a dark suit" fetchpriority="high" />
               </motion.div>
               <span className="portrait-label">AI &amp; Engineering</span>
               <span className="portrait-label studio-label">H&amp;N Creations</span>
