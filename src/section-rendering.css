@@ -27,3 +27,12 @@ main > section[id]:not(#home) {
   #achievements { --section-height: 1430px; }
   #contact { --section-height: 1130px; }
 }
+
+@keyframes page-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.page-scroll-progress {
+  animation: page-progress linear both;
+  animation-timeline: scroll(root block);
+}

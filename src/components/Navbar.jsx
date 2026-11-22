@@ -12,14 +12,24 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
+const progressClass = 'fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#FFD600] via-[#FFE45C] to-[#C0C0C0] origin-left z-50 pointer-events-none shadow-[0_0_10px_rgba(255,214,0,0.5)]'
+
+function LegacyPageProgress() {
+  const { scrollYProgress } = useScroll()
+  return <motion.div aria-hidden="true" className={progressClass} style={{ scaleX: scrollYProgress }} />
+}
+
+function PageProgress() {
+  if (!globalThis.CSS?.supports('animation-timeline: scroll(root block)')) return <LegacyPageProgress />
+  return <div aria-hidden="true" className={progressClass + ' page-scroll-progress'} />
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [active, setActive] = useState('home')
   const lastY = useRef(0)
-
-  const { scrollYProgress } = useScroll()
 
   useEffect(() => {
     const onScroll = () => {
@@ -58,10 +68,7 @@ export default function Navbar() {
   return (
     <>
       {/* ─── METALLIC & ELECTRIC YELLOW SCROLL PROGRESS ─── */}
-      <motion.div
-        style={{ scaleX: scrollYProgress }}
-        className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-[#FFD600] via-[#FFE45C] to-[#C0C0C0] origin-left z-50 pointer-events-none shadow-[0_0_10px_rgba(255,214,0,0.5)]"
-      />
+      <PageProgress />
 
       <motion.header
         animate={{ y: hidden ? -90 : 0 }}
