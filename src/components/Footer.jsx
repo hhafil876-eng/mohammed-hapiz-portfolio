@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Linkedin, Github, ArrowUp, Code, FileDown } from 'lucide-react'
+import { Linkedin, Github, ArrowUp, Code, FileDown, Compass } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 
 export default function Footer() {
@@ -9,14 +9,17 @@ export default function Footer() {
   }
 
   return (
-    <footer className="relative border-t border-[#C0C0C0]/15 bg-[#17191D] py-16 px-6 sm:px-12 overflow-hidden">
+    <footer className="relative border-t border-[#C0C0C0]/15 bg-[#090A0C] py-16 px-6 sm:px-12 overflow-hidden">
+      {/* Decorative Closing Eclipse Arc in Background */}
+      <div className="absolute left-1/2 bottom-0 -translate-x-1/2 w-[850px] h-[350px] rounded-t-full border-t border-[#FFD600]/10 pointer-events-none" />
+
       <div className="max-w-6xl mx-auto relative z-10">
 
         {/* Top Tier */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[#C0C0C0]/10">
           
           <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-full bg-[#FFD600] flex items-center justify-center text-[#17191D] font-bold text-xs tracking-tighter shadow-sm">
+            <div className="w-9 h-9 rounded-full bg-[#FFD600] flex items-center justify-center text-[#090A0C] font-bold text-xs tracking-tighter shadow-[0_0_12px_rgba(255,214,0,0.35)]">
               H
             </div>
 
@@ -65,7 +68,7 @@ export default function Footer() {
             onMouseEnter={() => cyberAudio.playHover()}
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all cursor-pointer shadow-sm"
+            className="w-10 h-10 rounded-full bg-[#101114] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all cursor-pointer shadow-sm"
             aria-label="Scroll to top of page"
           >
             <ArrowUp size={15} />
@@ -74,7 +77,7 @@ export default function Footer() {
 
         {/* Bottom Tier */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-silver-400">
-          <p className="font-normal text-xs text-silver-400">
+          <p className="font-normal text-xs text-silver-500 font-mono">
             © {new Date().getFullYear()} Mohammed Hapiz. Built with precision, React 18, Three.js &amp; Tailwind CSS.
           </p>
 
@@ -84,7 +87,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
+              className="w-9 h-9 rounded-full bg-[#101114] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
               aria-label="LinkedIn Profile"
               title="LinkedIn Profile"
             >
@@ -96,7 +99,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
+              className="w-9 h-9 rounded-full bg-[#101114] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
               aria-label="GitHub Profile"
               title="GitHub Profile"
             >
@@ -108,7 +111,7 @@ export default function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
+              className="w-9 h-9 rounded-full bg-[#101114] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
               aria-label="LeetCode Profile"
               title="LeetCode Profile"
             >

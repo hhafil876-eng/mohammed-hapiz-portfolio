@@ -1,14 +1,17 @@
 import { motion } from 'framer-motion'
-import { MapPin, GraduationCap, Languages, Sparkles } from 'lucide-react'
+import { MapPin, GraduationCap, Languages, Sparkles, Orbit } from 'lucide-react'
 import TiltCard from './TiltCard'
 import { cyberAudio } from '../utils/audio'
 
 export default function About() {
   return (
     <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
+      {/* Background Decorative Radial Arc */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#C0C0C0]/[0.04] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Section Header */}
+        {/* Section Header — Editorial Architecture */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -17,9 +20,9 @@ export default function About() {
           className="mb-16"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-6 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
-            <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
-              Biography &amp; Foundations
+            <span className="w-8 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
+            <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
+              Chapter 01 // The Origin &amp; Foundations
             </span>
           </div>
           <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
@@ -37,13 +40,16 @@ export default function About() {
             transition={{ duration: 0.7 }}
             className="lg:col-span-7 flex flex-col gap-6"
           >
-            {/* Identity Dossier Card */}
+            {/* Identity Dossier Card — Obsidian Stone Finish */}
             <TiltCard
               maxTilt={4}
               scale={1.01}
-              className="p-8 sm:p-10 hover:border-[#FFD600]/30"
+              className="p-8 sm:p-10 hover:border-[#FFD600]/30 relative overflow-hidden"
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFD600]/12 border border-[#FFD600]/30 text-[#FFD600] text-xs font-medium mb-7 font-mono">
+              {/* Corner Architectural Bracket Accent */}
+              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#FFD600]/40 rounded-tr-xl pointer-events-none" />
+              
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 text-[#FFD600] text-xs font-medium mb-7 font-mono">
                 <Sparkles size={13} className="text-[#FFD600]" />
                 <span>Developer · AI Specialist · Creative Technologist</span>
               </div>
@@ -67,7 +73,7 @@ export default function About() {
               <div className="flex flex-wrap gap-3 mt-9 pt-7 border-t border-[#C0C0C0]/15">
                 <div
                   onMouseEnter={() => cyberAudio.playHover()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#2B2E34]/60 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#090A0C]/70 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
                 >
                   <MapPin size={13} className="text-[#FFD600]" />
                   <span>Kundapura, Udupi, Karnataka, India</span>
@@ -75,7 +81,7 @@ export default function About() {
 
                 <div
                   onMouseEnter={() => cyberAudio.playHover()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#2B2E34]/60 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#090A0C]/70 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
                 >
                   <Languages size={13} className="text-[#FFD600]" />
                   <span>English · Hindi · Kannada</span>
@@ -83,7 +89,7 @@ export default function About() {
               </div>
             </TiltCard>
 
-            {/* Core Pillars */}
+            {/* Core Pillars — Precision Obsidian Artifacts */}
             <div className="grid sm:grid-cols-3 gap-3.5">
               {[
                 { title: 'Technical Precision', desc: 'Modern reactive architecture & robust OOP' },
@@ -94,10 +100,10 @@ export default function About() {
                   key={idx}
                   maxTilt={6}
                   scale={1.02}
-                  className="p-5 hover:border-[#FFD600]/30"
+                  className="p-5 hover:border-[#FFD600]/35 relative"
                 >
                   <div className="text-xs font-semibold text-white mb-1.5 font-display flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600] shadow-[0_0_6px_#FFD600]" />
                     <span>{p.title}</span>
                   </div>
                   <div className="text-xs text-silver-400 leading-snug">
@@ -120,7 +126,7 @@ export default function About() {
             <TiltCard
               maxTilt={4}
               scale={1.01}
-              className="p-7 sm:p-8 hover:border-[#FFD600]/30"
+              className="p-7 sm:p-8 hover:border-[#FFD600]/30 relative overflow-hidden"
             >
               <div className="flex items-center justify-between mb-7 pb-4 border-b border-[#C0C0C0]/15">
                 <div className="flex items-center gap-2 text-xs font-medium text-white tracking-wide uppercase font-mono">
@@ -156,7 +162,7 @@ export default function About() {
                     <span className="font-semibold text-sm text-white">
                       Pre-University Course (PUC)
                     </span>
-                    <span className="text-xs font-mono text-silver-200 font-semibold bg-[#2B2E34] px-2 py-0.5 rounded border border-[#C0C0C0]/15">
+                    <span className="text-xs font-mono text-silver-200 font-semibold bg-[#17191D] px-2 py-0.5 rounded border border-[#C0C0C0]/15">
                       81.0%
                     </span>
                   </div>
@@ -166,7 +172,7 @@ export default function About() {
               </div>
             </TiltCard>
 
-            {/* Vital Metrics Counters */}
+            {/* Vital Metrics Counters — Obsidian Monoliths */}
             <div className="grid grid-cols-3 gap-3">
               {[
                 { label: 'Artifacts', val: '06+', isYellow: true },
@@ -195,7 +201,7 @@ export default function About() {
             <TiltCard
               maxTilt={4}
               scale={1.01}
-              className="p-6 bg-gradient-to-br from-[#FFD600]/05 via-transparent to-transparent hover:border-[#FFD600]/30"
+              className="p-6 bg-gradient-to-br from-[#FFD600]/06 via-transparent to-transparent hover:border-[#FFD600]/30 relative"
             >
               <div className="text-[11px] tracking-wider text-[#FFD600] uppercase font-semibold mb-2 flex items-center gap-1.5 font-mono">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />

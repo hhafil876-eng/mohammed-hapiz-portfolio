@@ -1,7 +1,7 @@
 import SignalPath from './SignalPath'
 import { useState, useRef } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
-import { Layers, Gamepad2, ShieldAlert, Cpu, Camera, ArrowUpRight, Github, ExternalLink, Code2 } from 'lucide-react'
+import { Layers, Gamepad2, ShieldAlert, Cpu, Camera, ArrowUpRight, Github, ExternalLink, Code2, Sparkles, Compass } from 'lucide-react'
 import TiltCard from './TiltCard'
 import ProjectModal from './ProjectModal'
 import ProjectVisualPreview from './ProjectVisualPreview'
@@ -75,7 +75,6 @@ export const PROJECTS = [
     ],
     tech: ['JavaScript (ES6+)', 'Phaser Game Engine', 'Vite', 'HTML5 Canvas', 'CSS3'],
     github: 'https://github.com/hhafil876-eng/bladequest',
-
   },
   {
     num: '04',
@@ -120,7 +119,6 @@ export const PROJECTS = [
     tech: ['Python', 'OpenAI API', 'Prompt Engineering', 'Automation Scripts'],
     github: 'https://github.com/hhafil876-eng/portfolio',
     sourceLabel: 'Portfolio Repository',
-
   },
   {
     num: '06',
@@ -149,12 +147,12 @@ export const PROJECTS = [
 ]
 
 const CATEGORIES = [
-  { id: 'all', label: 'All Artifacts' },
-  { id: 'web', label: 'Full-Stack & Web' },
-  { id: 'ai', label: 'Generative AI' },
-  { id: 'games', label: 'Game Engines' },
-  { id: 'cyber', label: 'Cyber Defense' },
-  { id: 'media', label: 'Creative Media' },
+  { id: 'all', label: 'All Artifacts', code: '00' },
+  { id: 'web', label: 'Full-Stack & Web', code: '01' },
+  { id: 'ai', label: 'Generative AI', code: '02' },
+  { id: 'games', label: 'Game Engines', code: '03' },
+  { id: 'cyber', label: 'Cyber Defense', code: '04' },
+  { id: 'media', label: 'Creative Media', code: '05' },
 ]
 
 export default function Projects() {
@@ -177,9 +175,12 @@ export default function Projects() {
 
   return (
     <div ref={sectionRef} className="section-padding relative px-6 sm:px-12 overflow-hidden">
+      {/* Background Subtle Vault Orbit Pattern */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] rounded-full border border-[#C0C0C0]/[0.03] pointer-events-none" />
+
       <div className="max-w-6xl mx-auto relative z-10">
 
-        {/* Section Header */}
+        {/* Section Header — The Artifact Vault */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -190,8 +191,8 @@ export default function Projects() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <SignalPath />
-              <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
-                Featured Engineering Portfolio
+              <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
+                System 03 // The Artifact Vault
               </span>
             </div>
             <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
@@ -199,14 +200,14 @@ export default function Projects() {
             </h2>
           </div>
 
-          <div className="text-xs text-silver-400 font-mono flex items-center gap-2 bg-[#2B2E34]/80 border border-[#C0C0C0]/15 px-4 py-2 rounded-full shadow-sm">
+          <div className="text-xs text-silver-400 font-mono flex items-center gap-2 bg-[#101114]/90 border border-[#C0C0C0]/15 px-4 py-2 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.6)]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600] shadow-[0_0_8px_#FFD600]" />
-            <span className="text-silver-400">INDEX:</span>
+            <span className="text-silver-500">VAULT:</span>
             <span className="text-silver-100 font-semibold">{PROJECTS.length} VERIFIED SYSTEMS</span>
           </div>
         </motion.div>
 
-        {/* Category Filters */}
+        {/* Category Frequency Filters */}
         <div className="flex flex-wrap items-center gap-2 mb-6" role="tablist" aria-label="Project Categories">
           {CATEGORIES.map((cat) => {
             const isActive = filter === cat.id
@@ -220,34 +221,38 @@ export default function Projects() {
                   setFilter(cat.id)
                 }}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className={`relative px-4 py-2 rounded-full text-xs tracking-wide transition-all cursor-pointer select-none ${
+                className={`relative px-4 py-2 rounded-full text-xs tracking-wide transition-all cursor-pointer select-none font-medium ${
                   isActive
-                    ? 'text-[#17191D] font-semibold'
-                    : 'bg-[#2B2E34]/60 border border-[#C0C0C0]/15 text-silver-400 hover:text-white hover:border-[#FFD600]/40'
+                    ? 'text-[#090A0C] font-semibold'
+                    : 'bg-[#101114]/80 border border-[#C0C0C0]/15 text-silver-400 hover:text-white hover:border-[#FFD600]/40'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId={enableLayout ? 'activeProjectFilter' : undefined}
                     transition={{ type: 'spring', damping: 28, stiffness: 350 }}
-                    className="absolute inset-0 bg-[#FFD600] rounded-full shadow-[0_2px_15px_rgba(255,214,0,0.35)]"
+                    className="absolute inset-0 bg-[#FFD600] rounded-full shadow-[0_2px_16px_rgba(255,214,0,0.35)]"
                   />
                 )}
-                <span className="relative z-10">{cat.label}</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  <span className={`text-[9px] font-mono ${isActive ? 'text-[#090A0C]/70' : 'text-silver-600'}`}>[{cat.code}]</span>
+                  <span>{cat.label}</span>
+                </span>
               </button>
             )
           })}
         </div>
 
-        {/* Verification & Transparency Banner */}
-        <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#2B2E34]/70 border border-[#C0C0C0]/15 mb-8 text-[11px] text-silver-400 shadow-sm">
-          <ShieldAlert size={14} className="text-[#FFD600] flex-shrink-0" />
+        {/* Verification & Transparency Telemetry Bar */}
+        <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#101114]/80 border border-[#C0C0C0]/15 mb-8 text-[11px] text-silver-400 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-[#FFD600]" />
+          <ShieldAlert size={14} className="text-[#FFD600] flex-shrink-0 ml-1" />
           <span>
             <strong className="text-silver-100 font-medium">Verifiable Artifacts:</strong> Cards feature simulated UI architectural telemetry. Launch live execution via <span className="text-[#FFD600] font-mono">Live Demo</span> or inspect verified public <span className="text-[#FFD600] font-mono">GitHub</span> repositories.
           </span>
         </div>
 
-        {/* 3D Works Grid */}
+        {/* 3D Vault Grid */}
         <motion.div layout={enableLayout} className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
           <AnimatePresence>
             {filteredProjects.map((proj, i) => {
@@ -275,22 +280,25 @@ export default function Projects() {
                       }
                     }}
                     onClick={(e) => handleOpenModal(proj, e.currentTarget)}
-                    className="p-7 sm:p-8 h-full flex flex-col justify-between group cursor-pointer hover:border-[#FFD600]/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD600]"
+                    className="p-7 sm:p-8 h-full flex flex-col justify-between group cursor-pointer hover:border-[#FFD600]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFD600] relative overflow-hidden"
                   >
+                    {/* Corner Architectural Bracket Accent */}
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-[#FFD600]/30 rounded-tr-lg group-hover:border-[#FFD600] transition-colors pointer-events-none" />
+
                     <div>
                       {/* Top Header */}
                       <div className="flex items-center justify-between mb-5">
                         <span className="text-xs font-mono text-silver-500 group-hover:text-[#FFD600] transition-colors">
-                          // {proj.num}
+                          // VAULT {proj.num}
                         </span>
 
                         <div className="flex items-center gap-2">
                           {proj.isPrototype && (
-                            <span className="text-[10px] tracking-wider uppercase font-medium px-2.5 py-0.5 rounded-full bg-[#343840] border border-[#C0C0C0]/20 text-silver-300">
+                            <span className="text-[10px] tracking-wider uppercase font-medium px-2.5 py-0.5 rounded-full bg-[#17191D] border border-[#C0C0C0]/20 text-silver-400">
                               Prototype
                             </span>
                           )}
-                          <span className="text-[10px] tracking-wider uppercase font-medium px-3 py-1 rounded-full bg-[#FFD600]/12 border border-[#FFD600]/30 text-[#FFD600]">
+                          <span className="text-[10px] tracking-wider uppercase font-medium px-3 py-1 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 text-[#FFD600]">
                             {proj.badge}
                           </span>
                         </div>
@@ -336,13 +344,13 @@ export default function Projects() {
                         {proj.tech.slice(0, 3).map((t) => (
                           <span
                             key={t}
-                            className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/15 text-silver-300"
+                            className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#090A0C] border border-[#C0C0C0]/15 text-silver-300"
                           >
                             {t}
                           </span>
                         ))}
                         {proj.tech.length > 3 && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#17191D]/60 text-silver-500">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#090A0C]/60 text-silver-500 font-mono">
                             +{proj.tech.length - 3}
                           </span>
                         )}
@@ -350,7 +358,7 @@ export default function Projects() {
 
                       <div className="flex items-center justify-between pt-4 border-t border-[#C0C0C0]/15">
                         <span className="text-xs font-medium text-silver-200 flex items-center gap-1 group-hover:text-[#FFD600] group-hover:translate-x-0.5 transition-all">
-                          <span>View Case Study</span>
+                          <span>Inspect Vault Item</span>
                           <ArrowUpRight size={14} className="text-[#FFD600]" />
                         </span>
 
@@ -363,7 +371,7 @@ export default function Projects() {
                               rel="noopener noreferrer"
                               aria-label={`${proj.sourceLabel || 'GitHub Repository'} for ${proj.title}`}
                               onClick={() => cyberAudio.playClick()}
-                              className="w-7 h-7 rounded-lg bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] flex items-center justify-center text-silver-400 hover:text-white transition-all"
+                              className="w-7 h-7 rounded-lg bg-[#090A0C] border border-[#C0C0C0]/20 hover:border-[#FFD600] flex items-center justify-center text-silver-400 hover:text-white transition-all shadow-sm"
                               title={proj.sourceLabel || 'GitHub Repository'}
                             >
                               <Github size={13} />
@@ -377,7 +385,7 @@ export default function Projects() {
                               rel="noopener noreferrer"
                               aria-label={`${proj.demoLabel || 'Live Demo or Preview'} for ${proj.title}`}
                               onClick={() => cyberAudio.playClick()}
-                              className="w-7 h-7 rounded-lg bg-[#FFD600]/15 border border-[#FFD600]/30 hover:border-[#FFD600] hover:bg-[#FFD600]/25 flex items-center justify-center text-[#FFD600] transition-all"
+                              className="w-7 h-7 rounded-lg bg-[#FFD600]/15 border border-[#FFD600]/35 hover:border-[#FFD600] hover:bg-[#FFD600]/25 flex items-center justify-center text-[#FFD600] transition-all shadow-sm"
                               title={proj.demoLabel || 'Live Demo or Preview'}
                             >
                               <ExternalLink size={13} />

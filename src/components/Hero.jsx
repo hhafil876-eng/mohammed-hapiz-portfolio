@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView, useReducedMotion, useMotionValue, useSpring, useTransform } from 'framer-motion'
-import { ArrowUpRight, Copy, Check, FileDown } from 'lucide-react'
+import { ArrowUpRight, Copy, Check, FileDown, Compass } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 import { heroEntrance } from '../utils/motionVariants'
 
@@ -100,13 +100,31 @@ export default function Hero() {
       onPointerLeave={handleMouseLeave}
       className="hero-scene relative min-h-[96vh] flex items-center justify-center pt-32 pb-20 px-6 sm:px-12 overflow-hidden"
     >
-      {/* Background Soft Studio Ambiance with Yellow & Silver Accents */}
+      {/* ─── 1. CELESTIAL ECLIPSE BACKGROUND COMPOSITION ─── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Soft Volumetric Eclipse Corona Glow */}
         <motion.div
           style={{ x: bgGlowX, y: bgGlowY }}
-          className="absolute right-1/4 top-1/4 w-[480px] sm:w-[640px] h-[480px] sm:h-[640px] rounded-full bg-gradient-to-tr from-[#FFD600]/10 via-[#FFD600]/05 to-transparent blur-[120px] animate-aura-pulse"
+          className="absolute right-1/4 top-1/4 w-[520px] sm:w-[680px] h-[520px] sm:h-[680px] rounded-full bg-gradient-to-tr from-[#FFD600]/10 via-[#B99A00]/05 to-transparent blur-[130px] animate-eclipse-pulse"
         />
-        <div className="absolute left-1/4 bottom-1/4 w-[400px] sm:w-[540px] h-[400px] sm:h-[540px] rounded-full bg-gradient-to-br from-[#C0C0C0]/08 via-[#343840]/20 to-transparent blur-[130px]" />
+        <div className="absolute left-1/4 bottom-1/4 w-[420px] sm:w-[560px] h-[420px] sm:h-[560px] rounded-full bg-gradient-to-br from-[#C0C0C0]/07 via-[#17191D]/30 to-transparent blur-[140px]" />
+
+        {/* Large Decorative Orbital Arcs Behind Hero */}
+        <svg
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[980px] h-[980px] pointer-events-none opacity-[0.16] animate-orbit-slow"
+          viewBox="0 0 1000 1000"
+          fill="none"
+        >
+          <circle cx="500" cy="500" r="480" stroke="#C0C0C0" strokeWidth="1" strokeDasharray="4 8" />
+          <circle cx="500" cy="500" r="420" stroke="#C0C0C0" strokeWidth="1" />
+          <circle cx="500" cy="500" r="350" stroke="#FFD600" strokeWidth="1.5" strokeDasharray="60 300" />
+          <circle cx="500" cy="500" r="280" stroke="#C0C0C0" strokeWidth="1" strokeDasharray="1 12" />
+          {/* Celestial Cardinal Coordinate Ticks */}
+          <line x1="500" y1="10" x2="500" y2="30" stroke="#FFD600" strokeWidth="2" />
+          <line x1="500" y1="970" x2="500" y2="990" stroke="#FFD600" strokeWidth="2" />
+          <line x1="10" y1="500" x2="30" y2="500" stroke="#C0C0C0" strokeWidth="2" />
+          <line x1="970" y1="500" x2="990" y2="500" stroke="#C0C0C0" strokeWidth="2" />
+        </svg>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
@@ -120,21 +138,21 @@ export default function Hero() {
             custom={0}
             className="hero-copy lg:col-span-7 flex flex-col items-start text-left"
           >
-            {/* Status Indicator */}
+            {/* Celestial Telemetry Status Indicator */}
             <div
               onMouseEnter={() => cyberAudio.playHover()}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#2B2E34]/80 border border-[#C0C0C0]/20 backdrop-blur-xl mb-7 shadow-sm"
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#101114]/90 border border-[#C0C0C0]/20 backdrop-blur-xl mb-7 shadow-sm"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FFD600] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FFD600] shadow-[0_0_8px_#FFD600]" />
               </span>
-              <span className="text-[11px] font-medium tracking-[0.16em] text-silver-300 uppercase font-mono">
-                Available for Roles &amp; <span className="text-[#FFD600] font-semibold">Strategic Engineering</span>
+              <span className="text-[11px] font-medium tracking-[0.18em] text-silver-300 uppercase font-mono">
+                Observatory 00 // <span className="text-[#FFD600] font-semibold">Strategic Engineering</span>
               </span>
             </div>
 
-            {/* Main Name Heading */}
+            {/* Main Name Heading with Obsidian Architectural Typography */}
             <div className="relative mb-5">
               <h1 aria-label="Mohammed Hapiz" className="font-display font-extrabold text-5xl sm:text-7xl md:text-8xl tracking-tight leading-[1.02] text-white">
                 <span aria-hidden="true" className="name-line"><span>Mohammed</span></span>
@@ -162,12 +180,12 @@ export default function Hero() {
               applications, integrating generative AI pipelines, and directing high-fidelity visual media.
             </p>
 
-            {/* Action Controls */}
+            {/* Action Controls - Obsidian Artifacts */}
             <div className="flex flex-wrap items-center gap-3 mb-10 w-full sm:w-auto">
               <button
                 onClick={() => goto('#projects')}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className="ui-btn-primary px-7 py-3.5 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wide uppercase cursor-pointer group"
+                className="ui-btn-primary px-7 py-3.5 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase cursor-pointer group shadow-[0_4px_20px_rgba(255,214,0,0.28)]"
               >
                 <span>Selected Works</span>
                 <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -176,7 +194,7 @@ export default function Hero() {
               <button
                 onClick={() => goto('#contact')}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className="ui-btn-secondary px-6 py-3.5 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wide uppercase cursor-pointer"
+                className="ui-btn-secondary px-6 py-3.5 flex items-center justify-center gap-2 text-xs sm:text-sm tracking-wider uppercase cursor-pointer"
               >
                 <span>Initiate Inquiry</span>
               </button>
@@ -188,7 +206,7 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 onClick={() => cyberAudio.playClick()}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className="px-5 py-3.5 rounded-xl bg-[#2B2E34]/80 border border-[#C0C0C0]/25 hover:border-[#FFD600] text-silver-200 hover:text-white flex items-center justify-center gap-2 text-xs tracking-wider uppercase font-semibold transition-all cursor-pointer shadow-sm group"
+                className="px-5 py-3.5 rounded-xl bg-[#101114]/90 border border-[#C0C0C0]/25 hover:border-[#FFD600] text-silver-200 hover:text-white flex items-center justify-center gap-2 text-xs tracking-wider uppercase font-semibold transition-all cursor-pointer shadow-sm group"
                 title="Download Mohammed Hapiz Official Resume"
               >
                 <FileDown size={15} className="text-[#FFD600] group-hover:scale-110 transition-transform" />
@@ -198,7 +216,7 @@ export default function Hero() {
               <button
                 onClick={copyEmail}
                 onMouseEnter={() => cyberAudio.playHover()}
-                className="px-4 py-3.5 rounded-xl bg-[#2B2E34]/60 border border-[#C0C0C0]/15 hover:border-[#FFD600]/50 text-silver-300 hover:text-white flex items-center gap-2 text-xs font-mono transition-all cursor-pointer"
+                className="px-4 py-3.5 rounded-xl bg-[#101114]/70 border border-[#C0C0C0]/15 hover:border-[#FFD600]/50 text-silver-300 hover:text-white flex items-center gap-2 text-xs font-mono transition-all cursor-pointer"
                 title="Copy email to clipboard"
               >
                 {copied ? (
@@ -215,8 +233,9 @@ export default function Hero() {
               </button>
             </div>
 
-            {/* Verified Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full max-w-xl p-4 rounded-2xl bg-[#2B2E34]/80 border border-[#C0C0C0]/15 backdrop-blur-xl shadow-sm">
+            {/* Verified Metrics Tablet — Obsidian Stone Framing */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full max-w-xl p-4 rounded-2xl bg-[#101114]/90 border border-[#C0C0C0]/15 backdrop-blur-xl shadow-[0_12px_30px_rgba(0,0,0,0.8)] relative">
+              <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-[#FFD600]/30 to-transparent" />
               {[
                 { label: 'Academic Rigor', val: '7.6 CGPA', sub: 'MIT Kundapura (VTU)', isYellow: true },
                 { label: 'Creative Media', val: '3+ Years', sub: 'Production & Direction', isYellow: false },
@@ -245,7 +264,7 @@ export default function Hero() {
 
           </motion.div>
 
-          {/* ================= RIGHT COLUMN: PORTRAIT SHOWCASE (5 Cols) ================= */}
+          {/* ================= RIGHT COLUMN: CELESTIAL ECLIPSE PORTRAIT (5 Cols) ================= */}
           <motion.div
             variants={heroEntrance}
             initial="hidden"
@@ -254,13 +273,41 @@ export default function Hero() {
             style={{ rotateX, rotateY }}
             className="lg:col-span-5 relative flex items-center justify-center perspective-[1200px] select-none"
           >
-            <div className="portrait-stage">
+            {/* The Celestial Eclipse Orbit Apparatus */}
+            <div className="portrait-stage relative flex items-center justify-center">
+              {/* Concentric Rotating Astrolabe Rings */}
               <div aria-hidden="true" className="portrait-orbit" />
+              
+              {/* Outer Celestial Compass Marking Ring */}
+              <div
+                aria-hidden="true"
+                className="absolute inset-[-8%] rounded-full border border-[#C0C0C0]/10 pointer-events-none animate-orbit-slow"
+                style={{
+                  background: 'radial-gradient(circle, transparent 65%, rgba(255,214,0,0.02) 100%)',
+                }}
+              >
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[#FFD600] tracking-widest">N 00°</span>
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 text-[9px] font-mono text-silver-500 tracking-widest">S 180°</span>
+                <span className="absolute top-1/2 left-0 -translate-y-1/2 text-[9px] font-mono text-silver-500 tracking-widest">W 270°</span>
+                <span className="absolute top-1/2 right-0 -translate-y-1/2 text-[9px] font-mono text-silver-500 tracking-widest">E 090°</span>
+              </div>
+
+              {/* Studio Portrait Integration */}
               <motion.div className="portrait-crop" style={{ x: portraitX, y: portraitY }}>
-                <img src="/assets/hapiz-portrait.webp" width="681" height="1024"
-                  alt="Mohammed Hapiz wearing a dark suit" fetchpriority="high" />
+                <img
+                  src="/assets/hapiz-portrait.webp"
+                  width="681"
+                  height="1024"
+                  alt="Mohammed Hapiz wearing a dark suit"
+                  fetchpriority="high"
+                />
               </motion.div>
-              <span className="portrait-label">AI &amp; Engineering</span>
+
+              {/* Architectural Celestial Coordinate Badges */}
+              <span className="portrait-label">
+                <Compass size={11} className="inline mr-1 text-[#FFD600]" />
+                AI &amp; Engineering
+              </span>
               <span className="portrait-label studio-label">H&amp;N Creations</span>
             </div>
           </motion.div>

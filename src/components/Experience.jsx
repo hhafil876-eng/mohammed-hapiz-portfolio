@@ -1,12 +1,13 @@
 import SignalPath from './SignalPath'
 import { useRef } from 'react'
 import { motion, useInView, useReducedMotion, useScroll } from 'framer-motion'
-import { Users, Lightbulb, Heart, Building2, Calendar, CheckCircle2 } from 'lucide-react'
+import { Users, Lightbulb, Heart, Building2, Calendar, CheckCircle2, Orbit } from 'lucide-react'
 import TiltCard from './TiltCard'
 import { cyberAudio } from '../utils/audio'
 
 const EXPERIENCES = [
   {
+    station: 'STATION 01',
     role: 'Founder & Creative Lead',
     org: 'H&N Creations',
     type: 'Commercial Creative Studio',
@@ -23,6 +24,7 @@ const EXPERIENCES = [
     skills: ['Creative Direction', 'Cinematography', 'Video Editing', 'Brand Identity', 'Media Production'],
   },
   {
+    station: 'STATION 02',
     role: 'Core Media Lead · 3 Years',
     org: 'MIT Kundapura Media Club',
     type: 'Institutional Media Operations',
@@ -39,6 +41,7 @@ const EXPERIENCES = [
     skills: ['Content Strategy', 'Live Event Cinematography', 'Social Media Strategy', 'Editing Workflows'],
   },
   {
+    station: 'STATION 03',
     role: 'Active Member & Media Director',
     org: 'Udyam X — Entrepreneurship Cell',
     type: 'Incubation & Student Venture',
@@ -55,6 +58,7 @@ const EXPERIENCES = [
     skills: ['Ideathons', 'Brand Design', 'Event Publicity', 'Entrepreneurial Strategy'],
   },
   {
+    station: 'STATION 04',
     role: 'Technology Educator & Volunteer',
     org: 'Panchayat Community Initiative',
     type: 'Community Impact',
@@ -75,7 +79,7 @@ const EXPERIENCES = [
 function TimelineProgress({ timeline }) {
   const { scrollYProgress } = useScroll({ target: timeline, offset: ['start 75%', 'end 75%'] })
   return (
-    <motion.div aria-hidden="true" style={{ scaleY: scrollYProgress }} className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
+    <motion.div aria-hidden="true" style={{ scaleY: scrollYProgress }} className="absolute left-6 top-4 bottom-4 origin-top w-px bg-gradient-to-b from-[#FFD600] via-[#FFE45C] to-[#C0C0C0] hidden sm:block shadow-[0_0_8px_#FFD600]" />
   )
 }
 
@@ -83,11 +87,15 @@ export default function Experience() {
   const timeline = useRef(null)
   const reduced = useReducedMotion()
   const nearby = useInView(timeline, { margin: '600px' })
+
   return (
     <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
+      {/* Background Subtle Ascension Geometry */}
+      <div className="absolute right-10 top-1/4 w-[500px] h-[500px] rounded-full border border-[#C0C0C0]/[0.03] pointer-events-none" />
+
       <div className="max-w-5xl mx-auto relative z-10">
 
-        {/* Section Header */}
+        {/* Section Header — The Ascension Path */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -97,8 +105,8 @@ export default function Experience() {
         >
           <div className="flex items-center gap-2 mb-3">
             <SignalPath />
-            <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
-              Leadership &amp; Track Record
+            <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
+              System 04 // The Ascension Path
             </span>
           </div>
           <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
@@ -114,6 +122,7 @@ export default function Experience() {
           {reduced ? (
             <div aria-hidden="true" className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
           ) : nearby && <TimelineProgress timeline={timeline} />}
+          
           <div className="space-y-8 sm:space-y-11">
             {EXPERIENCES.map((exp, i) => {
               const Icon = exp.icon
@@ -127,26 +136,30 @@ export default function Experience() {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative sm:pl-16 group"
                 >
-                  {/* Subtle Node Pin with Yellow Accent */}
-                  <div className="hidden sm:flex absolute left-4 sm:left-6 top-9 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#17191D] border border-[#FFD600] items-center justify-center z-20 group-hover:scale-125 shadow-[0_0_8px_#FFD600] transition-all">
+                  {/* Celestial Node Pin with Orbital Ring */}
+                  <div className="hidden sm:flex absolute left-4 sm:left-6 top-9 -translate-x-1/2 w-4 h-4 rounded-full bg-[#090A0C] border border-[#FFD600] items-center justify-center z-20 group-hover:scale-125 shadow-[0_0_10px_#FFD600] transition-all">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
+                    <div className="absolute -inset-1 rounded-full border border-[#FFD600]/25 animate-pulse" />
                   </div>
 
-                  {/* 3D Experience Card */}
+                  {/* 3D Obsidian Experience Card */}
                   <TiltCard
                     maxTilt={4}
                     scale={1.01}
-                    className="p-8 sm:p-9 hover:border-[#FFD600]/30"
+                    className="p-8 sm:p-9 hover:border-[#FFD600]/35 relative overflow-hidden"
                   >
+                    {/* Corner Accent */}
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-[#FFD600]/30 rounded-tr-lg pointer-events-none" />
+
                     {/* Header Row */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                       <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-2xl bg-[#2B2E34] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] flex-shrink-0 shadow-sm">
+                        <div className="w-10 h-10 rounded-2xl bg-[#090A0C] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] flex-shrink-0 shadow-sm group-hover:border-[#FFD600]/40 transition-colors">
                           <Icon size={18} />
                         </div>
                         <div>
                           <span className="text-[10px] tracking-wider text-[#FFD600] uppercase font-mono block">
-                            {exp.type}
+                            {exp.station} // {exp.type}
                           </span>
                           <h3 className="font-display font-bold text-lg sm:text-xl text-white">
                             {exp.org}
@@ -155,7 +168,7 @@ export default function Experience() {
                       </div>
 
                       <div className="flex items-center gap-2 self-start sm:self-auto">
-                        <span className="text-xs font-mono text-silver-300 bg-[#2B2E34] px-3 py-1 rounded-full border border-[#C0C0C0]/20 flex items-center gap-1.5">
+                        <span className="text-xs font-mono text-silver-300 bg-[#090A0C] px-3 py-1 rounded-full border border-[#C0C0C0]/20 flex items-center gap-1.5">
                           <Calendar size={11} className="text-[#FFD600]" />
                           {exp.timeframe}
                         </span>
@@ -190,7 +203,7 @@ export default function Experience() {
                         <span
                           key={s}
                           onMouseEnter={() => cyberAudio.playHover()}
-                          className="text-xs px-3 py-1 rounded-full bg-[#2B2E34]/70 border border-[#C0C0C0]/15 text-silver-300 hover:border-[#FFD600]/40 hover:text-white transition-colors select-none"
+                          className="text-xs px-3 py-1 rounded-full bg-[#090A0C]/70 border border-[#C0C0C0]/15 text-silver-300 hover:border-[#FFD600]/40 hover:text-white transition-colors select-none font-mono text-[11px]"
                         >
                           {s}
                         </span>
