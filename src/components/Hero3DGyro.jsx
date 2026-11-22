@@ -5,7 +5,6 @@ import * as THREE from 'three'
 // ─── SAFE WEBGL COMPATIBILITY DETECTOR ───
 function isWebGLAvailable() {
   if (typeof window === 'undefined') return false
-  // Explicit testing flag to simulate WebGL-disabled browser environments
   if (
     window.location.search.includes('no-webgl') ||
     window.location.search.includes('disable-webgl') ||
@@ -25,7 +24,7 @@ function isWebGLAvailable() {
   }
 }
 
-// ─── LUXURY SVG/CSS GYROSCOPE FALLBACK (Zero WebGL Required) ───
+// ─── PREMIUM METALLIC & YELLOW CSS/SVG GYROSCOPE FALLBACK (Zero WebGL Required) ───
 function FallbackGyro({ mouseX, mouseY }) {
   const springConfig = { damping: 25, stiffness: 120 }
   const rotX = useSpring(useTransform(mouseY || { get: () => 0 }, [-0.5, 0.5], [12, -12]), springConfig)
@@ -37,61 +36,61 @@ function FallbackGyro({ mouseX, mouseY }) {
         style={{ rotateX: rotX, rotateY: rotY }}
         className="relative w-[340px] h-[340px] sm:w-[380px] sm:h-[380px] flex items-center justify-center"
       >
-        {/* Soft Ambient Core Glow */}
-        <div className="absolute w-44 h-44 rounded-full bg-lime-400/15 blur-2xl animate-pulse" />
+        {/* Soft Ambient Core Glow in Electric Yellow */}
+        <div className="absolute w-44 h-44 rounded-full bg-[#FFD600]/12 blur-2xl animate-pulse" />
 
-        {/* Ring 1: Outer Platinum Ring (CSS 3D Rotating) */}
+        {/* Ring 1: Outer Metallic Silver Ring */}
         <div
-          className="absolute inset-2 sm:inset-4 rounded-full border border-slate-200/30 shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+          className="absolute inset-2 sm:inset-4 rounded-full border border-[#C0C0C0]/30 shadow-[0_0_15px_rgba(192,192,192,0.1)]"
           style={{
-            animation: 'spin 22s linear infinite',
+            animation: 'spin 24s linear infinite',
             transform: 'rotateX(65deg) rotateY(20deg)',
           }}
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#E5E7EB] shadow-[0_0_8px_#ffffff]" />
         </div>
 
-        {/* Ring 2: Middle Sapphire Ring (Counter-rotating) */}
+        {/* Ring 2: Middle Platinum Ring (Counter-rotating) */}
         <div
-          className="absolute inset-8 sm:inset-10 rounded-full border border-sky-400/35 border-dashed shadow-[0_0_15px_rgba(56,189,248,0.2)]"
+          className="absolute inset-8 sm:inset-10 rounded-full border border-silver-400/35 border-dashed shadow-[0_0_15px_rgba(229,231,235,0.15)]"
           style={{
-            animation: 'spin-reverse 16s linear infinite',
+            animation: 'spin-reverse 18s linear infinite',
             transform: 'rotateY(60deg) rotateX(25deg)',
           }}
         >
-          <div className="absolute bottom-0 right-1/4 w-2 h-2 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]" />
+          <div className="absolute bottom-0 right-1/4 w-2 h-2 rounded-full bg-[#C0C0C0] shadow-[0_0_8px_#C0C0C0]" />
         </div>
 
-        {/* Ring 3: Inner High-Tech Electric Lime Ring */}
+        {/* Ring 3: Inner High-Tech Electric Yellow Ring */}
         <div
-          className="absolute inset-16 sm:inset-18 rounded-full border border-lime-400/50 shadow-[0_0_20px_rgba(163,230,53,0.3)]"
+          className="absolute inset-16 sm:inset-18 rounded-full border border-[#FFD600]/55 shadow-[0_0_20px_rgba(255,214,0,0.3)]"
           style={{
-            animation: 'spin 11s linear infinite',
+            animation: 'spin 12s linear infinite',
             transform: 'rotateX(45deg) rotateZ(35deg)',
           }}
         >
-          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-lime-400 shadow-[0_0_10px_#a3e635]" />
-          <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-lime-300 shadow-[0_0_8px_#a3e635]" />
+          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#FFD600] shadow-[0_0_10px_#FFD600]" />
+          <div className="absolute bottom-2 left-2 w-1.5 h-1.5 rounded-full bg-[#FFE45C] shadow-[0_0_8px_#FFD600]" />
         </div>
 
-        {/* Geometric Quantum Core (SVG Diamond / Icosahedron) */}
-        <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center animate-bounce-slow">
-          <svg viewBox="0 0 100 100" className="w-full h-full text-lime-400 filter drop-shadow-[0_0_12px_rgba(163,230,53,0.6)]">
+        {/* Geometric Quantum Core in Electric Yellow */}
+        <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center">
+          <svg viewBox="0 0 100 100" className="w-full h-full text-[#FFD600] filter drop-shadow-[0_0_12px_rgba(255,214,0,0.5)]">
             <polygon
               points="50,5 90,30 90,70 50,95 10,70 10,30"
-              fill="rgba(163, 230, 53, 0.08)"
+              fill="rgba(255, 214, 0, 0.08)"
               stroke="currentColor"
               strokeWidth="1.8"
             />
             <polygon
               points="50,20 80,50 50,80 20,50"
-              fill="rgba(56, 189, 248, 0.08)"
-              stroke="#38bdf8"
+              fill="rgba(192, 192, 192, 0.08)"
+              stroke="#C0C0C0"
               strokeWidth="1.2"
               strokeDasharray="4 2"
             />
-            <circle cx="50" cy="50" r="4" fill="#ffffff" className="animate-ping" />
-            <circle cx="50" cy="50" r="3" fill="#a3e635" />
+            <circle cx="50" cy="50" r="4" fill="#FFFFFF" className="animate-ping" />
+            <circle cx="50" cy="50" r="3" fill="#FFD600" />
           </svg>
         </div>
       </motion.div>
@@ -143,20 +142,20 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
       // WebGL Context Loss Safeguard
       renderer.domElement.addEventListener('webglcontextlost', (e) => {
         e.preventDefault()
-        console.warn('WebGL Context Lost: Gracefully switching to luxury fallback.')
+        console.warn('WebGL Context Lost: Gracefully switching to metallic fallback.')
         setHasWebGL(false)
       })
 
       mount.appendChild(renderer.domElement)
 
-      // ─── LUXURY MECHANICAL GYRO RINGS (Platinum, Ice Sapphire & Lime Green) ───
+      // ─── MECHANICAL GYRO RINGS (Silver, Platinum & Electric Yellow) ───
       const group = new THREE.Group()
       scene.add(group)
 
-      // Ring 1: Outer Platinum Ring
+      // Ring 1: Outer Metallic Silver Ring
       ring1Geo = new THREE.TorusGeometry(8.6, 0.025, 16, 120)
       ring1Mat = new THREE.MeshBasicMaterial({
-        color: 0xf8fafc,
+        color: 0xC0C0C0,
         transparent: true,
         opacity: 0.35,
         wireframe: true,
@@ -164,10 +163,10 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
       const ring1 = new THREE.Mesh(ring1Geo, ring1Mat)
       group.add(ring1)
 
-      // Ring 2: Middle Ice Sapphire Ring
+      // Ring 2: Middle Platinum Ring
       ring2Geo = new THREE.TorusGeometry(6.9, 0.02, 16, 100)
       ring2Mat = new THREE.MeshBasicMaterial({
-        color: 0x38bdf8,
+        color: 0xE5E7EB,
         transparent: true,
         opacity: 0.28,
         wireframe: true,
@@ -175,12 +174,12 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
       const ring2 = new THREE.Mesh(ring2Geo, ring2Mat)
       group.add(ring2)
 
-      // Ring 3: Inner High-Tech Ring (Electric Lime Green)
+      // Ring 3: Inner High-Tech Ring (Electric Yellow)
       ring3Geo = new THREE.TorusGeometry(5.2, 0.022, 16, 80)
       ring3Mat = new THREE.MeshBasicMaterial({
-        color: 0xa3e635,
+        color: 0xFFD600,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.65,
         wireframe: true,
       })
       const ring3 = new THREE.Mesh(ring3Geo, ring3Mat)
@@ -189,7 +188,7 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
       // Central Floating Quantum Core
       icoGeo = new THREE.IcosahedronGeometry(1.6, 1)
       icoMat = new THREE.MeshBasicMaterial({
-        color: 0xa3e635,
+        color: 0xFFD600,
         wireframe: true,
         transparent: true,
         opacity: 0.45,
@@ -200,7 +199,7 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
       // Orbiting Satellite Nodes
       const nodeCount = 5
       nodeGeo = new THREE.SphereGeometry(0.12, 12, 12)
-      nodeMat = new THREE.MeshBasicMaterial({ color: 0xffffff })
+      nodeMat = new THREE.MeshBasicMaterial({ color: 0xFFFFFF })
       const nodes = []
 
       for (let k = 0; k < nodeCount; k++) {
@@ -235,84 +234,73 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
         if (isPaused || !renderer) return
         animationId = requestAnimationFrame(animate)
 
-        angle += 0.006
+        if (!prefersReducedMotion) {
+          angle += 0.006
 
-        ring1.rotation.x = angle * 0.8
-        ring1.rotation.y = angle * 0.5
+          ring1.rotation.x = angle * 0.8
+          ring1.rotation.y = angle * 0.5
 
-        ring2.rotation.y = -angle * 0.9
-        ring2.rotation.z = angle * 0.4
+          ring2.rotation.y = -angle * 0.9
+          ring2.rotation.z = angle * 0.4
 
-        ring3.rotation.z = angle * 1.1
-        ring3.rotation.x = -angle * 0.6
+          ring3.rotation.z = angle * 1.1
+          ring3.rotation.x = -angle * 0.6
 
-        core.rotation.x += 0.012
-        core.rotation.y += 0.015
+          core.rotation.x += 0.012
+          core.rotation.y += 0.015
 
-        const mx = mouseX ? mouseX.get() : 0
-        const my = mouseY ? mouseY.get() : 0
-        group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, mx * 0.35, 0.05)
-        group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, -my * 0.35, 0.05)
+          const mx = mouseX ? mouseX.get() : 0
+          const my = mouseY ? mouseY.get() : 0
+          group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, mx * 0.35, 0.05)
+          group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, -my * 0.35, 0.05)
 
-        nodes.forEach((n) => {
-          n.angle += n.speed
-          const x = Math.cos(n.angle) * n.radius
-          const y = Math.sin(n.angle) * Math.sin(n.inclination) * n.radius
-          const z = Math.sin(n.angle) * Math.cos(n.inclination) * n.radius
-          n.mesh.position.set(x, y, z)
-        })
-
-        renderer.render(scene, camera)
-      }
-
-      const onVisibilityChange = () => {
-        if (document.hidden) {
-          isPaused = true
-          cancelAnimationFrame(animationId)
-        } else {
-          if (!prefersReducedMotion) {
-            isPaused = false
-            animate()
-          }
+          nodes.forEach((n) => {
+            n.angle += n.speed
+            const x = Math.cos(n.angle) * n.radius
+            const y = Math.sin(n.angle) * Math.sin(n.inclination) * n.radius
+            const z = Math.sin(n.angle) * Math.cos(n.inclination) * n.radius
+            n.mesh.position.set(x, y, z)
+          })
         }
-      }
-      document.addEventListener('visibilitychange', onVisibilityChange)
 
-      if (prefersReducedMotion) {
         renderer.render(scene, camera)
-      } else {
-        animate()
       }
+
+      animate()
+
+      // Pause when tab not visible
+      const onVisibility = () => {
+        isPaused = document.hidden
+        if (!isPaused) animate()
+      }
+      document.addEventListener('visibilitychange', onVisibility)
 
       return () => {
         cancelAnimationFrame(animationId)
-        document.removeEventListener('visibilitychange', onVisibilityChange)
+        document.removeEventListener('visibilitychange', onVisibility)
         if (ro) ro.disconnect()
-        if (ring1Geo) ring1Geo.dispose()
-        if (ring1Mat) ring1Mat.dispose()
-        if (ring2Geo) ring2Geo.dispose()
-        if (ring2Mat) ring2Mat.dispose()
-        if (ring3Geo) ring3Geo.dispose()
-        if (ring3Mat) ring3Mat.dispose()
-        if (icoGeo) icoGeo.dispose()
-        if (icoMat) icoMat.dispose()
-        if (nodeGeo) nodeGeo.dispose()
-        if (nodeMat) nodeMat.dispose()
-        if (renderer) {
+
+        // Clean memory
+        if (renderer && renderer.domElement && mount.contains(renderer.domElement)) {
+          mount.removeChild(renderer.domElement)
           renderer.dispose()
-          if (renderer.domElement && mount.contains(renderer.domElement)) {
-            mount.removeChild(renderer.domElement)
-          }
         }
+        ring1Geo?.dispose()
+        ring1Mat?.dispose()
+        ring2Geo?.dispose()
+        ring2Mat?.dispose()
+        ring3Geo?.dispose()
+        ring3Mat?.dispose()
+        icoGeo?.dispose()
+        icoMat?.dispose()
+        nodeGeo?.dispose()
+        nodeMat?.dispose()
       }
     } catch (err) {
-      console.warn('WebGL initialization caught exception, activating fallback:', err)
+      console.warn('Hero3DGyro WebGL init failed:', err)
       setHasWebGL(false)
-      if (renderer?.domElement && mount.contains(renderer.domElement)) {
-        mount.removeChild(renderer.domElement)
-      }
     }
-  }, [mouseX, mouseY, hasWebGL])
+  }, [hasWebGL, mouseX, mouseY])
 
   if (!hasWebGL) {
     return <FallbackGyro mouseX={mouseX} mouseY={mouseY} />
@@ -321,9 +309,7 @@ export default function Hero3DGyro({ mouseX, mouseY }) {
   return (
     <div
       ref={mountRef}
-      className="absolute inset-0 pointer-events-none flex items-center justify-center -z-10"
-      style={{ opacity: 0.7 }}
-      aria-hidden="true"
+      className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
     />
   )
 }

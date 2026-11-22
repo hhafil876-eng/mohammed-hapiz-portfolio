@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion'
+import SignalPath from './SignalPath'
+import { useRef } from 'react'
+import { motion, useInView, useReducedMotion, useScroll } from 'framer-motion'
 import { Users, Lightbulb, Heart, Building2, Calendar, CheckCircle2 } from 'lucide-react'
 import TiltCard from './TiltCard'
 import { cyberAudio } from '../utils/audio'
@@ -7,7 +9,7 @@ const EXPERIENCES = [
   {
     role: 'Founder & Creative Lead',
     org: 'H&N Creations',
-    type: 'Venture & Creative Agency',
+    type: 'Commercial Creative Studio',
     timeframe: 'Ongoing',
     icon: Building2,
     badge: 'Entrepreneurial Venture',
@@ -16,7 +18,7 @@ const EXPERIENCES = [
     points: [
       'Directed end-to-end creative production lifecycles for private and institutional events.',
       'Authored brand identity systems, promotional media, and high-engagement social collateral.',
-      'Delivered cinematic color-graded video reels and promotional advertisements.',
+      'Delivered cinematic color-graded video reels and promotional advertisements across Karnataka.',
     ],
     skills: ['Creative Direction', 'Cinematography', 'Video Editing', 'Brand Identity', 'Media Production'],
   },
@@ -70,7 +72,17 @@ const EXPERIENCES = [
   },
 ]
 
+function TimelineProgress({ timeline }) {
+  const { scrollYProgress } = useScroll({ target: timeline, offset: ['start 75%', 'end 75%'] })
+  return (
+    <motion.div aria-hidden="true" style={{ scaleY: scrollYProgress }} className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
+  )
+}
+
 export default function Experience() {
+  const timeline = useRef(null)
+  const reduced = useReducedMotion()
+  const nearby = useInView(timeline, { margin: '600px' })
   return (
     <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
       <div className="max-w-5xl mx-auto relative z-10">
@@ -84,21 +96,24 @@ export default function Experience() {
           className="mb-16"
         >
           <div className="flex items-center gap-2 mb-3">
-            <span className="w-6 h-px bg-lime-400 shadow-[0_0_8px_#a3e635]" />
-            <span className="text-[11px] font-medium tracking-[0.2em] text-lime-400 uppercase">
+            <SignalPath />
+            <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
               Leadership &amp; Track Record
             </span>
           </div>
           <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
-            Executive <span className="lime-text-gradient">Trajectory</span>
+            Executive <span className="yellow-text-gradient">Trajectory</span>
           </h2>
         </motion.div>
 
         {/* Timeline Conduit */}
-        <div className="relative">
-          {/* Subtle vertical luxury guide */}
-          <div className="absolute left-4 sm:left-6 top-4 bottom-4 w-px bg-gradient-to-b from-lime-400/40 via-white/10 to-transparent hidden sm:block" />
+        <div ref={timeline} className="relative">
+          {/* Subtle vertical silver guide */}
+          <div className="absolute left-4 sm:left-6 top-4 bottom-4 w-px bg-gradient-to-b from-[#FFD600]/60 via-[#C0C0C0]/20 to-transparent hidden sm:block" />
 
+          {reduced ? (
+            <div aria-hidden="true" className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
+          ) : nearby && <TimelineProgress timeline={timeline} />}
           <div className="space-y-8 sm:space-y-11">
             {EXPERIENCES.map((exp, i) => {
               const Icon = exp.icon
@@ -112,25 +127,25 @@ export default function Experience() {
                   transition={{ duration: 0.6, delay: i * 0.1 }}
                   className="relative sm:pl-16 group"
                 >
-                  {/* Subtle Node Pin with Lime Accent */}
-                  <div className="hidden sm:flex absolute left-4 sm:left-6 top-9 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-obsidian-950 border border-lime-400 items-center justify-center z-20 group-hover:scale-125 shadow-[0_0_8px_#a3e635] transition-all">
-                    <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
+                  {/* Subtle Node Pin with Yellow Accent */}
+                  <div className="hidden sm:flex absolute left-4 sm:left-6 top-9 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-[#17191D] border border-[#FFD600] items-center justify-center z-20 group-hover:scale-125 shadow-[0_0_8px_#FFD600] transition-all">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
                   </div>
 
-                  {/* 3D Luxury Experience Card */}
+                  {/* 3D Experience Card */}
                   <TiltCard
                     maxTilt={4}
                     scale={1.01}
-                    className="p-8 sm:p-9 hover:border-lime-400/30"
+                    className="p-8 sm:p-9 hover:border-[#FFD600]/30"
                   >
                     {/* Header Row */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                       <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-lime-400 flex-shrink-0 shadow-[0_0_12px_rgba(163,230,53,0.15)]">
+                        <div className="w-10 h-10 rounded-2xl bg-[#2B2E34] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] flex-shrink-0 shadow-sm">
                           <Icon size={18} />
                         </div>
                         <div>
-                          <span className="text-[10px] tracking-wider text-lime-400 uppercase font-mono block">
+                          <span className="text-[10px] tracking-wider text-[#FFD600] uppercase font-mono block">
                             {exp.type}
                           </span>
                           <h3 className="font-display font-bold text-lg sm:text-xl text-white">
@@ -140,42 +155,42 @@ export default function Experience() {
                       </div>
 
                       <div className="flex items-center gap-2 self-start sm:self-auto">
-                        <span className="text-xs font-mono text-lime-300 bg-lime-500/10 px-3 py-1 rounded-full border border-lime-500/20 flex items-center gap-1.5">
-                          <Calendar size={11} className="text-lime-400" />
+                        <span className="text-xs font-mono text-silver-300 bg-[#2B2E34] px-3 py-1 rounded-full border border-[#C0C0C0]/20 flex items-center gap-1.5">
+                          <Calendar size={11} className="text-[#FFD600]" />
                           {exp.timeframe}
                         </span>
                       </div>
                     </div>
 
-                    <div className="text-xs font-medium text-lime-400 mb-3 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-lime-400" />
+                    <div className="text-xs font-medium text-silver-200 mb-3 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
                       <span>{exp.role}</span>
                     </div>
 
-                    <p className="text-sm text-gray-300 mb-5 leading-relaxed font-normal">
+                    <p className="text-sm text-silver-300 mb-5 leading-relaxed font-normal">
                       {exp.summary}
                     </p>
 
                     {/* Bullet Points */}
-                    <div className="space-y-2 mb-6 pt-4 border-t border-white/[0.06]">
+                    <div className="space-y-2 mb-6 pt-4 border-t border-[#C0C0C0]/10">
                       {exp.points.map((pt, pIdx) => (
                         <div
                           key={pIdx}
-                          className="flex items-start gap-2.5 text-xs text-gray-300"
+                          className="flex items-start gap-2.5 text-xs text-silver-300"
                         >
-                          <CheckCircle2 size={13} className="text-lime-400 mt-0.5 flex-shrink-0" />
+                          <CheckCircle2 size={13} className="text-[#FFD600] mt-0.5 flex-shrink-0" />
                           <span>{pt}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Skill Tags */}
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-white/[0.08]">
+                    <div className="flex flex-wrap gap-2 pt-4 border-t border-[#C0C0C0]/10">
                       {exp.skills.map((s) => (
                         <span
                           key={s}
                           onMouseEnter={() => cyberAudio.playHover()}
-                          className="text-xs px-3 py-1 rounded-full bg-white/[0.02] border border-white/[0.06] text-gray-300 hover:border-lime-400/30 hover:text-lime-300 transition-colors select-none"
+                          className="text-xs px-3 py-1 rounded-full bg-[#2B2E34]/70 border border-[#C0C0C0]/15 text-silver-300 hover:border-[#FFD600]/40 hover:text-white transition-colors select-none"
                         >
                           {s}
                         </span>

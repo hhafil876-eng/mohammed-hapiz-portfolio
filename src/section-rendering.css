@@ -1,0 +1,38 @@
+/* Keep anchor targets and accessible content mounted. Skip layout and paint
+   outside the viewport, reserving each section's approximate initial height.
+   The browser remembers the actual height after the first render. */
+main > section[id]:not(#home) {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto var(--section-height);
+}
+#about { --section-height: 2400px; }
+#skills { --section-height: 2500px; }
+#projects { --section-height: 4630px; }
+#experience { --section-height: 3060px; }
+#achievements { --section-height: 2950px; }
+#contact { --section-height: 1720px; }
+
+@media (min-width: 768px) {
+  #about { --section-height: 1790px; }
+  #skills { --section-height: 1850px; }
+  #projects { --section-height: 2770px; }
+  #experience { --section-height: 2290px; }
+  #achievements { --section-height: 1960px; }
+  #contact { --section-height: 1690px; }
+}
+@media (min-width: 1024px) {
+  #about, #skills { --section-height: 1200px; }
+  #projects { --section-height: 1960px; }
+  #experience { --section-height: 2060px; }
+  #achievements { --section-height: 1430px; }
+  #contact { --section-height: 1130px; }
+}
+
+@keyframes page-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.page-scroll-progress {
+  animation: page-progress linear both;
+  animation-timeline: scroll(root block);
+}

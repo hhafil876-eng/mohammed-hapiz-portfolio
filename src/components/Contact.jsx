@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import SignalPath from './SignalPath'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Linkedin, Github, MapPin, CheckCircle2, AlertCircle, Mail, MessageSquare, Copy, Check, ArrowUpRight, Send, Code } from 'lucide-react'
 import TiltCard from './TiltCard'
@@ -51,6 +52,11 @@ export default function Contact() {
   const [copied, setCopied] = useState(false)
   const [copiedDraft, setCopiedDraft] = useState(false)
 
+  const pending = useRef(null)
+  const feedback = useRef(null)
+  useEffect(() => () => pending.current?.abort(), [])
+  useEffect(() => { feedback.current?.focus() }, [sent, submissionError])
+
   const validate = () => {
     const errs = {}
     const trimmedName = form.name.trim()
@@ -83,60 +89,57 @@ export default function Contact() {
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    if (pending.current) return
     cyberAudio.playClick()
 
     // Bot honeypot detection
     if (form._honey) {
-      console.warn('Spam submission detected and dropped.')
-      setSent(true)
+      setSubmissionError('Unable to accept this submission. Use the email option below.')
       return
     }
 
     const validationErrors = validate()
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+      e.currentTarget.elements[Object.keys(validationErrors)[0]].focus()
       return
     }
 
+    const controller = new AbortController()
+    pending.current = controller
+    const timeout = setTimeout(() => controller.abort(), 20000)
     setTransmitting(true)
     setSubmissionError(null)
-
+    const key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim()
+    const subject = 'Portfolio Inquiry from ' + form.name.trim()
+    const fields = { name: form.name.trim(), email: form.email.trim(), message: form.message.trim() }
     try {
-      // Real FormSubmit AJAX Endpoint with JSON payload
-      const res = await fetch('https://formsubmit.co/ajax/hhafil876@gmail.com', {
+      const response = await fetch(key ? 'https://api.web3forms.com/submit' : 'https://formsubmit.co/ajax/hhafil876@gmail.com', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name.trim(),
-          email: form.email.trim(),
-          message: form.message.trim(),
-          _subject: `Portfolio Inquiry from ${form.name.trim()}`,
-          _template: 'table',
-          _captcha: 'false',
+        signal: controller.signal,
+        headers: { Accept: 'application/json' },
+        body: new URLSearchParams({
+          ...fields,
+          ...(key ? { access_key: key, subject, replyto: fields.email } : { _subject: subject, _template: 'table', _captcha: 'false' }),
         }),
       })
-
-      const data = await res.json().catch(() => null)
-
-      if (res.ok && (data?.success === 'true' || data?.success === true)) {
+      const data = await response.json().catch(() => null)
+      const reason = typeof data?.message === 'string' ? data.message : ''
+      if (/activat|confirm your email/i.test(reason)) {
+        setSubmissionError('The mailbox requires activation. Please use the email option below.')
+      } else if (response.ok && (data?.success === true || data?.success === 'true')) {
         setSent(true)
         cyberAudio.playTransmit()
-      } else if (data?.message && data.message.toLowerCase().includes('activation')) {
-        setSubmissionError(
-          'Activation link dispatched to hhafil876@gmail.com. Please click "Activate Form" in that email once to finalize incoming routing.'
-        )
       } else {
-        throw new Error(data?.message || `HTTP ${res.status}: Submission failed`)
+        setSubmissionError(reason || (response.ok ? 'The provider returned an unrecognized confirmation.' :
+          'The email service returned HTTP ' + response.status + '. Please try again later.'))
       }
-    } catch (err) {
-      console.warn('Direct delivery encountered a network barrier:', err)
-      setSubmissionError(
-        'Direct transmission encountered an obstacle. You can transmit immediately via your native email client or copy the pre-filled message below.'
-      )
+    } catch {
+      setSubmissionError(controller.signal.aborted ? 'The service timed out. Delivery is unconfirmed. Your draft is saved here.' :
+        'The browser could not confirm a response from the email service. Check your connection or use the email option below.')
     } finally {
+      clearTimeout(timeout)
+      pending.current = null
       setTransmitting(false)
     }
   }
@@ -148,23 +151,23 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 2400)
   }
 
-  const copyMessageDraft = () => {
+  const copyDraft = () => {
     cyberAudio.playClick()
-    const draft = `Name: ${form.name.trim() || 'Portfolio Inquirer'}\nEmail: ${form.email.trim() || 'N/A'}\n\nMessage:\n${form.message.trim()}`
+    const draft = `Subject: Portfolio Inquiry - ${form.name || 'Collaboration'}\n\nFrom: ${form.name || 'Colleague'} (${form.email || 'No email provided'})\n\nMessage:\n${form.message || 'I would like to connect regarding an engineering opportunity.'}`
     navigator.clipboard.writeText(draft)
     setCopiedDraft(true)
     setTimeout(() => setCopiedDraft(false), 2400)
   }
 
-  const mailtoUrl = `mailto:hhafil876@gmail.com?subject=${encodeURIComponent(
-    `Portfolio Inquiry: ${form.name.trim() || 'Professional Connection'}`
+  const mailtoLink = `mailto:hhafil876@gmail.com?subject=${encodeURIComponent(
+    `Portfolio Inquiry from ${form.name || 'Prospective Partner'}`
   )}&body=${encodeURIComponent(
-    `Hello Mohammed,\n\n${form.message.trim() || 'I came across your portfolio and would like to connect.'}\n\nBest regards,\n${form.name.trim() || 'Inquirer'}\nEmail: ${form.email.trim() || 'N/A'}`
+    `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
   )}`
 
   return (
     <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
 
         {/* Section Header */}
         <motion.div
@@ -172,330 +175,298 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          className="mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-xs tracking-wider uppercase mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse shadow-[0_0_8px_#a3e635]" />
-            <span className="text-gray-300">Direct Inquiries // <span className="text-lime-400 font-semibold">Priority Dispatch</span></span>
+          <div className="flex items-center gap-2 mb-3">
+            <SignalPath />
+            <span className="text-[11px] font-medium tracking-[0.2em] text-[#FFD600] uppercase font-mono">
+              Direct Inquiries &amp; Channels
+            </span>
           </div>
-          <h2 className="font-display font-bold text-4xl sm:text-6xl text-white tracking-tight">
-            Initiate <span className="lime-text-gradient">Collaboration</span>
+          <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
+            Initiate <span className="yellow-text-gradient">Collaboration</span>
           </h2>
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto text-sm sm:text-base leading-relaxed font-normal">
-            Open for software engineering opportunities, AI development, full-stack projects, and creative media leadership.
-          </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-12 gap-8 items-start">
+        <div className="grid lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column: Direct channels (5 cols) */}
+          {/* Left Column: Direct Inbound Channels (5 cols) */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="md:col-span-5 space-y-4"
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-5 space-y-4"
           >
-            {CHANNELS.map((ch) => {
-              const Icon = ch.icon
-              return (
-                <TiltCard
-                  key={ch.label}
-                  maxTilt={4}
-                  scale={1.01}
-                  className="p-5 sm:p-6 hover:border-lime-400/30"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-white flex-shrink-0">
-                      <Icon size={18} />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <span className="text-[10px] text-gray-400 tracking-wider uppercase font-medium block mb-0.5">
-                        {ch.label}
-                      </span>
-
-                      {ch.href ? (
-                        <a
-                          href={ch.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={() => cyberAudio.playClick()}
-                          className="font-display font-semibold text-sm text-white hover:text-lime-300 transition-colors block truncate"
-                        >
-                          {ch.value} ↗
-                        </a>
-                      ) : (
-                        <div className="font-medium text-xs text-white truncate">
-                          {ch.value}
-                        </div>
-                      )}
-
-                      <p className="text-xs text-gray-400 mt-0.5 truncate">
-                        {ch.sub}
-                      </p>
-                    </div>
-                  </div>
-                </TiltCard>
-              )
-            })}
-
-            {/* Quick Copy Email Card */}
-            <div
-              onClick={copyEmail}
-              onMouseEnter={() => cyberAudio.playHover()}
-              className="ui-card p-5 border-white/10 hover:border-lime-400/40 flex items-center justify-between cursor-pointer group transition-all"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') copyEmail() }}
-              aria-label="Copy direct email address to clipboard"
-            >
-              <div className="flex items-center gap-3.5">
-                <div className="w-9 h-9 rounded-xl bg-lime-400/10 border border-lime-400/20 flex items-center justify-center text-lime-400">
-                  <Mail size={16} />
-                </div>
-                <div>
-                  <div className="text-[10px] text-gray-400 uppercase tracking-wider font-medium">
-                    Fast Clipboard Copy
-                  </div>
-                  <div className="text-xs font-mono text-white group-hover:text-lime-300 transition-colors">
-                    hhafil876@gmail.com
-                  </div>
-                </div>
-              </div>
-
-              {copied ? (
-                <span className="text-[11px] font-mono text-lime-400 flex items-center gap-1 font-semibold">
-                  <Check size={13} /> Copied
-                </span>
-              ) : (
-                <Copy size={15} className="text-gray-400 group-hover:text-lime-400 transition-colors" />
-              )}
+            <div className="p-7 rounded-3xl bg-[#2B2E34]/80 border border-[#C0C0C0]/20 backdrop-blur-xl shadow-sm mb-6">
+              <h3 className="font-display font-bold text-xl text-white mb-2">
+                Let's Build Something Exceptional
+              </h3>
+              <p className="text-xs sm:text-sm text-silver-300 leading-relaxed font-normal">
+                Available for full-time software engineering roles, technical internships, AI system prototypes, and creative technology engagements.
+              </p>
             </div>
 
-            {/* Availability Dossier */}
-            <div className="ui-card p-6 border-white/10 bg-gradient-to-br from-lime-500/5 via-transparent to-transparent">
-              <div className="flex items-center gap-2 mb-2.5">
-                <span className="w-2 h-2 rounded-full bg-lime-400 shadow-[0_0_8px_#a3e635]" />
-                <span className="text-xs font-semibold text-white tracking-wide uppercase">
-                  Status: Available for Roles
-                </span>
-              </div>
-              <p className="text-xs text-gray-400 leading-relaxed font-normal">
-                Currently actively exploring software engineering, full-stack, and generative AI opportunities.
-              </p>
+            {/* Channels List */}
+            <div className="space-y-3">
+              {CHANNELS.map((ch, idx) => {
+                const Icon = ch.icon
+                const isActionable = Boolean(ch.href)
+
+                const content = (
+                  <div className="flex items-center justify-between p-4 rounded-2xl bg-[#2B2E34]/60 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 transition-all group">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-[#17191D] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] group-hover:scale-105 group-hover:border-[#FFD600]/40 transition-all flex-shrink-0 shadow-sm">
+                        <Icon size={18} />
+                      </div>
+                      <div>
+                        <div className="text-[10px] uppercase font-mono text-silver-500 tracking-wider">
+                          {ch.label}
+                        </div>
+                        <div className="text-sm font-semibold text-white group-hover:text-[#FFE45C] transition-colors">
+                          {ch.value}
+                        </div>
+                        <div className="text-[11px] text-silver-400">
+                          {ch.sub}
+                        </div>
+                      </div>
+                    </div>
+
+                    {isActionable && (
+                      <ArrowUpRight size={15} className="text-silver-500 group-hover:text-[#FFD600] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0" />
+                    )}
+                  </div>
+                )
+
+                if (isActionable) {
+                  return (
+                    <a
+                      key={idx}
+                      href={ch.href}
+                      target={ch.href.startsWith('mailto:') ? '_self' : '_blank'}
+                      rel="noopener noreferrer"
+                      onClick={() => cyberAudio.playClick()}
+                      onMouseEnter={() => cyberAudio.playHover()}
+                      className="block cursor-pointer"
+                    >
+                      {content}
+                    </a>
+                  )
+                }
+
+                return <div key={idx}>{content}</div>
+              })}
+            </div>
+
+            {/* Quick Copy Email Button */}
+            <div className="pt-2">
+              <button
+                onClick={copyEmail}
+                onMouseEnter={() => cyberAudio.playHover()}
+                className="w-full py-3 rounded-2xl bg-[#2B2E34]/80 border border-[#C0C0C0]/20 hover:border-[#FFD600]/50 text-silver-300 hover:text-white flex items-center justify-center gap-2 text-xs font-mono transition-all cursor-pointer shadow-sm"
+              >
+                {copied ? (
+                  <>
+                    <Check size={14} className="text-[#FFD600]" />
+                    <span className="text-[#FFD600]">hhafil876@gmail.com Copied to Clipboard</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={14} className="text-silver-400" />
+                    <span>Copy hhafil876@gmail.com</span>
+                  </>
+                )}
+              </button>
             </div>
           </motion.div>
 
-          {/* Right Column: Interactive Luxury Inquiry Form (7 cols) */}
+          {/* Right Column: Interactive Form & Message Dispatch (7 cols) */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="md:col-span-7"
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="lg:col-span-7"
           >
             <TiltCard
               maxTilt={3}
-              scale={1.005}
-              className="p-8 sm:p-10 hover:border-lime-400/30"
+              scale={1.008}
+              className="p-8 sm:p-10 hover:border-[#FFD600]/30"
             >
               {sent ? (
-                <div className="py-12 flex flex-col items-center justify-center text-center gap-4" role="status" aria-live="polite">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: 'spring', damping: 15 }}
-                    className="w-16 h-16 rounded-full bg-lime-500/10 border border-lime-400/50 flex items-center justify-center text-white shadow-[0_0_25px_rgba(163,230,53,0.3)]"
-                  >
-                    <CheckCircle2 size={32} className="text-lime-400" />
-                  </motion.div>
+                <div ref={feedback} tabIndex={-1} role="status" className="py-12 text-center space-y-4">
+                  <div className="w-14 h-14 rounded-full bg-[#FFD600]/15 border border-[#FFD600]/40 text-[#FFD600] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(255,214,0,0.3)]">
+                    <CheckCircle2 size={28} />
+                  </div>
                   <h3 className="font-display font-bold text-2xl text-white">
-                    Inquiry Transmitted Successfully
+                    Transmission Dispatched
                   </h3>
-                  <p className="text-gray-300 text-sm max-w-md leading-relaxed">
-                    Thank you for reaching out, <span className="text-lime-300 font-semibold">{form.name}</span>. Your message has been routed to Mohammed's primary inbox. A direct reply will be sent to <span className="text-white font-mono">{form.email}</span>.
+                  <p className="text-sm text-silver-300 max-w-md mx-auto leading-relaxed">
+                    Thank you for reaching out. The email service accepted your inquiry.
                   </p>
                   <button
                     onClick={() => {
-                      cyberAudio.playClick()
                       setSent(false)
                       setForm({ name: '', email: '', message: '', _honey: '' })
-                      setErrors({})
                     }}
-                    className="mt-4 ui-btn-secondary px-6 py-2.5 text-xs tracking-wider uppercase cursor-pointer hover:border-lime-400/40"
+                    className="ui-btn-secondary px-6 py-2.5 text-xs rounded-full cursor-pointer mt-4"
                   >
-                    Send Another Inquiry
+                    Send Another Transmission
                   </button>
                 </div>
               ) : (
-                <form onSubmit={onSubmit} className="space-y-6" noValidate>
-                  {/* Hidden Anti-Spam Honeypot */}
+                <form aria-busy={transmitting} onSubmit={onSubmit} noValidate className="space-y-6">
+                  {/* Honeypot for spam bot mitigation */}
                   <input
                     type="text"
                     name="_honey"
                     value={form._honey}
                     onChange={onChange}
-                    tabIndex={-1}
+                    className="hidden"
+                    tabIndex="-1"
                     autoComplete="off"
-                    style={{ display: 'none', position: 'absolute', left: '-9999px' }}
                     aria-hidden="true"
                   />
 
-                  <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-2">
-                    <div className="flex items-center gap-2">
-                      <MessageSquare size={16} className="text-lime-400" />
-                      <span className="text-xs font-semibold text-white tracking-wide uppercase">
-                        Inquiry Portal
-                      </span>
-                    </div>
-                    <span className="text-[11px] text-lime-400 font-mono flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-lime-400 animate-pulse" />
-                      SECURE SUBMISSION
-                    </span>
-                  </div>
-
-                  {/* Submission Error Banner with Native Fallback */}
-                  {submissionError && (
-                    <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3 text-xs text-amber-200" role="alert">
-                      <AlertCircle size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
-                      <div className="flex-1 space-y-2">
-                        <p>{submissionError}</p>
-                        <div className="flex flex-wrap gap-2 pt-1">
-                          <a
-                            href={mailtoUrl}
-                            onClick={() => cyberAudio.playClick()}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-400/20 hover:bg-amber-400/30 text-amber-300 font-medium text-xs transition-colors"
-                          >
-                            <Mail size={13} />
-                            <span>Launch Email Client</span>
-                          </a>
-                          <button
-                            type="button"
-                            onClick={copyMessageDraft}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-200 font-medium text-xs transition-colors cursor-pointer"
-                          >
-                            {copiedDraft ? <Check size={13} className="text-lime-400" /> : <Copy size={13} />}
-                            <span>{copiedDraft ? 'Draft Copied' : 'Copy Message Draft'}</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
                   {/* Name Input */}
                   <div>
-                    <label htmlFor="contact-name" className="block text-xs font-medium uppercase tracking-wider text-gray-300 mb-2">
-                      Your Name / Organization <span className="text-lime-400">*</span>
+                    <label htmlFor="contact-name" className="block text-xs font-mono uppercase tracking-wider text-silver-400 mb-2">
+                      Your Name or Organization <span className="text-[#FFD600]">*</span>
                     </label>
                     <input
                       id="contact-name"
+                      disabled={transmitting} aria-invalid={Boolean(errors.name)}
+                      aria-describedby={errors.name ? 'error-name' : undefined}
                       type="text"
                       name="name"
-                      required
                       value={form.name}
-                      onFocus={() => cyberAudio.playHover()}
                       onChange={onChange}
-                      placeholder="Jane Doe or Acme Corp"
-                      aria-invalid={errors.name ? 'true' : 'false'}
-                      aria-describedby={errors.name ? 'name-error' : undefined}
-                      className={`w-full bg-white/[0.02] border rounded-2xl px-5 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none transition-all font-sans ${
-                        errors.name ? 'border-red-400/60 focus:border-red-400' : 'border-white/10 focus:border-lime-400/50'
+                      placeholder="e.g. Elena Rostova / Google Recruiter"
+                      required
+                      className={`w-full bg-[#17191D]/80 border rounded-2xl px-4 py-3.5 text-sm text-white placeholder-silver-600 focus:outline-none transition-all ${
+                        errors.name ? 'border-red-500/80 focus:ring-1 focus:ring-red-500' : 'border-[#C0C0C0]/20 focus:border-[#FFD600] focus:ring-1 focus:ring-[#FFD600]'
                       }`}
                     />
                     {errors.name && (
-                      <p id="name-error" className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1" role="alert">
-                        <AlertCircle size={12} /> {errors.name}
+                      <p id="error-name" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                        <AlertCircle size={12} />
+                        <span>{errors.name}</span>
                       </p>
                     )}
                   </div>
 
                   {/* Email Input */}
                   <div>
-                    <label htmlFor="contact-email" className="block text-xs font-medium uppercase tracking-wider text-gray-300 mb-2">
-                      Email Address <span className="text-lime-400">*</span>
+                    <label htmlFor="contact-email" className="block text-xs font-mono uppercase tracking-wider text-silver-400 mb-2">
+                      Email Address <span className="text-[#FFD600]">*</span>
                     </label>
                     <input
                       id="contact-email"
+                      disabled={transmitting} aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? 'error-email' : undefined}
                       type="email"
                       name="email"
-                      required
                       value={form.email}
-                      onFocus={() => cyberAudio.playHover()}
                       onChange={onChange}
                       placeholder="name@company.com"
-                      aria-invalid={errors.email ? 'true' : 'false'}
-                      aria-describedby={errors.email ? 'email-error' : undefined}
-                      className={`w-full bg-white/[0.02] border rounded-2xl px-5 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none transition-all font-sans ${
-                        errors.email ? 'border-red-400/60 focus:border-red-400' : 'border-white/10 focus:border-lime-400/50'
+                      required
+                      className={`w-full bg-[#17191D]/80 border rounded-2xl px-4 py-3.5 text-sm text-white placeholder-silver-600 focus:outline-none transition-all ${
+                        errors.email ? 'border-red-500/80 focus:ring-1 focus:ring-red-500' : 'border-[#C0C0C0]/20 focus:border-[#FFD600] focus:ring-1 focus:ring-[#FFD600]'
                       }`}
                     />
                     {errors.email && (
-                      <p id="email-error" className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1" role="alert">
-                        <AlertCircle size={12} /> {errors.email}
+                      <p id="error-email" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                        <AlertCircle size={12} />
+                        <span>{errors.email}</span>
                       </p>
                     )}
                   </div>
 
                   {/* Message Input */}
                   <div>
-                    <label htmlFor="contact-message" className="block text-xs font-medium uppercase tracking-wider text-gray-300 mb-2">
-                      Project Scope &amp; Inquiry <span className="text-lime-400">*</span>
+                    <label htmlFor="contact-message" className="block text-xs font-mono uppercase tracking-wider text-silver-400 mb-2">
+                      Inquiry Details &amp; Project Scope <span className="text-[#FFD600]">*</span>
                     </label>
                     <textarea
                       id="contact-message"
+                      disabled={transmitting} aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? 'error-message' : undefined}
+                      rows={5}
                       name="message"
-                      required
-                      rows={4}
                       value={form.message}
-                      onFocus={() => cyberAudio.playHover()}
                       onChange={onChange}
-                      placeholder="Describe your project, timeline, open role, or technical collaboration..."
-                      aria-invalid={errors.message ? 'true' : 'false'}
-                      aria-describedby={errors.message ? 'message-error' : undefined}
-                      className={`w-full bg-white/[0.02] border rounded-2xl px-5 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none transition-all resize-none font-sans ${
-                        errors.message ? 'border-red-400/60 focus:border-red-400' : 'border-white/10 focus:border-lime-400/50'
+                      placeholder="Discuss an open engineering role, freelance project, architectural problem, or collaboration..."
+                      required
+                      className={`w-full bg-[#17191D]/80 border rounded-2xl px-4 py-3.5 text-sm text-white placeholder-silver-600 focus:outline-none transition-all resize-none ${
+                        errors.message ? 'border-red-500/80 focus:ring-1 focus:ring-red-500' : 'border-[#C0C0C0]/20 focus:border-[#FFD600] focus:ring-1 focus:ring-[#FFD600]'
                       }`}
                     />
                     {errors.message && (
-                      <p id="message-error" className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1" role="alert">
-                        <AlertCircle size={12} /> {errors.message}
+                      <p id="error-message" className="text-red-400 text-xs mt-1.5 flex items-center gap-1">
+                        <AlertCircle size={12} />
+                        <span>{errors.message}</span>
                       </p>
                     )}
                   </div>
 
-                  {/* Submission Controls */}
-                  <div className="space-y-3">
+                  {/* Submission Error Banner & Graceful Fallbacks */}
+                  {submissionError && (
+                    <div ref={feedback} role="alert" tabIndex={-1} className="p-4 rounded-2xl bg-red-950/20 border border-red-500/30 text-xs text-red-300 space-y-3">
+                      <div className="flex items-start gap-2">
+                        <AlertCircle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
+                        <span>{submissionError}</span>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 pt-2 border-t border-red-500/20">
+                        <a
+                          href={mailtoLink}
+                          className="px-4 py-2 rounded-xl bg-white text-black font-semibold text-xs flex items-center gap-1.5 hover:bg-[#FFD600] transition-colors"
+                        >
+                          <Send size={12} />
+                          <span>Send via Email Client</span>
+                        </a>
+
+                        <button
+                          type="button"
+                          onClick={copyDraft}
+                          className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs flex items-center gap-1.5 transition-colors"
+                        >
+                          {copiedDraft ? (
+                            <>
+                              <Check size={12} className="text-[#FFD600]" />
+                              <span>Draft Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy size={12} />
+                              <span>Copy Pre-filled Draft</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Submit Action */}
+                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <span className="text-[11px] text-silver-500 font-mono">
+                      Security: SSL Encrypted · Direct Routing
+                    </span>
+
                     <button
                       type="submit"
                       disabled={transmitting}
-                      onMouseEnter={() => cyberAudio.playHover()}
-                      className="w-full ui-btn-primary py-4 text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 hover:bg-lime-300 shadow-[0_4px_20px_rgba(163,230,53,0.35)]"
+                      className="w-full sm:w-auto ui-btn-primary px-8 py-3.5 flex items-center justify-center gap-2 text-xs uppercase tracking-wider font-semibold cursor-pointer disabled:opacity-50"
                     >
                       {transmitting ? (
-                        <span className="flex items-center gap-2">
-                          <span className="w-3.5 h-3.5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                          <span>Dispatching Inquiry...</span>
-                        </span>
+                        <span>Transmitting Data...</span>
                       ) : (
                         <>
-                          <span>Transmit Inquiry</span>
-                          <ArrowUpRight size={15} />
+                          <span>{submissionError ? 'Retry submission' : 'Transmit Message'}</span>
+                          <Send size={14} />
                         </>
                       )}
                     </button>
-
-                    <div className="flex items-center justify-between pt-2 text-[11px] text-gray-400">
-                      <span>Prefer your native email app?</span>
-                      <a
-                        href={mailtoUrl}
-                        onClick={() => cyberAudio.playClick()}
-                        className="text-lime-400 hover:text-lime-300 hover:underline flex items-center gap-1 font-medium"
-                      >
-                        <Mail size={12} />
-                        <span>Open mailto: client</span>
-                      </a>
-                    </div>
                   </div>
                 </form>
               )}

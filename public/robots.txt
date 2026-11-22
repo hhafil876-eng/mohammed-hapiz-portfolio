@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mohammadhapiz.me/sitemap.xml
+Sitemap: https://mohammed-hapiz-portfolio.vercel.app/sitemap.xml
