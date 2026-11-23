@@ -1,21 +1,17 @@
-import SignalPath from './SignalPath'
 import { useRef } from 'react'
-import { motion, useInView, useReducedMotion, useScroll } from 'framer-motion'
-import { Users, Lightbulb, Heart, Building2, Calendar, CheckCircle2, Orbit } from 'lucide-react'
-import TiltCard from './TiltCard'
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from 'framer-motion'
+import { Users, Lightbulb, Heart, Building2, Calendar } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 
 const EXPERIENCES = [
   {
-    station: 'STATION 01',
+    num: '01',
     role: 'Founder & Creative Lead',
     org: 'H&N Creations',
     type: 'Commercial Creative Studio',
     timeframe: 'Ongoing',
     icon: Building2,
-    badge: 'Entrepreneurial Venture',
-    summary:
-      'A creative media studio delivering commercial cinematography, post-production color grading, corporate event coverage, visual branding, and digital marketing assets.',
+    summary: 'A creative media studio delivering commercial cinematography, post-production color grading, corporate event coverage, visual branding, and digital marketing assets.',
     points: [
       'Directed end-to-end creative production lifecycles for private and institutional events.',
       'Authored brand identity systems, promotional media, and high-engagement social collateral.',
@@ -24,15 +20,13 @@ const EXPERIENCES = [
     skills: ['Creative Direction', 'Cinematography', 'Video Editing', 'Brand Identity', 'Media Production'],
   },
   {
-    station: 'STATION 02',
+    num: '02',
     role: 'Core Media Lead · 3 Years',
     org: 'MIT Kundapura Media Club',
     type: 'Institutional Media Operations',
     timeframe: '3 Years Continuous',
     icon: Users,
-    badge: 'Leadership & Production',
-    summary:
-      'Spearheaded campus-wide digital media coverage, directing dynamic promotional reels, capturing symposiums, and expanding social media engagement across 3 consecutive years.',
+    summary: 'Spearheaded campus-wide digital media coverage, directing dynamic promotional reels, capturing symposiums, and expanding social media engagement across 3 consecutive years.',
     points: [
       'Continuous three-year leadership contribution to official college media production.',
       'Produced cinematic highlight films and high-profile keynote speaker coverage.',
@@ -41,15 +35,13 @@ const EXPERIENCES = [
     skills: ['Content Strategy', 'Live Event Cinematography', 'Social Media Strategy', 'Editing Workflows'],
   },
   {
-    station: 'STATION 03',
+    num: '03',
     role: 'Active Member & Media Director',
     org: 'Udyam X — Entrepreneurship Cell',
     type: 'Incubation & Student Venture',
     timeframe: 'Collegiate Era',
     icon: Lightbulb,
-    badge: 'Ideate · Innovate · Impact',
-    summary:
-      'Cultivated the student startup ecosystem through ideathon planning, creative marketing campaigns, pitch event production, and brand storytelling.',
+    summary: 'Cultivated the student startup ecosystem through ideathon planning, creative marketing campaigns, pitch event production, and brand storytelling.',
     points: [
       'Organized and executed student Ideathons and competitive startup pitch summits.',
       'Produced high-impact campaign videos that boosted registration and visibility.',
@@ -58,15 +50,13 @@ const EXPERIENCES = [
     skills: ['Ideathons', 'Brand Design', 'Event Publicity', 'Entrepreneurial Strategy'],
   },
   {
-    station: 'STATION 04',
+    num: '04',
     role: 'Technology Educator & Volunteer',
     org: 'Panchayat Community Initiative',
     type: 'Community Impact',
     timeframe: 'Grassroots Service',
     icon: Heart,
-    badge: 'Digital Empowerment',
-    summary:
-      'Led foundational coding and computational thinking workshops for young students in rural communities through a local Panchayat social initiative.',
+    summary: 'Led foundational coding and computational thinking workshops for young students in rural communities through a local Panchayat social initiative.',
     points: [
       'Taught basic programming logic, problem-solving, and web fundamentals to young learners.',
       'Introduced modern AI concepts and digital tools to inspire future technologist pathways.',
@@ -76,147 +66,100 @@ const EXPERIENCES = [
   },
 ]
 
-function TimelineProgress({ timeline }) {
-  const { scrollYProgress } = useScroll({ target: timeline, offset: ['start 75%', 'end 75%'] })
-  return (
-    <motion.div aria-hidden="true" style={{ scaleY: scrollYProgress }} className="absolute left-6 top-4 bottom-4 origin-top w-px bg-gradient-to-b from-[#FFD600] via-[#FFE45C] to-[#C0C0C0] hidden sm:block shadow-[0_0_8px_#FFD600]" />
-  )
-}
-
 export default function Experience() {
-  const timeline = useRef(null)
+  const sectionRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start 80%', 'end 20%'] })
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
   const reduced = useReducedMotion()
-  const nearby = useInView(timeline, { margin: '600px' })
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
   return (
-    <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
-      {/* Background Subtle Ascension Geometry */}
-      <div className="absolute right-10 top-1/4 w-[500px] h-[500px] rounded-full border border-[#C0C0C0]/[0.03] pointer-events-none" />
+    <section ref={sectionRef} className="experience-section" aria-label="Experience and Trajectory">
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      {/* ── HEADER ── */}
+      <motion.div
+        className="exp-header"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+        <span className="section-eyebrow">Professional Trajectory</span>
+        <h2 className="exp-title">
+          <span className="exp-title-num">04</span>
+          <span>Experience &amp; <em>Impact</em></span>
+        </h2>
+      </motion.div>
 
-        {/* Section Header — The Ascension Path */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mb-16"
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <SignalPath />
-            <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
-              System 04 // The Ascension Path
-            </span>
-          </div>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
-            Executive <span className="yellow-text-gradient">Trajectory</span>
-          </h2>
-        </motion.div>
-
-        {/* Timeline Conduit */}
-        <div ref={timeline} className="relative">
-          {/* Subtle vertical silver guide */}
-          <div className="absolute left-4 sm:left-6 top-4 bottom-4 w-px bg-gradient-to-b from-[#FFD600]/60 via-[#C0C0C0]/20 to-transparent hidden sm:block" />
-
-          {reduced ? (
-            <div aria-hidden="true" className="absolute left-6 top-4 bottom-4 origin-top w-px bg-[#FFD600]/60 hidden sm:block" />
-          ) : nearby && <TimelineProgress timeline={timeline} />}
-          
-          <div className="space-y-8 sm:space-y-11">
-            {EXPERIENCES.map((exp, i) => {
-              const Icon = exp.icon
-
-              return (
-                <motion.div
-                  key={exp.org}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="relative sm:pl-16 group"
-                >
-                  {/* Celestial Node Pin with Orbital Ring */}
-                  <div className="hidden sm:flex absolute left-4 sm:left-6 top-9 -translate-x-1/2 w-4 h-4 rounded-full bg-[#090A0C] border border-[#FFD600] items-center justify-center z-20 group-hover:scale-125 shadow-[0_0_10px_#FFD600] transition-all">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
-                    <div className="absolute -inset-1 rounded-full border border-[#FFD600]/25 animate-pulse" />
-                  </div>
-
-                  {/* 3D Obsidian Experience Card */}
-                  <TiltCard
-                    maxTilt={4}
-                    scale={1.01}
-                    className="p-8 sm:p-9 hover:border-[#FFD600]/35 relative overflow-hidden"
-                  >
-                    {/* Corner Accent */}
-                    <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-[#FFD600]/30 rounded-tr-lg pointer-events-none" />
-
-                    {/* Header Row */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-10 h-10 rounded-2xl bg-[#090A0C] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] flex-shrink-0 shadow-sm group-hover:border-[#FFD600]/40 transition-colors">
-                          <Icon size={18} />
-                        </div>
-                        <div>
-                          <span className="text-[10px] tracking-wider text-[#FFD600] uppercase font-mono block">
-                            {exp.station} // {exp.type}
-                          </span>
-                          <h3 className="font-display font-bold text-lg sm:text-xl text-white">
-                            {exp.org}
-                          </h3>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-start sm:self-auto">
-                        <span className="text-xs font-mono text-silver-300 bg-[#090A0C] px-3 py-1 rounded-full border border-[#C0C0C0]/20 flex items-center gap-1.5">
-                          <Calendar size={11} className="text-[#FFD600]" />
-                          {exp.timeframe}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="text-xs font-medium text-silver-200 mb-3 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
-                      <span>{exp.role}</span>
-                    </div>
-
-                    <p className="text-sm text-silver-300 mb-5 leading-relaxed font-normal">
-                      {exp.summary}
-                    </p>
-
-                    {/* Bullet Points */}
-                    <div className="space-y-2 mb-6 pt-4 border-t border-[#C0C0C0]/10">
-                      {exp.points.map((pt, pIdx) => (
-                        <div
-                          key={pIdx}
-                          className="flex items-start gap-2.5 text-xs text-silver-300"
-                        >
-                          <CheckCircle2 size={13} className="text-[#FFD600] mt-0.5 flex-shrink-0" />
-                          <span>{pt}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Skill Tags */}
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-[#C0C0C0]/10">
-                      {exp.skills.map((s) => (
-                        <span
-                          key={s}
-                          onMouseEnter={() => cyberAudio.playHover()}
-                          className="text-xs px-3 py-1 rounded-full bg-[#090A0C]/70 border border-[#C0C0C0]/15 text-silver-300 hover:border-[#FFD600]/40 hover:text-white transition-colors select-none font-mono text-[11px]"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </TiltCard>
-                </motion.div>
-              )
-            })}
-          </div>
+      {/* ── TIMELINE ── */}
+      <div className="exp-timeline">
+        {/* Animated vertical track */}
+        <div className="exp-track" aria-hidden="true">
+          <div className="exp-track-bg" />
+          {!reduced && (
+            <motion.div className="exp-track-fill" style={{ height: lineHeight }} />
+          )}
         </div>
 
+        {/* Experience entries */}
+        <div className="exp-entries">
+          {EXPERIENCES.map((exp, i) => {
+            const Icon = exp.icon
+            return (
+              <motion.div
+                key={exp.org}
+                className="exp-entry"
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Timeline node */}
+                <div className="exp-node" aria-hidden="true">
+                  <div className="exp-node-inner">
+                    <Icon size={14} />
+                  </div>
+                </div>
+
+                {/* Entry card — minimal architectural style */}
+                <div className="exp-card">
+                  <div className="exp-card-top">
+                    <div className="exp-num-block" aria-hidden="true">{exp.num}</div>
+                    <div className="exp-header-info">
+                      <div className="exp-role">{exp.role}</div>
+                      <div className="exp-org">{exp.org}</div>
+                    </div>
+                    <div className="exp-time">
+                      <Calendar size={11} aria-hidden="true" />
+                      <span>{exp.timeframe}</span>
+                    </div>
+                  </div>
+
+                  <div className="exp-type">{exp.type}</div>
+
+                  <p className="exp-summary">{exp.summary}</p>
+
+                  <ul className="exp-points" aria-label="Key contributions">
+                    {exp.points.map((pt, j) => (
+                      <li key={j} className="exp-point">
+                        <span className="exp-point-dash" aria-hidden="true">—</span>
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="exp-skills">
+                    {exp.skills.map(s => (
+                      <span key={s} className="exp-skill-tag"
+                        onMouseEnter={() => cyberAudio.playHover()}
+                      >{s}</span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

@@ -1,11 +1,11 @@
-import { motion } from 'framer-motion'
-import { Award, Star, Music, Video, ShieldCheck, Palette, Building2, FileCheck, ArrowUpRight, Compass } from 'lucide-react'
-import TiltCard from './TiltCard'
+import { useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { Award, Star, Music, Video, ShieldCheck, Palette, Building2, ArrowUpRight } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 
 const ACHIEVEMENTS = [
   {
-    code: 'RELIC 01',
+    num: '01',
     icon: Award,
     title: 'Letter of Appreciation — CWC',
     status: 'Conferred Dec 2023',
@@ -14,11 +14,10 @@ const ACHIEVEMENTS = [
     evidence: 'Official Letter of Appreciation on institutional letterhead for volunteer technology leadership',
     portalLabel: 'Organization Portal',
     portalUrl: 'https://www.concernedforworkingchildren.org/',
-    summary:
-      'Awarded a formal Letter of Appreciation by The Concerned for Working Children (CWC) for dedicated volunteer technology leadership and social community empowerment.',
+    summary: 'Awarded a formal Letter of Appreciation by The Concerned for Working Children (CWC) for dedicated volunteer technology leadership and social community empowerment.',
   },
   {
-    code: 'RELIC 02',
+    num: '02',
     icon: Star,
     title: 'Global Contributor — IBM Z Datathon',
     status: 'Global 2024',
@@ -27,11 +26,10 @@ const ACHIEVEMENTS = [
     evidence: 'Global Contributor record for enterprise data challenge problem-solving',
     portalLabel: 'Program Portal',
     portalUrl: 'https://www.ibm.com/community/z/',
-    summary:
-      'Recognized as an official Global Project Contributor for technical data problem solving in the IBM Z Datathon organized by IBM & The Shooting Stars Foundation.',
+    summary: 'Recognized as an official Global Project Contributor for technical data problem solving in the IBM Z Datathon organized by IBM & The Shooting Stars Foundation.',
   },
   {
-    code: 'RELIC 03',
+    num: '03',
     icon: Music,
     title: 'Top Lyria Artist — Music Edition',
     status: 'Honored 2024',
@@ -40,11 +38,10 @@ const ACHIEVEMENTS = [
     evidence: 'National Showcase Selection in Generative AI Audio-Visual Engineering',
     portalLabel: 'Showcase Record',
     portalUrl: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
-    summary:
-      'Recognized as a Top Lyria Artist in the Google Student Ambassador Program Music Night challenge for innovative audio-visual engineering.',
+    summary: 'Recognized as a Top Lyria Artist in the Google Student Ambassador Program Music Night challenge for innovative audio-visual engineering.',
   },
   {
-    code: 'RELIC 04',
+    num: '04',
     icon: Palette,
     title: 'First Place: Brand & Logo Design',
     status: '1st Place Champion',
@@ -53,11 +50,10 @@ const ACHIEVEMENTS = [
     evidence: 'Official VTU College Merit Certificate & 1st Place Champion Gold Trophy',
     portalLabel: 'Collegiate Portal',
     portalUrl: 'https://mitkundapura.com/',
-    summary:
-      'Secured First Place in competitive Logo & Brand Identity Design at the Abhigyan National Techno-Cultural Fest at MIT Kundapura.',
+    summary: 'Secured First Place in competitive Logo & Brand Identity Design at the Abhigyan National Techno-Cultural Fest at MIT Kundapura.',
   },
   {
-    code: 'RELIC 05',
+    num: '05',
     icon: Video,
     title: 'Second Place: Cinematography',
     status: '2nd Place Runner-Up',
@@ -66,11 +62,10 @@ const ACHIEVEMENTS = [
     evidence: 'Official VTU College Merit Certificate & 2nd Place Runner-Up Shield (Dec 2024)',
     portalLabel: 'Collegiate Portal',
     portalUrl: 'https://mitkundapura.com/',
-    summary:
-      'Won Second Place in competitive event Videography & Cinematography for advanced post-production pacing, lighting, and cinematic color grading.',
+    summary: 'Won Second Place in competitive Videography & Cinematography for advanced post-production pacing, lighting, and cinematic color grading.',
   },
   {
-    code: 'RELIC 06',
+    num: '06',
     icon: Building2,
     title: 'Founder & Director — H&N Creations',
     status: 'Active Commercial Studio',
@@ -79,150 +74,88 @@ const ACHIEVEMENTS = [
     evidence: 'Commercial event films and 3+ years active commercial production credit across Karnataka',
     portalLabel: 'Studio Portfolio',
     portalUrl: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
-    summary:
-      'Founded and directed an active commercial media studio delivering professional cinematography, commercial event coverage, and digital brand identities across Karnataka.',
+    summary: 'Founded and directed an active commercial media studio delivering professional cinematography, commercial event coverage, and digital brand identities across Karnataka.',
   },
 ]
 
 export default function Achievements() {
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+
   return (
-    <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
-      {/* Background Subtle Relic Orbit */}
-      <div className="absolute left-0 bottom-0 w-[550px] h-[550px] rounded-full border border-[#C0C0C0]/[0.035] pointer-events-none" />
+    <section ref={sectionRef} className="achievements-exhibition" aria-label="Credentials and Achievements">
 
-      <div className="max-w-6xl mx-auto relative z-10">
-
-        {/* Section Header — The Relic Gallery */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mb-14"
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-8 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
-            <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
-              System 05 // The Relic Gallery
-            </span>
-          </div>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
-            Credentials &amp; <span className="yellow-text-gradient">Honors</span>
-          </h2>
-        </motion.div>
-
-        {/* Status Transparency Banner — Obsidian Slab */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="p-5 sm:p-6 rounded-2xl bg-[#101114]/90 border border-[#C0C0C0]/20 backdrop-blur-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 shadow-[0_12px_30px_rgba(0,0,0,0.7)] relative overflow-hidden"
-        >
-          <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-[#FFD600]" />
-          <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-xl bg-[#090A0C] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] shadow-sm flex-shrink-0">
-              <ShieldCheck size={17} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-white tracking-wide">
-                Independently Auditable Credentials &amp; Certifications
-              </p>
-              <p className="text-xs text-silver-400 mt-0.5">
-                Every distinction listed is backed by institutional certificates, collegiate records on file, and verified registries.
-              </p>
-            </div>
-          </div>
-
-          <span className="text-[11px] font-mono text-[#FFD600] bg-[#FFD600]/10 px-3.5 py-1 rounded-full border border-[#FFD600]/25 flex-shrink-0 font-semibold">
-            AUDIT VERIFIED
-          </span>
-        </motion.div>
-
-        {/* 3D Relic Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
-          {ACHIEVEMENTS.map((ach, idx) => {
-            const Icon = ach.icon
-            return (
-              <motion.div
-                key={ach.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.05 }}
-                transition={{ duration: 0.45, delay: idx * 0.06 }}
-              >
-                <TiltCard
-                  maxTilt={6}
-                  scale={1.015}
-                  className="p-7 sm:p-8 h-full flex flex-col justify-between group hover:border-[#FFD600]/40 relative overflow-hidden"
-                >
-                  {/* Relic Corner Framing */}
-                  <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-[#FFD600]/30 rounded-tr-lg pointer-events-none" />
-
-                  <div>
-                    {/* Top Status & Badge */}
-                    <div className="flex items-center justify-between mb-5">
-                      <div className="w-10 h-10 rounded-2xl bg-[#090A0C] border border-[#C0C0C0]/20 flex items-center justify-center text-[#FFD600] group-hover:scale-105 group-hover:border-[#FFD600]/40 transition-all shadow-sm">
-                        <Icon size={18} />
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono text-silver-600">
-                          //{ach.code}
-                        </span>
-                        <span className="text-[10px] tracking-wider uppercase font-medium px-2.5 py-0.5 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 text-[#FFD600]">
-                          {ach.badge}
-                        </span>
-                      </div>
-                    </div>
-
-                    <h3 className="font-display font-bold text-lg text-white group-hover:text-[#FFE45C] transition-colors leading-snug mb-2">
-                      {ach.title}
-                    </h3>
-
-                    <p className="text-xs text-silver-300 leading-relaxed font-normal mb-4">
-                      {ach.summary}
-                    </p>
-
-                    {/* Verifiable Evidence Dossier */}
-                    <div className="p-3.5 rounded-xl bg-[#090A0C]/80 border border-[#C0C0C0]/15 space-y-1.5 text-[10px]">
-                      <div className="flex items-center gap-1.5 text-[#FFD600] font-mono font-medium">
-                        <FileCheck size={12} className="flex-shrink-0" />
-                        <span className="truncate">Evidence Record:</span>
-                      </div>
-                      <p className="text-silver-200 font-sans leading-normal">
-                        {ach.evidence}
-                      </p>
-                      <div className="text-silver-400 font-mono truncate pt-1 border-t border-[#C0C0C0]/10">
-                        Issuer: {ach.issuer}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 mt-5 border-t border-[#C0C0C0]/10 flex items-center justify-between text-[11px] font-mono text-silver-400">
-                    <span className="text-white font-semibold group-hover:text-[#FFD600] transition-colors">
-                      {ach.status}
-                    </span>
-
-                    <a
-                      href={ach.portalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => cyberAudio.playClick()}
-                      className="inline-flex items-center gap-1 text-[10px] text-[#FFD600] hover:text-[#FFE45C] font-mono transition-colors"
-                      title={`Visit ${ach.portalLabel}`}
-                    >
-                      <span>{ach.portalLabel}</span>
-                      <ArrowUpRight size={11} />
-                    </a>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            )
-          })}
+      {/* ── HEADER ── */}
+      <motion.div
+        className="achievements-header"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+        <span className="section-eyebrow">Credentials & Recognition</span>
+        <h2 className="achievements-title">
+          <span className="achievements-title-num">05</span>
+          <span>Honors &amp; <em>Distinctions</em></span>
+        </h2>
+        <div className="achievements-audit-badge">
+          <ShieldCheck size={13} aria-hidden="true" />
+          <span>All credentials are independently auditable</span>
         </div>
+      </motion.div>
 
+      {/* ── EXHIBITION LAYOUT ── Staggered masonry-ish rows with big numbers */}
+      <div className="achievements-grid">
+        {ACHIEVEMENTS.map((ach, i) => {
+          const Icon = ach.icon
+          return (
+            <motion.div
+              key={ach.title}
+              className="achievement-exhibit"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.7, delay: i * 0.08 }}
+            >
+              {/* Giant number backdrop */}
+              <span className="exhibit-num" aria-hidden="true">{ach.num}</span>
+
+              <div className="exhibit-body">
+                <div className="exhibit-top">
+                  <div className="exhibit-icon-wrap">
+                    <Icon size={18} className="exhibit-icon" aria-hidden="true" />
+                  </div>
+                  <span className="exhibit-badge">{ach.badge}</span>
+                </div>
+
+                <h3 className="exhibit-title">{ach.title}</h3>
+                <p className="exhibit-summary">{ach.summary}</p>
+
+                <div className="exhibit-evidence">
+                  <span className="evidence-label">Evidence</span>
+                  <span className="evidence-text">{ach.evidence}</span>
+                </div>
+
+                <div className="exhibit-footer">
+                  <span className="exhibit-status">{ach.status}</span>
+                  <a
+                    href={ach.portalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="exhibit-portal-link"
+                    onClick={() => cyberAudio.playClick()}
+                    onMouseEnter={() => cyberAudio.playHover()}
+                    title={`Visit ${ach.portalLabel}`}
+                    aria-label={`${ach.portalLabel} — opens in new tab`}
+                  >
+                    <span>{ach.portalLabel}</span>
+                    <ArrowUpRight size={11} aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
-    </div>
+    </section>
   )
 }

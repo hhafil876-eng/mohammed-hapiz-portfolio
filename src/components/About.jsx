@@ -1,220 +1,166 @@
-import { motion } from 'framer-motion'
-import { MapPin, GraduationCap, Languages, Sparkles, Orbit } from 'lucide-react'
-import TiltCard from './TiltCard'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useInView } from 'framer-motion'
+import { MapPin, GraduationCap, Languages, ArrowUpRight } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 
+const PILLARS = [
+  { title: 'Engineering', text: 'Full-stack systems, reactive interfaces, RESTful APIs, and scalable cloud infrastructure.' },
+  { title: 'AI & Agents', text: 'Generative AI, prompt engineering, context design, and autonomous LLM pipelines.' },
+  { title: 'Creative Media', text: 'Cinematic video post-production, photography, brand identity, and commercial direction.' },
+]
+
 export default function About() {
+  const sectionRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
+  const portraitY = useTransform(scrollYProgress, [0, 1], ['8%', '-8%'])
+  const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+
   return (
-    <div className="section-padding relative px-6 sm:px-12 overflow-hidden">
-      {/* Background Decorative Radial Arc */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#C0C0C0]/[0.04] pointer-events-none" />
+    <section ref={sectionRef} className="about-monolith-section" aria-label="About Mohammed Hapiz">
 
-      <div className="max-w-6xl mx-auto relative z-10">
+      {/* ── SECTION INDICATOR ── */}
+      <div className="about-section-mark" aria-hidden="true">
+        <span className="section-mark-num">01</span>
+        <span className="section-mark-line" />
+      </div>
 
-        {/* Section Header — Editorial Architecture */}
+      {/* ── MAIN SPLIT LAYOUT ── */}
+      <div className="about-split">
+
+        {/* LEFT: Editorial portrait column */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mb-16"
+          className="about-portrait-col"
+          initial={{ opacity: 0, x: -50 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-8 h-px bg-[#FFD600] shadow-[0_0_8px_rgba(255,214,0,0.5)]" />
-            <span className="text-[11px] font-medium tracking-[0.22em] text-[#FFD600] uppercase font-mono">
-              Chapter 01 // The Origin &amp; Foundations
-            </span>
+          <div className="about-portrait-frame">
+            <motion.div className="about-portrait-img-wrap" style={{ y: portraitY }}>
+              <img
+                src="/assets/hapiz-portrait.webp"
+                alt="Mohammed Hapiz"
+                width="400"
+                height="600"
+                loading="lazy"
+                className="about-portrait-img"
+              />
+              <div className="about-portrait-overlay" aria-hidden="true" />
+            </motion.div>
+
+            {/* Frame decorations */}
+            <div className="portrait-corner-tl" aria-hidden="true" />
+            <div className="portrait-corner-br" aria-hidden="true" />
+
+            {/* Floating credential tag */}
+            <div className="portrait-floating-tag">
+              <span className="tag-year">2023 — Present</span>
+              <span className="tag-label">MIT Kundapura · VTU</span>
+            </div>
           </div>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-white tracking-tight">
-            Curiosity, Engineering &amp; <span className="yellow-text-gradient">Vision</span>
-          </h2>
+
+          {/* Coordinates below portrait */}
+          <div className="about-coordinates">
+            <div className="coord-item" onMouseEnter={() => cyberAudio.playHover()}>
+              <MapPin size={12} className="coord-icon" aria-hidden="true" />
+              <span>Kundapura, Karnataka, India</span>
+            </div>
+            <div className="coord-item" onMouseEnter={() => cyberAudio.playHover()}>
+              <Languages size={12} className="coord-icon" aria-hidden="true" />
+              <span>English · Hindi · Kannada</span>
+            </div>
+          </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Main Story & Philosophy - 7 cols */}
+        {/* RIGHT: Editorial text column */}
+        <div className="about-text-col">
+
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="lg:col-span-7 flex flex-col gap-6"
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.15 }}
           >
-            {/* Identity Dossier Card — Obsidian Stone Finish */}
-            <TiltCard
-              maxTilt={4}
-              scale={1.01}
-              className="p-8 sm:p-10 hover:border-[#FFD600]/30 relative overflow-hidden"
-            >
-              {/* Corner Architectural Bracket Accent */}
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-[#FFD600]/40 rounded-tr-xl pointer-events-none" />
-              
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFD600]/10 border border-[#FFD600]/30 text-[#FFD600] text-xs font-medium mb-7 font-mono">
-                <Sparkles size={13} className="text-[#FFD600]" />
-                <span>Developer · AI Specialist · Creative Technologist</span>
-              </div>
+            <span className="section-eyebrow">About the Engineer</span>
+            <h2 className="about-heading">
+              Building at the intersection of{' '}
+              <em className="about-heading-em">code</em>,{' '}
+              <em className="about-heading-em">intelligence</em>{' '}
+              &amp; <em className="about-heading-em">craft</em>
+            </h2>
+          </motion.div>
 
-              <div className="space-y-5 text-silver-300 text-base leading-relaxed font-normal">
-                <p>
-                  I'm <span className="text-white font-medium">Mohammed Hapiz</span>, an engineer and creative technologist based in Karnataka, India. My passion centers on building practical, high-impact digital experiences that unite computational depth with intuitive visual design.
-                </p>
-                <p>
-                  My technical focus spans <span className="text-white font-medium">full-stack web development, Java programming, <span className="text-[#FFD600] font-medium">generative AI workflows</span>, prompt engineering, and interactive browser systems</span>. I approach each problem from first principles—designing clean architectures that scale smoothly.
-                </p>
-                <p>
-                  Beyond software engineering, I bring years of dedicated practice in <span className="text-white font-medium">cinematography, video post-production, photography, and brand identity design</span>. I believe the most transformative digital products emerge when engineering rigor is amplified by creative aesthetics.
-                </p>
-                <p className="text-silver-400">
-                  Continuously evolving, experimenting with emerging technology models, and building solutions ready for production.
-                </p>
-              </div>
+          <motion.div
+            className="about-bio-block"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.3 }}
+          >
+            <p className="about-bio-text">
+              I'm <strong>Mohammed Hapiz</strong>, a software engineer and creative technologist based in Karnataka, India. My work centres on building practical, high-impact digital systems that unite computational rigour with intentional visual design.
+            </p>
+            <p className="about-bio-text">
+              My technical focus spans full-stack web development, Java programming, <span className="bio-highlight">generative AI workflows</span>, prompt engineering, and interactive browser systems — approaching every problem from first principles with clean architectures that scale.
+            </p>
+            <p className="about-bio-text">
+              Beyond software, I bring years of dedicated practice in cinematography, video post-production, photography, and brand identity design through my commercial studio, H&N Creations.
+            </p>
+          </motion.div>
 
-              {/* Geographic & Linguistic Coordinates */}
-              <div className="flex flex-wrap gap-3 mt-9 pt-7 border-t border-[#C0C0C0]/15">
-                <div
-                  onMouseEnter={() => cyberAudio.playHover()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#090A0C]/70 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
-                >
-                  <MapPin size={13} className="text-[#FFD600]" />
-                  <span>Kundapura, Udupi, Karnataka, India</span>
+          {/* Three pillars — horizontal strips */}
+          <div className="about-pillars">
+            {PILLARS.map((p, i) => (
+              <motion.div
+                key={p.title}
+                className="pillar-strip"
+                initial={{ opacity: 0, x: 30 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.4 + i * 0.12 }}
+              >
+                <div className="pillar-num" aria-hidden="true">0{i + 1}</div>
+                <div className="pillar-content">
+                  <span className="pillar-title">{p.title}</span>
+                  <span className="pillar-text">{p.text}</span>
                 </div>
+              </motion.div>
+            ))}
+          </div>
 
-                <div
-                  onMouseEnter={() => cyberAudio.playHover()}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#090A0C]/70 border border-[#C0C0C0]/15 hover:border-[#FFD600]/40 text-xs text-silver-300 transition-colors"
-                >
-                  <Languages size={13} className="text-[#FFD600]" />
-                  <span>English · Hindi · Kannada</span>
-                </div>
+          {/* Academic block */}
+          <motion.div
+            className="about-academic"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.7 }}
+          >
+            <div className="academic-header">
+              <GraduationCap size={15} className="academic-icon" aria-hidden="true" />
+              <span className="academic-label">Academic Record</span>
+              <span className="academic-badge">CURRENT</span>
+            </div>
+
+            <div className="academic-entry">
+              <div className="academic-entry-left">
+                <span className="academic-degree">Bachelor of Engineering — Computer Science</span>
+                <span className="academic-org">Moodlakatte Institute of Technology · VTU · 2023 — Present</span>
               </div>
-            </TiltCard>
+              <div className="academic-cgpa">
+                <span className="cgpa-num">7.6</span>
+                <span className="cgpa-unit">CGPA</span>
+              </div>
+            </div>
 
-            {/* Core Pillars — Precision Obsidian Artifacts */}
-            <div className="grid sm:grid-cols-3 gap-3.5">
-              {[
-                { title: 'Technical Precision', desc: 'Modern reactive architecture & robust OOP' },
-                { title: 'Applied Intelligence', desc: 'Generative models, prompt design & agent logic' },
-                { title: 'Visual Aesthetics', desc: 'Cinematic creative media & brand identity' },
-              ].map((p, idx) => (
-                <TiltCard
-                  key={idx}
-                  maxTilt={6}
-                  scale={1.02}
-                  className="p-5 hover:border-[#FFD600]/35 relative"
-                >
-                  <div className="text-xs font-semibold text-white mb-1.5 font-display flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600] shadow-[0_0_6px_#FFD600]" />
-                    <span>{p.title}</span>
-                  </div>
-                  <div className="text-xs text-silver-400 leading-snug">
-                    {p.desc}
-                  </div>
-                </TiltCard>
-              ))}
+            <div className="academic-entry academic-entry-secondary">
+              <div className="academic-entry-left">
+                <span className="academic-degree">Pre-University Course (PUC)</span>
+                <span className="academic-org">Excellent PU College, Sunnari · 2020 — 2021</span>
+              </div>
+              <div className="academic-cgpa">
+                <span className="cgpa-num" style={{ color: '#E5E7EB' }}>81%</span>
+              </div>
             </div>
           </motion.div>
 
-          {/* Education & Vital Metrics - 5 cols */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="lg:col-span-5 flex flex-col gap-6"
-          >
-            {/* Academic Trajectory */}
-            <TiltCard
-              maxTilt={4}
-              scale={1.01}
-              className="p-7 sm:p-8 hover:border-[#FFD600]/30 relative overflow-hidden"
-            >
-              <div className="flex items-center justify-between mb-7 pb-4 border-b border-[#C0C0C0]/15">
-                <div className="flex items-center gap-2 text-xs font-medium text-white tracking-wide uppercase font-mono">
-                  <GraduationCap size={16} className="text-[#FFD600]" />
-                  <span>Academic Trajectory</span>
-                </div>
-                <span className="text-[10px] font-mono text-[#FFD600] bg-[#FFD600]/10 px-2.5 py-0.5 rounded-full border border-[#FFD600]/25 font-semibold">
-                  CURRENT
-                </span>
-              </div>
-
-              <div className="space-y-6">
-                {/* BE CSE */}
-                <div className="relative pl-5 border-l border-[#FFD600]/40">
-                  <span className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-[#FFD600] shadow-[0_0_8px_#FFD600]" />
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-sm text-white">
-                      Bachelor of Engineering in Computer Science
-                    </span>
-                    <span className="text-xs font-mono text-[#FFD600] font-semibold bg-[#FFD600]/10 px-2 py-0.5 rounded border border-[#FFD600]/20">
-                      7.6 CGPA
-                    </span>
-                  </div>
-                  <p className="text-xs text-silver-300 mt-1">Moodlakatte Institute of Technology, Kundapura</p>
-                  <p className="text-[11px] text-silver-400">Visvesvaraya Technological University (VTU)</p>
-                  <p className="text-[10px] font-mono text-silver-500 mt-1">2023 — Present</p>
-                </div>
-
-                {/* PUC */}
-                <div className="relative pl-5 border-l border-[#C0C0C0]/20">
-                  <span className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-silver-500" />
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-sm text-white">
-                      Pre-University Course (PUC)
-                    </span>
-                    <span className="text-xs font-mono text-silver-200 font-semibold bg-[#17191D] px-2 py-0.5 rounded border border-[#C0C0C0]/15">
-                      81.0%
-                    </span>
-                  </div>
-                  <p className="text-xs text-silver-300 mt-1">Excellent PU College, Sunnari</p>
-                  <p className="text-[10px] font-mono text-silver-500 mt-1">2020 — 2021</p>
-                </div>
-              </div>
-            </TiltCard>
-
-            {/* Vital Metrics Counters — Obsidian Monoliths */}
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { label: 'Artifacts', val: '06+', isYellow: true },
-                { label: 'Competencies', val: '24+', isYellow: false },
-                { label: 'Media Track', val: '3 Yrs', isYellow: true },
-              ].map((s, idx) => (
-                <TiltCard
-                  key={idx}
-                  maxTilt={8}
-                  scale={1.03}
-                  className="p-4 text-center hover:border-[#FFD600]/30"
-                >
-                  <div className={`font-display font-bold text-2xl ${
-                    s.isYellow ? 'text-[#FFD600] drop-shadow-[0_0_12px_rgba(255,214,0,0.3)]' : 'text-white'
-                  }`}>
-                    {s.val}
-                  </div>
-                  <div className="text-[10px] uppercase tracking-wider text-silver-400 mt-1 font-mono">
-                    {s.label}
-                  </div>
-                </TiltCard>
-              ))}
-            </div>
-
-            {/* Career Aspiration Card */}
-            <TiltCard
-              maxTilt={4}
-              scale={1.01}
-              className="p-6 bg-gradient-to-br from-[#FFD600]/06 via-transparent to-transparent hover:border-[#FFD600]/30 relative"
-            >
-              <div className="text-[11px] tracking-wider text-[#FFD600] uppercase font-semibold mb-2 flex items-center gap-1.5 font-mono">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600]" />
-                <span>Professional Objective</span>
-              </div>
-              <p className="text-xs text-silver-300 leading-relaxed font-normal">
-                Seeking ambitious software engineering, AI development, and creative technology opportunities to build robust systems and solve real-world problems with elegance.
-              </p>
-            </TiltCard>
-
-          </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
