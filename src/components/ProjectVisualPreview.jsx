@@ -8,6 +8,7 @@ export default function ProjectVisualPreview({ project, isExpanded = false }) {
 
   return (
     <div className={`project-preview relative w-full ${heightClass} rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner`}>
+      <span className="sr-only">Illustrative preview: all metrics are simulated, not measured results.</span>
       {/* ─── BROWSER / OS HEADER BAR ─── */}
       <div className="h-8 bg-[#2B2E34] border-b border-[#C0C0C0]/10 px-3.5 flex items-center justify-between text-xs text-silver-500 flex-shrink-0">
         <div className="flex items-center gap-1.5">
@@ -24,7 +25,7 @@ export default function ProjectVisualPreview({ project, isExpanded = false }) {
 
         <div className="flex items-center gap-1.5 text-[10px] font-mono">
           <span className="px-1.5 py-0.5 rounded bg-[#FFD600]/10 border border-[#FFD600]/25 text-[#FFD600] text-[9px]">
-            TELEMETRY
+            SIMULATED
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#FFD600] animate-pulse ml-1" />
           <span className="hidden sm:inline text-silver-300">PREVIEW</span>

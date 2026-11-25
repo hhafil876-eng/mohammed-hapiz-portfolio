@@ -19,6 +19,18 @@ export default function App() {
   const [showTopBtn, setShowTopBtn] = useState(false)
 
   useEffect(() => {
+    // Native fragment navigation can precede React mounting and font layout.
+    let cancelled = false
+    const alignAnchor = () => {
+      const id = window.location.hash.slice(1)
+      if (!cancelled && id) document.getElementById(id)?.scrollIntoView({ behavior: 'instant' })
+    }
+    document.fonts.ready.then(() => requestAnimationFrame(alignAnchor))
+    window.addEventListener('hashchange', alignAnchor)
+    return () => { cancelled = true; window.removeEventListener('hashchange', alignAnchor) }
+  }, [])
+
+  useEffect(() => {
     const handleScroll = () => {
       setShowTopBtn(window.scrollY > 400)
     }
@@ -32,17 +44,17 @@ export default function App() {
   }
 
   return (
-    <div className="bg-[#17191D] text-[#E5E7EB] min-h-screen relative selection:bg-[#FFD600]/30 selection:text-white overflow-x-hidden">
-      {/* ─── 1. MODERN GRAPHITE & METALLIC ARCHITECTURAL BACKGROUND ─── */}
+    <div className="bg-[#090A0C] text-[#E5E7EB] min-h-screen relative selection:bg-[#FFD600]/30 selection:text-white overflow-x-hidden">
+      {/* ─── 1. ECLIPSE OBSIDIAN & CELESTIAL BACKGROUND ─── */}
       <ModernBackground />
 
-      {/* ─── 2. HIGH-PRECISION RETICLE CURSOR (SILVER & ELECTRIC YELLOW) ─── */}
+      {/* ─── 2. HIGH-PRECISION CELESTIAL ASTROLABE CURSOR ─── */}
       <CustomCursor />
 
-      {/* ─── 3. FLOATING NAVIGATION DOCK ─── */}
+      {/* ─── 3. FLOATING CELESTIAL COMPASS NAVIGATION DOCK ─── */}
       <Navbar />
 
-      {/* ─── 4. MAIN EXECUTIVE PORTFOLIO FLOW ─── */}
+      {/* ─── 4. MAIN OBSIDIAN PORTFOLIO FLOW ─── */}
       <ErrorBoundary>
         <main className="relative z-10" id="main-content">
           <section id="home" className="relative" aria-label="Hero Introduction">
@@ -75,7 +87,7 @@ export default function App() {
         </main>
       </ErrorBoundary>
 
-      {/* ─── 5. FOOTER ─── */}
+      {/* ─── 5. FOOTER — THE CLOSING CHAPTER ─── */}
       <Footer />
 
       {/* ─── 6. FLOATING SCROLL TO TOP ─── */}
@@ -89,7 +101,7 @@ export default function App() {
             onMouseEnter={() => cyberAudio.playHover()}
             title="Scroll to top of page"
             aria-label="Scroll to top of page"
-            className="fixed bottom-8 right-6 z-40 w-11 h-11 rounded-2xl bg-[#2B2E34]/90 border border-[#C0C0C0]/25 hover:border-[#FFD600] text-[#FFD600] hover:text-white shadow-[0_0_20px_rgba(255,214,0,0.25)] flex items-center justify-center transition-all cursor-pointer backdrop-blur-xl group"
+            className="fixed bottom-8 right-6 z-40 w-11 h-11 rounded-2xl bg-[#101114]/90 border border-[#C0C0C0]/25 hover:border-[#FFD600] text-[#FFD600] hover:text-white shadow-[0_0_20px_rgba(255,214,0,0.25)] flex items-center justify-center transition-all cursor-pointer backdrop-blur-xl group"
           >
             <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform" />
           </motion.button>

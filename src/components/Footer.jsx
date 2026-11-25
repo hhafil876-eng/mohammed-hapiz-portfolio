@@ -5,119 +5,98 @@ import { cyberAudio } from '../utils/audio'
 export default function Footer() {
   const toTop = () => {
     cyberAudio.playClick()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
 
+  const sections = ['About', 'Skills', 'Projects', 'Experience', 'Achievements', 'Contact']
+
   return (
-    <footer className="relative border-t border-[#C0C0C0]/15 bg-[#17191D] py-16 px-6 sm:px-12 overflow-hidden">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <footer className="footer-closing" role="contentinfo">
+      {/* Dramatic typographic closing statement */}
+      <div className="footer-statement" aria-hidden="true">
+        <span className="footer-statement-text">
+          Mohammed Hapiz
+        </span>
+        <span className="footer-statement-year">{new Date().getFullYear()}</span>
+      </div>
 
-        {/* Top Tier */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[#C0C0C0]/10">
-          
-          <div className="flex items-center gap-3.5">
-            <div className="w-9 h-9 rounded-full bg-[#FFD600] flex items-center justify-center text-[#17191D] font-bold text-xs tracking-tighter shadow-sm">
-              H
-            </div>
+      {/* Horizontal separator with fissure accent */}
+      <div className="footer-sep" aria-hidden="true">
+        <div className="footer-sep-line" />
+        <div className="footer-sep-crack" />
+        <div className="footer-sep-line" />
+      </div>
 
-            <div>
-              <span className="font-display font-bold text-base text-white tracking-tight block">
-                Mohammed Hapiz
-              </span>
-              <span className="text-xs text-silver-400 font-sans tracking-normal">
-                Developer · AI Specialist · Creative Technologist
-              </span>
-            </div>
+      <div className="footer-inner">
+        {/* Left: identity */}
+        <div className="footer-identity">
+          <div className="footer-monogram" aria-hidden="true">H</div>
+          <div>
+            <span className="footer-name">Mohammed Hapiz</span>
+            <span className="footer-roles">Developer · AI Specialist · Creative Technologist</span>
           </div>
+        </div>
 
-          {/* Editorial Nav */}
-          <div className="flex flex-wrap justify-center gap-6 text-xs text-silver-400 font-medium tracking-wide">
-            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Achievements', 'Contact'].map((item) => (
+        {/* Center: nav */}
+        <nav className="footer-nav" aria-label="Footer Navigation">
+          {sections.map(s => (
+            <a
+              key={s}
+              href={`#${s.toLowerCase()}`}
+              onClick={e => {
+                e.preventDefault()
+                cyberAudio.playHover()
+                document.querySelector(`#${s.toLowerCase()}`)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+              }}
+              className="footer-nav-link"
+            >
+              {s}
+            </a>
+          ))}
+          <a
+            href="/assets/mohammed-hapiz-resume.pdf"
+            download="Mohammed_Hapiz_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => cyberAudio.playClick()}
+            className="footer-nav-link footer-nav-resume"
+          >
+            Resume <FileDown size={11} aria-hidden="true" />
+          </a>
+        </nav>
+
+        {/* Right: socials + scroll-to-top */}
+        <div className="footer-actions">
+          <div className="footer-socials">
+            {[
+              { href: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/', label: 'LinkedIn', Icon: Linkedin },
+              { href: 'https://github.com/hhafil876-eng', label: 'GitHub', Icon: Github },
+              { href: 'https://leetcode.com/u/hafiz876', label: 'LeetCode', Icon: Code },
+            ].map(({ href, label, Icon }) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={(e) => {
-                  e.preventDefault()
-                  cyberAudio.playHover()
-                  document.querySelector(`#${item.toLowerCase()}`)?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="hover:text-white transition-colors cursor-pointer"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onMouseEnter={() => cyberAudio.playHover()}
+                className="footer-social-link"
+                aria-label={`${label} Profile`}
+                title={label}
               >
-                {item}
+                <Icon size={14} aria-hidden="true" />
               </a>
             ))}
-            <a
-              href="/assets/mohammed-hapiz-resume.pdf"
-              download="Mohammed_Hapiz_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => cyberAudio.playClick()}
-              className="text-[#FFD600] hover:text-[#FFE45C] transition-colors flex items-center gap-1 font-semibold"
-            >
-              <span>Resume PDF</span>
-              <FileDown size={12} />
-            </a>
           </div>
 
-          {/* Scroll to Top */}
-          <motion.button
-            onClick={toTop}
-            onMouseEnter={() => cyberAudio.playHover()}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all cursor-pointer shadow-sm"
-            aria-label="Scroll to top of page"
-          >
-            <ArrowUp size={15} />
-          </motion.button>
+
         </div>
-
-        {/* Bottom Tier */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-silver-400">
-          <p className="font-normal text-xs text-silver-400">
-            © {new Date().getFullYear()} Mohammed Hapiz. Built with precision, React 18, Three.js &amp; Tailwind CSS.
-          </p>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="https://www.linkedin.com/in/mohammad-hapiz-4a692429a/"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
-              aria-label="LinkedIn Profile"
-              title="LinkedIn Profile"
-            >
-              <Linkedin size={14} />
-            </a>
-
-            <a
-              href="https://github.com/hhafil876-eng"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
-              aria-label="GitHub Profile"
-              title="GitHub Profile"
-            >
-              <Github size={14} />
-            </a>
-
-            <a
-              href="https://leetcode.com/u/hafiz876"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={() => cyberAudio.playHover()}
-              className="w-9 h-9 rounded-full bg-[#2B2E34] border border-[#C0C0C0]/20 hover:border-[#FFD600] hover:text-[#FFD600] flex items-center justify-center text-silver-300 transition-all shadow-sm"
-              aria-label="LeetCode Profile"
-              title="LeetCode Profile"
-            >
-              <Code size={14} />
-            </a>
-          </div>
-        </div>
-
       </div>
+
+      {/* Legal baseline */}
+      <p className="footer-legal">
+        Built with React 18, Vite, Tailwind CSS &amp; Framer Motion.
+        Hand-crafted in Karnataka, India.
+      </p>
     </footer>
   )
 }
