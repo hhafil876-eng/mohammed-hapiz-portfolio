@@ -135,7 +135,7 @@ function NodeGraph({ domains, connections, activeId, onSelect }) {
     <svg
       ref={svgRef}
       className="skill-graph-svg"
-      aria-hidden="true"
+      role="group" aria-label="Skill domains"
       viewBox={`0 0 ${dims.w} ${dims.h}`}
       preserveAspectRatio="xMidYMid meet"
     >
@@ -242,7 +242,7 @@ export default function Skills() {
   const activeDomain = DOMAINS.find(d => d.id === activeId)
 
   const searchFiltered = query.trim()
-    ? DOMAINS.filter(d => d.skills.some(s => s.name.toLowerCase().includes(query.toLowerCase())))
+    ? DOMAINS.filter(d => d.skills.some(s => s.name.toLowerCase().includes(query.trim().toLowerCase())))
     : null
 
   const handleSelect = useCallback((id) => {
@@ -257,7 +257,7 @@ export default function Skills() {
 
       {/* ── HEADER ── */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={false}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
         className="skills-header"
@@ -278,7 +278,7 @@ export default function Skills() {
         {/* LEFT: Interactive Node Graph */}
         <motion.div
           className="graph-col"
-          initial={{ opacity: 0, x: -40 }}
+          initial={false}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.2 }}
         >
@@ -321,7 +321,7 @@ export default function Skills() {
         {/* RIGHT: Detail Panel */}
         <motion.div
           className="detail-col"
-          initial={{ opacity: 0, x: 40 }}
+          initial={false}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.3 }}
         >
@@ -330,7 +330,7 @@ export default function Skills() {
             {searchFiltered ? (
               <motion.div
                 key="search-results"
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.35 }}
@@ -340,10 +340,11 @@ export default function Skills() {
                   <span className="detail-eyebrow">Search Results</span>
                   <span className="detail-title">"{query}"</span>
                 </div>
-                <div className="detail-skills-list">
+                <div className="detail-skills-list" aria-live="polite">
+                  {searchFiltered.length === 0 && <p>No matching skills. Try another keyword.</p>}
                   {searchFiltered.flatMap(d =>
                     d.skills
-                      .filter(s => s.name.toLowerCase().includes(query.toLowerCase()))
+                      .filter(s => s.name.toLowerCase().includes(query.trim().toLowerCase()))
                       .map(s => ({ ...s, domain: d.label }))
                   ).map((s, i) => (
                     <div key={i} className="skill-row-item">
@@ -363,7 +364,7 @@ export default function Skills() {
               /* Active node detail */
               <motion.div
                 key={activeDomain.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={false}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.35 }}
@@ -379,7 +380,7 @@ export default function Skills() {
                   {activeDomain.skills.map((s, i) => (
                     <motion.div
                       key={s.name}
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={false}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05, duration: 0.35 }}
                       className="skill-row-item"
@@ -420,7 +421,7 @@ export default function Skills() {
               /* Default: all domains overview */
               <motion.div
                 key="overview"
-                initial={{ opacity: 0 }}
+                initial={false}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.35 }}

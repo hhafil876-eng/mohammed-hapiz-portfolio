@@ -11,8 +11,6 @@ const PILLARS = [
 
 export default function About() {
   const sectionRef = useRef(null)
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
-  const portraitY = useTransform(scrollYProgress, [0, 1], ['8%', '-8%'])
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
@@ -30,12 +28,12 @@ export default function About() {
         {/* LEFT: Editorial portrait column */}
         <motion.div
           className="about-portrait-col"
-          initial={{ opacity: 0, x: -50 }}
+          initial={false}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="about-portrait-frame">
-            <motion.div className="about-portrait-img-wrap" style={{ y: portraitY }}>
+            <motion.div className="about-portrait-img-wrap" >
               <img
                 src="/assets/hapiz-portrait.webp"
                 alt="Mohammed Hapiz"
@@ -69,65 +67,10 @@ export default function About() {
               <span>English · Hindi · Kannada</span>
             </div>
           </div>
-        </motion.div>
-
-        {/* RIGHT: Editorial text column */}
-        <div className="about-text-col">
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.15 }}
-          >
-            <span className="section-eyebrow">About the Engineer</span>
-            <h2 className="about-heading">
-              Building at the intersection of{' '}
-              <em className="about-heading-em">code</em>,{' '}
-              <em className="about-heading-em">intelligence</em>{' '}
-              &amp; <em className="about-heading-em">craft</em>
-            </h2>
-          </motion.div>
-
-          <motion.div
-            className="about-bio-block"
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.3 }}
-          >
-            <p className="about-bio-text">
-              I'm <strong>Mohammed Hapiz</strong>, a software engineer and creative technologist based in Karnataka, India. My work centres on building practical, high-impact digital systems that unite computational rigour with intentional visual design.
-            </p>
-            <p className="about-bio-text">
-              My technical focus spans full-stack web development, Java programming, <span className="bio-highlight">generative AI workflows</span>, prompt engineering, and interactive browser systems — approaching every problem from first principles with clean architectures that scale.
-            </p>
-            <p className="about-bio-text">
-              Beyond software, I bring years of dedicated practice in cinematography, video post-production, photography, and brand identity design through my commercial studio, H&N Creations.
-            </p>
-          </motion.div>
-
-          {/* Three pillars — horizontal strips */}
-          <div className="about-pillars">
-            {PILLARS.map((p, i) => (
-              <motion.div
-                key={p.title}
-                className="pillar-strip"
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.7, delay: 0.4 + i * 0.12 }}
-              >
-                <div className="pillar-num" aria-hidden="true">0{i + 1}</div>
-                <div className="pillar-content">
-                  <span className="pillar-title">{p.title}</span>
-                  <span className="pillar-text">{p.text}</span>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
           {/* Academic block */}
           <motion.div
             className="about-academic"
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
@@ -158,6 +101,62 @@ export default function About() {
               </div>
             </div>
           </motion.div>
+        </motion.div>
+
+        {/* RIGHT: Editorial text column */}
+        <div className="about-text-col">
+
+          <motion.div
+            initial={false}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.15 }}
+          >
+            <span className="section-eyebrow">About the Engineer</span>
+            <h2 className="about-heading">
+              Building at the intersection of{' '}
+              <em className="about-heading-em">code</em>,{' '}
+              <em className="about-heading-em">intelligence</em>{' '}
+              &amp; <em className="about-heading-em">craft</em>
+            </h2>
+          </motion.div>
+
+          <motion.div
+            className="about-bio-block"
+            initial={false}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.3 }}
+          >
+            <p className="about-bio-text">
+              I'm <strong>Mohammed Hapiz</strong>, a software engineer and creative technologist based in Karnataka, India. My work centres on building practical, high-impact digital systems that unite computational rigour with intentional visual design.
+            </p>
+            <p className="about-bio-text">
+              My technical focus spans full-stack web development, Java programming, <span className="bio-highlight">generative AI workflows</span>, prompt engineering, and interactive browser systems — approaching every problem from first principles with clean architectures that scale.
+            </p>
+            <p className="about-bio-text">
+              Beyond software, I bring years of dedicated practice in cinematography, video post-production, photography, and brand identity design through my commercial studio, H&N Creations.
+            </p>
+          </motion.div>
+
+          {/* Three pillars — horizontal strips */}
+          <div className="about-pillars">
+            {PILLARS.map((p, i) => (
+              <motion.div
+                key={p.title}
+                className="pillar-strip"
+                initial={false}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.7, delay: 0.4 + i * 0.12 }}
+              >
+                <div className="pillar-num" aria-hidden="true">0{i + 1}</div>
+                <div className="pillar-content">
+                  <span className="pillar-title">{p.title}</span>
+                  <span className="pillar-text">{p.text}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+
 
         </div>
       </div>

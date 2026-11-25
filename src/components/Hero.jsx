@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useMotionTemplate, useInView, useReducedMotion } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useInView, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Copy, Check, FileDown } from 'lucide-react'
 import { cyberAudio } from '../utils/audio'
 
@@ -9,14 +9,13 @@ const ROLES = [
   'Creative Technologist & Media Director',
 ]
 
-function useTypewriter(words, enabled, speed = 65, deleteSpeed = 30, pause = 2200) {
+function useTypewriter(words, speed = 65, deleteSpeed = 30, pause = 2200) {
   const [display, setDisplay] = useState('')
   const [wordIdx, setWordIdx] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
-    if (!enabled) return
     if (isPaused) {
       const t = setTimeout(() => { setIsPaused(false); setIsDeleting(true) }, pause)
       return () => clearTimeout(t)
@@ -32,20 +31,21 @@ function useTypewriter(words, enabled, speed = 65, deleteSpeed = 30, pause = 220
       setDisplay(isDeleting ? display.slice(0, -1) : word.slice(0, display.length + 1))
     }, isDeleting ? deleteSpeed : speed)
     return () => clearTimeout(t)
-  }, [display, isDeleting, wordIdx, isPaused, enabled])
+  }, [display, isDeleting, wordIdx, isPaused])
 
   return display
 }
 
-// SVG Obsidian Monolith with Fissure
+// SVG Obsidian Monolith with intense illuminated fissure and floating metallic fragments
 function ObsidianMonolith({ mouseX, mouseY }) {
   const reduced = useReducedMotion()
-  const rotX = useTransform(mouseY, [-0.5, 0.5], [3, -3])
-  const rotY = useTransform(mouseX, [-0.5, 0.5], [-5, 5])
-  const glowX = useTransform(mouseX, [-0.5, 0.5], ['35%', '65%'])
-  const glowY = useTransform(mouseY, [-0.5, 0.5], ['35%', '65%'])
+  const rotX = useTransform(mouseY, [-0.5, 0.5], [4, -4])
+  const rotY = useTransform(mouseX, [-0.5, 0.5], [-6, 6])
+  const frag1X = useTransform(mouseX, [-0.5, 0.5], [-15, 15])
+  const frag1Y = useTransform(mouseY, [-0.5, 0.5], [-12, 12])
+  const frag2X = useTransform(mouseX, [-0.5, 0.5], [18, -18])
+  const frag2Y = useTransform(mouseY, [-0.5, 0.5], [14, -14])
 
-  const atmosphere = useMotionTemplate`radial-gradient(ellipse 60% 80% at ${glowX} ${glowY}, rgba(255,214,0,0.12), transparent 70%)`
   return (
     <motion.div
       className="monolith-stage"
@@ -59,123 +59,112 @@ function ObsidianMonolith({ mouseX, mouseY }) {
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="obsidianBody" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#24272D" />
-            <stop offset="45%" stopColor="#17191D" />
+          <linearGradient id="obsidianFacetLeft" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#2B2E34" />
+            <stop offset="60%" stopColor="#17191D" />
             <stop offset="100%" stopColor="#090A0C" />
           </linearGradient>
-          <linearGradient id="fissureGlow" x1="0.3" y1="0" x2="0.7" y2="1">
-            <stop offset="0%" stopColor="#FFD600" stopOpacity="0" />
-            <stop offset="25%" stopColor="#FFD600" stopOpacity="1" />
-            <stop offset="50%" stopColor="#FFE45C" stopOpacity="1" />
-            <stop offset="75%" stopColor="#FFD600" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#B99A00" stopOpacity="0" />
+          <linearGradient id="obsidianFacetRight" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1F2228" />
+            <stop offset="60%" stopColor="#121316" />
+            <stop offset="100%" stopColor="#090A0C" />
           </linearGradient>
-          <filter id="fissureBloom" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          <linearGradient id="fissureCore" x1="0.2" y1="0" x2="0.8" y2="1">
+            <stop offset="0%" stopColor="#FFD600" stopOpacity="0.2" />
+            <stop offset="20%" stopColor="#FFD600" stopOpacity="1" />
+            <stop offset="50%" stopColor="#FFFFFF" stopOpacity="1" />
+            <stop offset="70%" stopColor="#FFE45C" stopOpacity="1" />
+            <stop offset="100%" stopColor="#FFD600" stopOpacity="0.3" />
+          </linearGradient>
+          <filter id="fissureGlowIntense" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur1" />
+            <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur2" />
+            <feMerge>
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
           </filter>
-          <filter id="monolithShadow" x="-20%" y="-10%" width="140%" height="130%">
-            <feDropShadow dx="0" dy="20" stdDeviation="30" floodColor="#000000" floodOpacity="0.9" />
+          <filter id="monolithShadowMain" x="-30%" y="-20%" width="160%" height="150%">
+            <feDropShadow dx="0" dy="30" stdDeviation="35" floodColor="#000000" floodOpacity="0.95" />
           </filter>
-          <radialGradient id="surfaceLight" cx="50%" cy="30%" r="60%">
-            <stop offset="0%" stopColor="#343840" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#090A0C" stopOpacity="0" />
-          </radialGradient>
-          <clipPath id="monolithClip">
-            <polygon points="80,20 320,0 400,540 60,560" />
-          </clipPath>
         </defs>
 
-        {/* Main monolith body */}
-        <polygon
-          points="80,20 320,0 400,540 60,560"
-          fill="url(#obsidianBody)"
-          filter="url(#monolithShadow)"
-        />
+        {/* Shadow base */}
+        <polygon points="90,30 310,10 390,530 65,550" fill="#090A0C" filter="url(#monolithShadowMain)" />
 
-        {/* Surface light sheen */}
-        <polygon
-          points="80,20 320,0 400,540 60,560"
-          fill="url(#surfaceLight)"
-          clipPath="url(#monolithClip)"
-        />
+        {/* Facet Left */}
+        <polygon points="90,30 240,25 210,540 65,550" fill="url(#obsidianFacetLeft)" />
 
-        {/* Surface texture lines */}
-        <line x1="90" y1="80" x2="310" y2="60" stroke="#C0C0C0" strokeWidth="0.3" strokeOpacity="0.12" />
-        <line x1="80" y1="140" x2="320" y2="118" stroke="#C0C0C0" strokeWidth="0.3" strokeOpacity="0.08" />
-        <line x1="72" y1="200" x2="330" y2="176" stroke="#C0C0C0" strokeWidth="0.2" strokeOpacity="0.1" />
-        <line x1="68" y1="260" x2="336" y2="234" stroke="#C0C0C0" strokeWidth="0.3" strokeOpacity="0.07" />
-        <line x1="65" y1="320" x2="345" y2="294" stroke="#C0C0C0" strokeWidth="0.2" strokeOpacity="0.1" />
-        <line x1="63" y1="380" x2="348" y2="354" stroke="#C0C0C0" strokeWidth="0.3" strokeOpacity="0.08" />
+        {/* Facet Right */}
+        <polygon points="240,25 310,10 390,530 210,540" fill="url(#obsidianFacetRight)" />
 
-        {/* Primary fissure — jagged crack from top-right to bottom-left */}
+        {/* Edge highlights */}
+        <line x1="90" y1="30" x2="310" y2="10" stroke="#C0C0C0" strokeWidth="1.2" strokeOpacity="0.4" />
+        <line x1="90" y1="30" x2="65" y2="550" stroke="#C0C0C0" strokeWidth="0.8" strokeOpacity="0.2" />
+        <line x1="310" y1="10" x2="390" y2="530" stroke="#777D85" strokeWidth="0.8" strokeOpacity="0.25" />
+        <line x1="240" y1="25" x2="210" y2="540" stroke="#C0C0C0" strokeWidth="0.5" strokeOpacity="0.25" />
+
+        {/* Geometric fracture ridges on stone surface */}
+        <line x1="120" y1="100" x2="235" y2="140" stroke="#343840" strokeWidth="1" strokeOpacity="0.5" />
+        <line x1="100" y1="220" x2="215" y2="260" stroke="#343840" strokeWidth="1" strokeOpacity="0.4" />
+        <line x1="80" y1="380" x2="205" y2="390" stroke="#343840" strokeWidth="1" strokeOpacity="0.5" />
+        <line x1="245" y1="180" x2="360" y2="150" stroke="#24272D" strokeWidth="1" strokeOpacity="0.6" />
+        <line x1="230" y1="340" x2="370" y2="310" stroke="#24272D" strokeWidth="1" strokeOpacity="0.6" />
+
+        {/* ── THE ILLUMINATED FISSURE ── */}
+        {/* Soft wide background glow */}
         <polyline
-          points="260,10 230,80 250,160 215,240 235,310 200,390 220,460 185,540"
-          stroke="url(#fissureGlow)"
-          strokeWidth="1.5"
-          fill="none"
-          filter="url(#fissureBloom)"
-        />
-        {/* Fissure branches */}
-        <polyline
-          points="230,80 195,110 170,100"
+          points="250,15 225,85 245,170 205,250 230,330 195,410 215,480 185,545"
           stroke="#FFD600"
-          strokeWidth="0.8"
+          strokeWidth="10"
           fill="none"
-          strokeOpacity="0.6"
-          filter="url(#fissureBloom)"
-        />
-        <polyline
-          points="250,160 285,185 270,210"
-          stroke="#FFD600"
-          strokeWidth="0.6"
-          fill="none"
-          strokeOpacity="0.4"
-        />
-        <polyline
-          points="215,240 175,265 158,255"
-          stroke="#FFD600"
-          strokeWidth="0.7"
-          fill="none"
-          strokeOpacity="0.5"
-        />
-        <polyline
-          points="235,310 270,330 285,320"
-          stroke="#FFE45C"
-          strokeWidth="0.5"
-          fill="none"
-          strokeOpacity="0.4"
+          strokeOpacity="0.12"
         />
 
-        {/* Inner yellow energy glow core */}
+        {/* Glowing mid-path */}
         <polyline
-          points="260,10 230,80 250,160 215,240 235,310 200,390 220,460 185,540"
+          points="250,15 225,85 245,170 205,250 230,330 195,410 215,480 185,545"
           stroke="#FFD600"
-          strokeWidth="6"
+          strokeWidth="3.5"
           fill="none"
-          strokeOpacity="0.08"
+          strokeOpacity="0.85"
+          filter="url(#fissureGlowIntense)"
         />
 
-        {/* Edge metallic rim */}
-        <polygon
-          points="80,20 320,0 400,540 60,560"
+        {/* Blazing white-hot core */}
+        <polyline
+          points="250,15 225,85 245,170 205,250 230,330 195,410 215,480 185,545"
+          stroke="url(#fissureCore)"
+          strokeWidth="1.6"
           fill="none"
-          stroke="#C0C0C0"
-          strokeWidth="0.6"
-          strokeOpacity="0.18"
         />
-        {/* Top edge highlight */}
-        <line x1="80" y1="20" x2="320" y2="0" stroke="#C0C0C0" strokeWidth="1.2" strokeOpacity="0.35" />
+
+        {/* Fissure lightning branches */}
+        <polyline points="225,85 180,110 155,98" stroke="#FFD600" strokeWidth="1.2" fill="none" strokeOpacity="0.75" filter="url(#fissureGlowIntense)" />
+        <polyline points="245,170 280,195 305,188" stroke="#FFD600" strokeWidth="1" fill="none" strokeOpacity="0.6" />
+        <polyline points="205,250 160,270 140,260" stroke="#FFD600" strokeWidth="1" fill="none" strokeOpacity="0.7" />
+        <polyline points="230,330 275,355 295,342" stroke="#FFE45C" strokeWidth="0.8" fill="none" strokeOpacity="0.6" />
+        <polyline points="195,410 150,430" stroke="#FFD600" strokeWidth="0.8" fill="none" strokeOpacity="0.5" />
       </svg>
 
-      {/* Atmospheric light from fissure */}
+      {/* Floating Metallic Shards */}
       <motion.div
-        className="monolith-aura"
-        style={{ background: atmosphere }}
+        className="floating-shard shard-1"
+        style={reduced ? {} : { x: frag1X, y: frag1Y }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="floating-shard shard-2"
+        style={reduced ? {} : { x: frag2X, y: frag2Y }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="floating-shard shard-3"
+        aria-hidden="true"
       />
 
-      {/* Fissure reflection on ground */}
+      {/* Ground reflection */}
       <div className="monolith-ground-reflection" aria-hidden="true" />
     </motion.div>
   )
@@ -186,126 +175,89 @@ export default function Hero() {
   const reduced = useReducedMotion()
   const scene = useRef(null)
   const inView = useInView(scene, { once: false })
-  const role = useTypewriter(ROLES, inView && !reduced)
+  const role = useTypewriter(ROLES)
 
   const goto = (id) => {
     cyberAudio.playClick()
     document.querySelector(id)?.scrollIntoView({ behavior: reduced ? 'instant' : 'smooth' })
   }
 
-  const copyEmail = () => {
-    cyberAudio.playClick()
-    navigator.clipboard.writeText('hhafil876@gmail.com')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2400)
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('hhafil876@gmail.com')
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2400)
+    } catch { window.location.href = 'mailto:hhafil876@gmail.com' }
   }
 
-  // Pointer parallax
+  // Pointer parallax physics
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
-  const mx = useSpring(rawX, { damping: 30, stiffness: 100 })
-  const my = useSpring(rawY, { damping: 30, stiffness: 100 })
+  const mx = useSpring(rawX, { damping: 28, stiffness: 100 })
+  const my = useSpring(rawY, { damping: 28, stiffness: 100 })
 
   const handleMove = useCallback((e) => {
-    if (reduced || e.pointerType !== 'mouse') return
+    if (reduced) return
     const rect = e.currentTarget.getBoundingClientRect()
     rawX.set((e.clientX - rect.left) / rect.width - 0.5)
     rawY.set((e.clientY - rect.top) / rect.height - 0.5)
-  }, [reduced])
+  }, [reduced, rawX, rawY])
 
-  const handleLeave = useCallback(() => { rawX.set(0); rawY.set(0) }, [])
+  const handleLeave = useCallback(() => { rawX.set(0); rawY.set(0) }, [rawX, rawY])
 
-  // Portrait parallax
-  const portraitX = useTransform(mx, v => v * -12)
-  const portraitY = useTransform(my, v => v * -12)
+  // Parallax for portrait
+  const portraitX = useTransform(mx, v => v * -10)
+  const portraitY = useTransform(my, v => v * -10)
 
   // Entrance variants
   const ENV = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 1.4, ease: 'easeOut' } }
+    visible: { opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } }
   }
   const TEXT = {
-    hidden: { opacity: 0, x: -40 },
-    visible: (d = 0) => ({ opacity: 1, x: 0, transition: { duration: 0.9, delay: d, ease: [0.16, 1, 0.3, 1] } })
-  }
-  const FISSURE_DRAW = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: { pathLength: 1, opacity: 1, transition: { duration: 1.8, delay: 0.4, ease: 'easeInOut' } }
+    hidden: { opacity: 0, y: 24 },
+    visible: (d = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.8, delay: d, ease: [0.16, 1, 0.3, 1] } })
   }
 
   return (
     <div
       ref={scene}
       className="hero-monolith-scene"
-      data-visible={inView}
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
     >
-      {/* ── BACKGROUND ATMOSPHERE ── */}
+      {/* Background atmosphere */}
       <div className="hero-atmosphere" aria-hidden="true">
-        <div className="atmo-layer atmo-deep" />
-        <div className="atmo-layer atmo-mid" />
-        {/* Directional light beam from fissure direction */}
-        <motion.div
-          className="atmo-beam"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: inView ? 1 : 0 }}
-          transition={{ duration: 2, delay: 0.8 }}
-        />
-        {/* Fine grain grid */}
+        <div className="atmo-deep" />
+        <div className="atmo-mid" />
+        <div className="atmo-beam" />
         <div className="atmo-grid" />
       </div>
 
-      {/* ── MAIN CONTENT ── asymmetric composition */}
+      {/* Main content */}
       <div className="hero-monolith-inner">
 
-        {/* ── RIGHT: OBSIDIAN MONOLITH OBJECT ── positioned first in DOM, visually right/behind */}
-        <motion.div
-          className="monolith-col"
-          variants={ENV}
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-        >
-          <ObsidianMonolith mouseX={mx} mouseY={my} />
-
-          {/* Portrait integrated into the monolith scene — ghost silhouette */}
-          <motion.div
-            className="hero-portrait"
-            style={reduced ? {} : { x: portraitX, y: portraitY }}
-          >
-            <img
-              src="/assets/hapiz-portrait.webp"
-              width="681"
-              height="1024"
-              alt="Mohammed Hapiz"
-              fetchpriority="high"
-              className="hero-portrait-img"
-            />
-            <div className="portrait-gradient-fade" aria-hidden="true" />
-          </motion.div>
-        </motion.div>
-
-        {/* ── LEFT: EDITORIAL TYPOGRAPHY COLUMN ── */}
+        {/* LEFT: Editorial Typography Column */}
         <div className="copy-col">
 
-          {/* Status indicator */}
+          {/* Status badge */}
           <motion.div
-            custom={0.2}
+            custom={0.15}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-status-pill"
           >
             <span className="status-dot" aria-hidden="true" />
             <span className="status-text">AVAILABLE FOR OPPORTUNITIES</span>
           </motion.div>
 
-          {/* Giant name — split lines */}
-          <motion.h1
-            custom={0.4}
+          {/* Oversized Name */}
+          <motion.div
+            custom={0.3}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-name-block"
             aria-label="Mohammed Hapiz"
           >
@@ -314,19 +266,18 @@ export default function Hero() {
             </div>
             <div className="hero-name-line">
               <span className="hero-name-word hero-name-accent">Hapiz</span>
-              {/* Yellow slash accent */}
               <span className="hero-name-slash" aria-hidden="true">/</span>
             </div>
-          </motion.h1>
+          </motion.div>
 
-          {/* Typewriter role */}
+          {/* Role line */}
           <motion.div
-            custom={0.6}
+            custom={0.45}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-role-line"
-            aria-label={ROLES[0]}
+            aria-live="polite"
           >
             <span className="role-label" aria-hidden="true">— </span>
             <span className="role-text">{reduced ? ROLES[0] : (role || '\u00A0')}</span>
@@ -335,22 +286,22 @@ export default function Hero() {
 
           {/* Bio paragraph */}
           <motion.p
-            custom={0.75}
+            custom={0.6}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-bio"
           >
             Computer Science student at MIT Kundapura (VTU). Architecting robust web
             applications, integrating generative AI pipelines, and directing high-fidelity visual media.
           </motion.p>
 
-          {/* CTA row */}
+          {/* CTA actions */}
           <motion.div
-            custom={0.9}
+            custom={0.75}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-cta-row"
           >
             <button
@@ -359,7 +310,7 @@ export default function Hero() {
               className="cta-primary"
             >
               <span>Selected Works</span>
-              <ArrowUpRight size={16} aria-hidden="true" />
+              <ArrowUpRight size={15} aria-hidden="true" />
             </button>
 
             <button
@@ -380,7 +331,7 @@ export default function Hero() {
               className="cta-ghost"
               title="Download Resume PDF"
             >
-              <FileDown size={15} aria-hidden="true" />
+              <FileDown size={14} aria-hidden="true" />
               <span>Resume</span>
             </a>
 
@@ -391,17 +342,17 @@ export default function Hero() {
               title="Copy email address"
               aria-label="Copy email to clipboard"
             >
-              {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+              {copied ? <Check size={13} aria-hidden="true" /> : <Copy size={13} aria-hidden="true" />}
               <span>{copied ? 'Copied' : 'hhafil876@gmail.com'}</span>
             </button>
           </motion.div>
 
-          {/* Telemetry strip — horizontal, below CTAs */}
+          {/* Telemetry metrics strip */}
           <motion.div
-            custom={1.05}
+            custom={0.9}
             variants={TEXT}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
+            initial={false}
+            animate="visible"
             className="hero-telemetry"
             aria-label="Key metrics"
           >
@@ -418,21 +369,46 @@ export default function Hero() {
             ))}
           </motion.div>
         </div>
+
+        {/* RIGHT: Monolith with Art-Directed Silhouette Portrait */}
+        <motion.div
+          className="monolith-col"
+          variants={ENV}
+          initial={false}
+          animate="visible"
+        >
+          <ObsidianMonolith mouseX={mx} mouseY={my} />
+
+          {/* Integrated studio portrait cutout */}
+          <motion.div
+            className="hero-portrait"
+            style={reduced ? {} : { x: portraitX, y: portraitY }}
+          >
+            <img
+              src="/assets/hapiz-portrait.webp"
+              width="681"
+              height="1024"
+              alt="Mohammed Hapiz"
+              fetchpriority="high"
+              className="hero-portrait-img"
+            />
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* ── SCROLL INDICATOR ── */}
+      {/* Scroll indicator */}
       <motion.div
         className="scroll-indicator"
         initial={{ opacity: 0 }}
         animate={{ opacity: inView ? 1 : 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.6 }}
         aria-hidden="true"
       >
-        <span className="scroll-label">SCROLL</span>
+        <span className="scroll-label">EXPLORE</span>
         <div className="scroll-track">
           <motion.div
             className="scroll-thumb"
-            animate={{ y: inView && !reduced ? [0, 14, 0] : 0 }}
+            animate={{ y: [0, 16, 0] }}
             transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>

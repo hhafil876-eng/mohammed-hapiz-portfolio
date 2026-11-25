@@ -79,7 +79,7 @@ export default function Experience() {
       {/* ── HEADER ── */}
       <motion.div
         className="exp-header"
-        initial={{ opacity: 0, y: 30 }}
+        initial={false}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
       >
@@ -108,7 +108,7 @@ export default function Experience() {
               <motion.div
                 key={exp.org}
                 className="exp-entry"
-                initial={{ opacity: 0, x: 40 }}
+                initial={false}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.7, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}

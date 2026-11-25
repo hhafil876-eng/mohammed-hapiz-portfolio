@@ -1,3 +1,4 @@
+import { validateInquiry } from '../utils/inquiry'
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Linkedin, Github, MapPin, CheckCircle2, AlertCircle, Mail, Copy, Check, ArrowUpRight, Send, Code } from 'lucide-react'
@@ -46,23 +47,14 @@ export default function Contact() {
   const [sent, setSent] = useState(false)
   const [submissionError, setSubmissionError] = useState(null)
   const [copied, setCopied] = useState(false)
-  const [copiedDraft, setCopiedDraft] = useState(false)
+  const [copyError, setCopyError] = useState('')
 
   const pending = useRef(null)
   const feedback = useRef(null)
   useEffect(() => () => pending.current?.abort(), [])
   useEffect(() => { feedback.current?.focus() }, [sent, submissionError])
 
-  const validate = () => {
-    const errs = {}
-    const name = form.name.trim()
-    const email = form.email.trim()
-    const message = form.message.trim()
-    if (!name || name.length < 2) errs.name = 'Please provide your name (minimum 2 characters).'
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errs.email = 'Please provide a valid email address.'
-    if (!message || message.length < 10) errs.message = 'Please provide details (minimum 10 characters).'
-    return errs
-  }
+  const validate = () => validateInquiry(form).errors
 
   const onChange = (e) => {
     const { name, value } = e.target
@@ -90,32 +82,20 @@ export default function Contact() {
     setTransmitting(true)
     setSubmissionError(null)
 
-    const key = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim()
-    const fields = { name: form.name.trim(), email: form.email.trim(), message: form.message.trim() }
-    const subject = 'Portfolio Inquiry from ' + fields.name
-
     try {
-      const response = await fetch(
-        key ? 'https://api.web3forms.com/submit' : 'https://formsubmit.co/ajax/hhafil876@gmail.com',
-        {
-          method: 'POST',
-          signal: controller.signal,
-          headers: { Accept: 'application/json' },
-          body: new URLSearchParams({
-            ...fields,
-            ...(key ? { access_key: key, subject, replyto: fields.email } : { _subject: subject, _template: 'table', _captcha: 'false' }),
-          }),
-        }
-      )
+      const response = await fetch('/api/contact', {
+        method: 'POST', signal: controller.signal,
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...validateInquiry(form).fields, _honey: form._honey }),
+      })
       const data = await response.json().catch(() => null)
-      const reason = typeof data?.message === 'string' ? data.message : ''
-      if (/activat|confirm your email/i.test(reason)) {
-        setSubmissionError('The mailbox requires activation. Please use the email link below.')
-      } else if (response.ok && (data?.success === true || data?.success === 'true')) {
+      if (response.ok && data?.success === true) {
         setSent(true)
+        setForm({ name: '', email: '', message: '', _honey: '' })
         cyberAudio.playTransmit?.()
       } else {
-        setSubmissionError(reason || (response.ok ? 'Unrecognized confirmation. Please try again.' : `HTTP ${response.status}. Please try again later.`))
+        if (data?.errors) setErrors(data.errors)
+        setSubmissionError(data?.message || 'The server did not confirm acceptance. Please retry or open your email app.')
       }
     } catch {
       setSubmissionError(controller.signal.aborted ? 'Request timed out. Please try again or use the email link.' : 'Network error. Check your connection or use the email link below.')
@@ -126,11 +106,12 @@ export default function Contact() {
     }
   }
 
-  const copyEmail = () => {
-    cyberAudio.playClick()
-    navigator.clipboard.writeText('hhafil876@gmail.com')
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2400)
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText('hhafil876@gmail.com')
+      setCopied(true); setCopyError('')
+      setTimeout(() => setCopied(false), 2400)
+    } catch { setCopyError('Copy unavailable. Select the email address above to copy it.') }
   }
 
   const mailtoLink = `mailto:hhafil876@gmail.com?subject=${encodeURIComponent(`Portfolio Inquiry from ${form.name || 'Prospective Partner'}`)}&body=${encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`)}`
@@ -147,7 +128,7 @@ export default function Contact() {
       {/* ── HEADER ── */}
       <motion.div
         className="contact-header"
-        initial={{ opacity: 0, y: 30 }}
+        initial={false}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
       >
@@ -166,7 +147,7 @@ export default function Contact() {
         {/* LEFT: Channels */}
         <motion.div
           className="contact-channels-col"
-          initial={{ opacity: 0, x: -40 }}
+          initial={false}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.2 }}
         >
@@ -215,12 +196,13 @@ export default function Contact() {
               : <><Copy size={14} /><span>Copy Email Address</span></>
             }
           </button>
+          <p role="status">{copyError}</p>
         </motion.div>
 
         {/* RIGHT: Form */}
         <motion.div
           className="contact-form-col"
-          initial={{ opacity: 0, x: 40 }}
+          initial={false}
           animate={isInView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.3 }}
         >
@@ -229,7 +211,7 @@ export default function Contact() {
               <div className="success-icon-wrap">
                 <CheckCircle2 size={32} className="success-icon" aria-hidden="true" />
               </div>
-              <h3 className="success-title">Transmission Dispatched</h3>
+              <h3 className="success-title">Enquiry Accepted</h3>
               <p className="success-body">Thank you for reaching out. I'll respond as soon as possible.</p>
               <button
                 onClick={() => { setSent(false); setForm({ name: '', email: '', message: '', _honey: '' }) }}
@@ -311,13 +293,13 @@ export default function Contact() {
                   <AlertCircle size={15} aria-hidden="true" />
                   <div>
                     <p>{submissionError}</p>
-                    <a href={mailtoLink} className="form-fallback-link">Open in email client →</a>
+                    <a href={mailtoLink} className="form-fallback-link">Open your email app</a>
                   </div>
                 </div>
               )}
 
               <div className="form-submit-row">
-                <span className="form-secure-note">SSL Encrypted · Direct Routing</span>
+                <a href={mailtoLink} className="form-fallback-link">Open your email app</a>
                 <button
                   type="submit"
                   disabled={transmitting}

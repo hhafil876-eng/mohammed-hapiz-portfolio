@@ -1,0 +1,241 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "accessibility"
+    ],
+    "configFile": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\playwright.config.js",
+    "rootDir": "C:/Users/ADMIN/mohammed-hapiz-portfolio-new/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/ADMIN/mohammed-hapiz-portfolio-new/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/ADMIN/mohammed-hapiz-portfolio-new/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "",
+        "testDir": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests",
+        "snapshotDir": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5173",
+          "channel": "chrome",
+          "headless": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": ""
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "qa/repair/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.65.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "portfolio.spec.js",
+      "file": "portfolio.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "accessibility 390",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 2671,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#090a0c\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.05,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#847006\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"12.0pt (16px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<footer class=\\\"footer-closing\\\" role=\\\"contentinfo\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \"footer\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"footer-statement-year\\\">2026</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".footer-statement-year\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#090a0c\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.05,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#847006\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"12.0pt (16px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<footer class=\\\"footer-closing\\\" role=\\\"contentinfo\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \"footer\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"footer-statement-year\\\">2026</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".footer-statement-year\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js:59:177",
+                    "location": {
+                      "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                      "column": 177,
+                      "line": 59
+                    },
+                    "snippet": " \u001b[90m 57 |\u001b[39m \u001b[36mfor\u001b[39m(\u001b[36mconst\u001b[39m width \u001b[36mof\u001b[39m [\u001b[35m390\u001b[39m\u001b[33m,\u001b[39m\u001b[35m1440\u001b[39m])test(\u001b[32m`accessibility ${width}`\u001b[39m\u001b[33m,\u001b[39m\u001b[36masync\u001b[39m({page})\u001b[33m=>\u001b[39m{\n \u001b[90m 58 |\u001b[39m  \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39msetViewportSize({width\u001b[33m,\u001b[39mheight\u001b[33m:\u001b[39m\u001b[35m900\u001b[39m})\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39memulateMedia({reducedMotion\u001b[33m:\u001b[39m\u001b[32m'reduce'\u001b[39m})\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 59 |\u001b[39m  \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#contact h2'\u001b[39m))\u001b[33m.\u001b[39mtoBeAttached()\u001b[33m;\u001b[39m\u001b[36mconst\u001b[39m audit\u001b[33m=\u001b[39m\u001b[36mawait\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mAxeBuilder\u001b[39m({page})\u001b[33m.\u001b[39mwithTags([\u001b[32m'wcag2a'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag2aa'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag21aa'\u001b[39m])\u001b[33m.\u001b[39manalyze()\u001b[33m;\u001b[39mexpect(audit\u001b[33m.\u001b[39mviolations)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                                                                                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 60 |\u001b[39m  \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m{name\u001b[33m:\u001b[39m\u001b[35m/Open full case study/\u001b[39m})\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'dialog'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[36mconst\u001b[39m modal\u001b[33m=\u001b[39m\u001b[36mawait\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mAxeBuilder\u001b[39m({page})\u001b[33m.\u001b[39mwithTags([\u001b[32m'wcag2a'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag2aa'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag21aa'\u001b[39m])\u001b[33m.\u001b[39manalyze()\u001b[33m;\u001b[39mexpect(modal\u001b[33m.\u001b[39mviolations)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m 61 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 62 |\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                        "column": 177,
+                        "line": 59
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#090a0c\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.05,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#847006\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"12.0pt (16px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<footer class=\\\"footer-closing\\\" role=\\\"contentinfo\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \"footer\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.05 (foreground color: #847006, background color: #090a0c, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"footer-statement-year\\\">2026</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".footer-statement-year\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  57 | for(const width of [390,1440])test(`accessibility ${width}`,async({page})=>{\n  58 |  await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');\n> 59 |  await expect(page.locator('#contact h2')).toBeAttached();const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();expect(audit.violations).toEqual([]);\n     |                                                                                                                                                                                 ^\n  60 |  await page.getByRole('button',{name:/Open full case study/}).first().click();await expect(page.getByRole('dialog')).toBeVisible();const modal=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();expect(modal.violations).toEqual([]);\n  61 | });\n  62 |\n    at C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js:59:177"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T15:15:45.787Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\test-results\\portfolio-accessibility-390\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                    "column": 177,
+                    "line": 59
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-bc50bf20b427cafd491c",
+          "file": "portfolio.spec.js",
+          "line": 57,
+          "column": 31
+        },
+        {
+          "title": "accessibility 1440",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3122,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#1b1e22\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.21,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#7b8088\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"7.5pt (10px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<div class=\\\"project-preview relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"text-[10px] font-mono text-silver-500\\\">Grid: 16x16m</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80 > .p-3\\\\.5.sm\\\\:p-4.flex-1 > .h-full.text-left.flex-col > .justify-between.items-center.flex:nth-child(1) > .text-silver-500.text-\\\\[10px\\\\].font-mono\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#1b1e22\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.21,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#7b8088\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"7.5pt (10px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<div class=\\\"project-preview relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"text-[10px] font-mono text-silver-500\\\">Grid: 16x16m</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80 > .p-3\\\\.5.sm\\\\:p-4.flex-1 > .h-full.text-left.flex-col > .justify-between.items-center.flex:nth-child(1) > .text-silver-500.text-\\\\[10px\\\\].font-mono\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n    at C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js:60:250",
+                    "location": {
+                      "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                      "column": 250,
+                      "line": 60
+                    },
+                    "snippet": " \u001b[90m 58 |\u001b[39m  \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39msetViewportSize({width\u001b[33m,\u001b[39mheight\u001b[33m:\u001b[39m\u001b[35m900\u001b[39m})\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39memulateMedia({reducedMotion\u001b[33m:\u001b[39m\u001b[32m'reduce'\u001b[39m})\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 59 |\u001b[39m  \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'#contact h2'\u001b[39m))\u001b[33m.\u001b[39mtoBeAttached()\u001b[33m;\u001b[39m\u001b[36mconst\u001b[39m audit\u001b[33m=\u001b[39m\u001b[36mawait\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mAxeBuilder\u001b[39m({page})\u001b[33m.\u001b[39mwithTags([\u001b[32m'wcag2a'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag2aa'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag21aa'\u001b[39m])\u001b[33m.\u001b[39manalyze()\u001b[33m;\u001b[39mexpect(audit\u001b[33m.\u001b[39mviolations)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 60 |\u001b[39m  \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m{name\u001b[33m:\u001b[39m\u001b[35m/Open full case study/\u001b[39m})\u001b[33m.\u001b[39mfirst()\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'dialog'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[36mconst\u001b[39m modal\u001b[33m=\u001b[39m\u001b[36mawait\u001b[39m \u001b[36mnew\u001b[39m \u001b[33mAxeBuilder\u001b[39m({page})\u001b[33m.\u001b[39mwithTags([\u001b[32m'wcag2a'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag2aa'\u001b[39m\u001b[33m,\u001b[39m\u001b[32m'wcag21aa'\u001b[39m])\u001b[33m.\u001b[39manalyze()\u001b[33m;\u001b[39mexpect(modal\u001b[33m.\u001b[39mviolations)\u001b[33m.\u001b[39mtoEqual([])\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                                                                                                                                                                                                                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 61 |\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 62 |\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                        "column": 250,
+                        "line": 60
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 58\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"description\": \"Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"help\": \"Elements must meet minimum color contrast ratio thresholds\",\u001b[39m\n\u001b[31m+     \"helpUrl\": \"https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright\",\u001b[39m\n\u001b[31m+     \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+     \"impact\": \"serious\",\u001b[39m\n\u001b[31m+     \"nodes\": Array [\u001b[39m\n\u001b[31m+       Object {\u001b[39m\n\u001b[31m+         \"all\": Array [],\u001b[39m\n\u001b[31m+         \"any\": Array [\u001b[39m\n\u001b[31m+           Object {\u001b[39m\n\u001b[31m+             \"data\": Object {\u001b[39m\n\u001b[31m+               \"bgColor\": \"#1b1e22\",\u001b[39m\n\u001b[31m+               \"contrastRatio\": 4.21,\u001b[39m\n\u001b[31m+               \"expectedContrastRatio\": \"4.5:1\",\u001b[39m\n\u001b[31m+               \"fgColor\": \"#7b8088\",\u001b[39m\n\u001b[31m+               \"fontSize\": \"7.5pt (10px)\",\u001b[39m\n\u001b[31m+               \"fontWeight\": \"normal\",\u001b[39m\n\u001b[31m+               \"messageKey\": null,\u001b[39m\n\u001b[31m+             },\u001b[39m\n\u001b[31m+             \"id\": \"color-contrast\",\u001b[39m\n\u001b[31m+             \"impact\": \"serious\",\u001b[39m\n\u001b[31m+             \"message\": \"Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+             \"relatedNodes\": Array [\u001b[39m\n\u001b[31m+               Object {\u001b[39m\n\u001b[31m+                 \"html\": \"<div class=\\\"project-preview relative w-full h-64 sm:h-80 rounded-2xl overflow-hidden bg-[#1F2227] border border-[#C0C0C0]/15 group-hover:border-[#FFD600]/40 transition-all select-none flex flex-col shadow-inner\\\">\",\u001b[39m\n\u001b[31m+                 \"target\": Array [\u001b[39m\n\u001b[31m+                   \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80\",\u001b[39m\n\u001b[31m+                 ],\u001b[39m\n\u001b[31m+               },\u001b[39m\n\u001b[31m+             ],\u001b[39m\n\u001b[31m+           },\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+         \"failureSummary\": \"Fix any of the following:\u001b[39m\n\u001b[31m+   Element has insufficient color contrast of 4.21 (foreground color: #7b8088, background color: #1b1e22, font size: 7.5pt (10px), font weight: normal). Expected contrast ratio of 4.5:1\",\u001b[39m\n\u001b[31m+         \"html\": \"<span class=\\\"text-[10px] font-mono text-silver-500\\\">Grid: 16x16m</span>\",\u001b[39m\n\u001b[31m+         \"impact\": \"serious\",\u001b[39m\n\u001b[31m+         \"none\": Array [],\u001b[39m\n\u001b[31m+         \"target\": Array [\u001b[39m\n\u001b[31m+           \".mb-6:nth-child(7) > .project-preview.h-64.sm\\\\:h-80 > .p-3\\\\.5.sm\\\\:p-4.flex-1 > .h-full.text-left.flex-col > .justify-between.items-center.flex:nth-child(1) > .text-silver-500.text-\\\\[10px\\\\].font-mono\",\u001b[39m\n\u001b[31m+         ],\u001b[39m\n\u001b[31m+       },\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"tags\": Array [\u001b[39m\n\u001b[31m+       \"cat.color\",\u001b[39m\n\u001b[31m+       \"wcag2aa\",\u001b[39m\n\u001b[31m+       \"wcag143\",\u001b[39m\n\u001b[31m+       \"TTv5\",\u001b[39m\n\u001b[31m+       \"TT13.c\",\u001b[39m\n\u001b[31m+       \"EN-301-549\",\u001b[39m\n\u001b[31m+       \"EN-9.1.4.3\",\u001b[39m\n\u001b[31m+       \"ACT\",\u001b[39m\n\u001b[31m+       \"RGAAv4\",\u001b[39m\n\u001b[31m+       \"RGAA-3.2.1\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  58 |  await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/');\n  59 |  await expect(page.locator('#contact h2')).toBeAttached();const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();expect(audit.violations).toEqual([]);\n> 60 |  await page.getByRole('button',{name:/Open full case study/}).first().click();await expect(page.getByRole('dialog')).toBeVisible();const modal=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();expect(modal.violations).toEqual([]);\n     |                                                                                                                                                                                                                                                          ^\n  61 | });\n  62 |\n    at C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js:60:250"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-11-25T15:15:49.268Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\test-results\\portfolio-accessibility-1440\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "C:\\Users\\ADMIN\\mohammed-hapiz-portfolio-new\\tests\\portfolio.spec.js",
+                    "column": 250,
+                    "line": 60
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "1e37615933ad85f00b37-87f06d488532aefa9012",
+          "file": "portfolio.spec.js",
+          "line": 57,
+          "column": 31
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-25T15:15:45.159Z",
+    "duration": 7715.778,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

@@ -36,7 +36,7 @@ const ACHIEVEMENTS = [
     badge: 'Google Ambassador',
     issuer: 'Google Student Ambassador Program (GSAP)',
     evidence: 'National Showcase Selection in Generative AI Audio-Visual Engineering',
-    portalLabel: 'Showcase Record',
+    portalLabel: 'LinkedIn Profile',
     portalUrl: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
     summary: 'Recognized as a Top Lyria Artist in the Google Student Ambassador Program Music Night challenge for innovative audio-visual engineering.',
   },
@@ -72,7 +72,7 @@ const ACHIEVEMENTS = [
     badge: 'Commercial Enterprise',
     issuer: 'Commercial Production & Client Delivery Register',
     evidence: 'Commercial event films and 3+ years active commercial production credit across Karnataka',
-    portalLabel: 'Studio Portfolio',
+    portalLabel: 'LinkedIn Profile',
     portalUrl: 'https://www.linkedin.com/in/mohammad-hapiz-4a692429a/',
     summary: 'Founded and directed an active commercial media studio delivering professional cinematography, commercial event coverage, and digital brand identities across Karnataka.',
   },
@@ -88,7 +88,7 @@ export default function Achievements() {
       {/* ── HEADER ── */}
       <motion.div
         className="achievements-header"
-        initial={{ opacity: 0, y: 30 }}
+        initial={false}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
       >
@@ -99,7 +99,7 @@ export default function Achievements() {
         </h2>
         <div className="achievements-audit-badge">
           <ShieldCheck size={13} aria-hidden="true" />
-          <span>All credentials are independently auditable</span>
+          <span>Organization and profile links provide context, not credential verification.</span>
         </div>
       </motion.div>
 
@@ -111,7 +111,7 @@ export default function Achievements() {
             <motion.div
               key={ach.title}
               className="achievement-exhibit"
-              initial={{ opacity: 0, y: 40 }}
+              initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, delay: i * 0.08 }}

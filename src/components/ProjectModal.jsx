@@ -11,6 +11,9 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
 
   // 1. Background Scroll Lock with Layout Shift Prevention
   useEffect(() => {
+    const root = document.getElementById('root')
+    const wasInert = root?.inert
+    if (root) root.inert = true
     const originalOverflow = document.body.style.overflow
     const originalPaddingRight = document.body.style.paddingRight
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
@@ -21,6 +24,7 @@ export default function ProjectModal({ project, onClose, triggerRef }) {
     }
 
     return () => {
+      if (root) root.inert = wasInert
       document.body.style.overflow = originalOverflow
       document.body.style.paddingRight = originalPaddingRight
       // Restore focus to triggering card upon dismissal

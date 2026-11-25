@@ -5,7 +5,7 @@ import { cyberAudio } from '../utils/audio'
 export default function Footer() {
   const toTop = () => {
     cyberAudio.playClick()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
   }
 
   const sections = ['About', 'Skills', 'Projects', 'Experience', 'Achievements', 'Contact']
@@ -46,7 +46,7 @@ export default function Footer() {
               onClick={e => {
                 e.preventDefault()
                 cyberAudio.playHover()
-                document.querySelector(`#${s.toLowerCase()}`)?.scrollIntoView({ behavior: 'smooth' })
+                document.querySelector(`#${s.toLowerCase()}`)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
               }}
               className="footer-nav-link"
             >
@@ -88,17 +88,7 @@ export default function Footer() {
             ))}
           </div>
 
-          <motion.button
-            onClick={toTop}
-            onMouseEnter={() => cyberAudio.playHover()}
-            whileHover={{ y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="footer-top-btn"
-            aria-label="Scroll to top"
-            title="Back to top"
-          >
-            <ArrowUp size={14} aria-hidden="true" />
-          </motion.button>
+
         </div>
       </div>
 

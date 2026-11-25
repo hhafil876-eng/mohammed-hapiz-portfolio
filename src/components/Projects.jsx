@@ -175,8 +175,8 @@ function ProjectPanel({ proj, index, onOpen }) {
     <motion.article
       ref={ref}
       variants={variants}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={false}
+      animate="visible"
       className={`project-panel ${isEven ? 'panel-left' : 'panel-right'}`}
       aria-label={proj.title}
     >
@@ -301,7 +301,7 @@ export default function Projects() {
       {/* ── SECTION HEADER ── */}
       <div className="projects-header">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
@@ -315,25 +315,24 @@ export default function Projects() {
             </span>
           </h2>
           <p className="projects-subtitle">
-            Six production-grade systems across AI, full-stack web, game development, cybersecurity, and creative media.
+            Six projects and prototypes across AI, full-stack web, game development, cybersecurity, and creative media.
           </p>
         </motion.div>
 
         {/* Filter tabs */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="project-filters"
-          role="tablist"
+          role="group"
           aria-label="Filter projects by category"
         >
           {CATEGORIES.map(cat => (
             <button
               key={cat.id}
-              role="tab"
-              aria-selected={filter === cat.id}
+              aria-pressed={filter === cat.id}
               onClick={() => { cyberAudio.playClick(); setFilter(cat.id) }}
               onMouseEnter={() => cyberAudio.playHover()}
               className={`filter-btn ${filter === cat.id ? 'filter-btn-active' : ''}`}

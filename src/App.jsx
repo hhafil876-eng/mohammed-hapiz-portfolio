@@ -19,6 +19,18 @@ export default function App() {
   const [showTopBtn, setShowTopBtn] = useState(false)
 
   useEffect(() => {
+    // Native fragment navigation can precede React mounting and font layout.
+    let cancelled = false
+    const alignAnchor = () => {
+      const id = window.location.hash.slice(1)
+      if (!cancelled && id) document.getElementById(id)?.scrollIntoView({ behavior: 'instant' })
+    }
+    document.fonts.ready.then(() => requestAnimationFrame(alignAnchor))
+    window.addEventListener('hashchange', alignAnchor)
+    return () => { cancelled = true; window.removeEventListener('hashchange', alignAnchor) }
+  }, [])
+
+  useEffect(() => {
     const handleScroll = () => {
       setShowTopBtn(window.scrollY > 400)
     }
